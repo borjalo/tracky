@@ -1,0 +1,7 @@
+{
+  "name": "tracky",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
