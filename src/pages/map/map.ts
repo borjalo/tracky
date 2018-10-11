@@ -12,7 +12,7 @@ declare var google;
 export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-
+  latLng: any;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public plt: Platform,
@@ -20,24 +20,24 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
-    this.plt.ready().then(() => {
-      let mapOptions = {
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false
-      }
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.loadMap();
+  }
 
-      /*this.geolocation.getCurrentPosition().then(pos => {
-        let latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        this.map.setCenter(latLng);
-        this.map.setZoom(16);
-      }).catch((error) => {
-        console.log('Error getting location', error);
-      });*/
-    });
+  private loadMap() {
+
+    this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
+
+    // Map options
+    const mapOptions = {
+      center: this.latLng,
+      disableDefaultUI: true,
+      gestureHandling: "greedy",
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoom: 12,
+    };
+
+    // Create the map with the options defined
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
 }
