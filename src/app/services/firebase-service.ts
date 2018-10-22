@@ -7,6 +7,7 @@ export interface Order {
   id?: string;
   geoposition: any;
   name: any;
+  client: any;
 }
 
 // @ts-ignore
@@ -14,14 +15,14 @@ export interface Order {
   providedIn: 'root'
 })
 export class FirebaseService {
-  private projectsCollection: AngularFirestoreCollection<Order>;
+  private ordersCollection: AngularFirestoreCollection<Order>;
 
   private orders: Observable<Order[]>;
 
   constructor(db: AngularFirestore) {
-    this.projectsCollection = db.collection<Order>('orders');
+    this.ordersCollection = db.collection<Order>('orders');
 
-    this.orders = this.projectsCollection.snapshotChanges().pipe(
+    this.orders = this.ordersCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -37,18 +38,18 @@ export class FirebaseService {
   }
 
   getOrder(id) {
-    return this.projectsCollection.doc<Order>(id).valueChanges();
+    return this.ordersCollection.doc<Order>(id).valueChanges();
   }
 
   updateOrder(order: Order, id: string) {
-    return this.projectsCollection.doc(id).update(order);
+    return this.ordersCollection.doc(id).update(order);
   }
 
   addOrder(order: Order) {
-    return this.projectsCollection.add(order);
+    return this.ordersCollection.add(order);
   }
 
   removeOrder(id) {
-    return this.projectsCollection.doc(id).delete();
+    return this.ordersCollection.doc(id).delete();
   }
 }

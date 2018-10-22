@@ -13,4 +13,8 @@ export class HomePage {
    this.navCtrl.push("MapPage");
   }
 
+  createOrder () {
+    this.navCtrl.push("CreateOrderPage");
+  }
+
 }

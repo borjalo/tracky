@@ -11,6 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
+import { FirebaseServiceClients } from "./services/firebase-clients";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FirebaseService } from "./services/firebase-service";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
     FirebaseService,
+    FirebaseServiceClients,
   ]
 })
 export class AppModule {}
