@@ -6,13 +6,11 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  constructor(public navCtrl: NavController,) {}
 
-  constructor(public navCtrl: NavController) {
 
-  }
-
-  showMap() {
-    this.navCtrl.push("MapPage");
+  showMap () {
+   this.navCtrl.push("MapPage");
   }
 
 }

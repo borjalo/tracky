@@ -1,31 +1,47 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import {Geolocation, GeolocationOptions} from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
+import { FirebaseService } from "../../app/services/firebase-service";
 
 declare var google;
+
+
 
 @IonicPage()
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html',
 })
-export class MapPage {
+export class MapPage implements OnInit {
+
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
+  //pedido:Pedido;
+  public lista;
+  private orders: any = [];
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public plt: Platform,
-              private geolocation: Geolocation) {
-  }
+              private geolocation: Geolocation,
+              private firebase: FirebaseService) {}
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.loadMap();
+
+    this.firebase.getOrders().subscribe(res => {
+      this.orders = res;
+      for (let order of this.orders) {
+        this.addMarker(order);
+      }
+    });
+
+
   }
 
   private loadMap() {
-
     this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
 
     // Map options
@@ -39,34 +55,17 @@ export class MapPage {
 
     // Create the map with the options defined
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-   this.addMarker();
-    this.addMarker2();
   }
 
-  addMarker() {
+  addMarker(order: any) {
 
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: this.map.getCenter()
+      position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
 
-    let content = "<h4>Information!</h4>";
-
-    this.addInfoWindow(marker, content);
-
-  }
-
-  addMarker2() {
-
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: new google.maps.LatLng("39.682327", "-0.277353")
-      //  {lat:39.682327, long:-0.277353}
-    });
-
-    let content = "<h4>Information!</h4>";
+    let content = order.name;
 
     this.addInfoWindow(marker, content);
 
@@ -83,6 +82,10 @@ export class MapPage {
     });
 
   }
+
+
+
+
 
 
 

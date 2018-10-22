@@ -3,10 +3,14 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import {Geolocation} from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
+
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { firebaseConfig } from './credentials';
+import { FirebaseService } from "./services/firebase-service";
 
 @NgModule({
   declarations: [
@@ -15,7 +19,9 @@ import {Geolocation} from '@ionic-native/geolocation';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -26,7 +32,8 @@ import {Geolocation} from '@ionic-native/geolocation';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Geolocation
+    Geolocation,
+    FirebaseService,
   ]
 })
 export class AppModule {}
