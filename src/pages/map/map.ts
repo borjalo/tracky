@@ -5,8 +5,6 @@ import { FirebaseService } from "../../app/services/firebase-service";
 
 declare var google;
 
-
-
 @IonicPage()
 @Component({
   selector: 'page-map',

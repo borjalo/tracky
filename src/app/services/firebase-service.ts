@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 export interface Order {
   id?: string;
-  geoposition: any;
+  position: any;
   name: any;
   client: any;
 }
