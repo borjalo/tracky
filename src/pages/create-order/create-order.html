@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create order</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Client</ion-label>
+    <ion-select [(ngModel)]="clientSelected" okText="Aceptar" cancelText="Cancelar" ngDefaultControl>
+      <ion-option *ngFor='let client of clients' value="{{client.id}}">{{ client.name }}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <!--<button ion-button clear icon-only (click)="add()">
+    <ion-icon name="remove"></ion-icon>
+  </button>
+  <ion-label name="quantity" [(ngModel)]="quantity">{{ quantity }}</ion-label>
+  <button ion-button clear icon-only (click)="remove()">
+    <ion-icon name="add"></ion-icon>
+  </button>-->
+
+  <button ion-button round (click)="createOrder()">Crear</button>
+</ion-content>
