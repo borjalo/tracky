@@ -13,6 +13,7 @@ export class CreateOrderPage {
   order: Order = {
     name: "",
     client: "",
+    date:"",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
   };
   private clients: any;

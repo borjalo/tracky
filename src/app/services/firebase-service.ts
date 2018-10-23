@@ -7,7 +7,9 @@ export interface Order {
   id?: string;
   position: any;
   name: any;
+  date: any;
   client: any;
+  state: any;
 }
 
 // @ts-ignore

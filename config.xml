@@ -85,6 +85,6 @@
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
     <engine name="android" spec="7.0.0" />
     <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-      <string>This App wants to track your location</string>
+        <string>This App wants to track your location</string>
     </edit-config>
 </widget>
