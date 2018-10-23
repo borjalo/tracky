@@ -1,0 +1,69 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Tracky
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-list padding has-subheader inset>
+  <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+    {{ item }}
+  </button>
+</ion-list>
+<ion-content padding>
+  The world is your oyster.
+  <p>
+    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
+  </p>
+</ion-content>-->
+
+<ion-header>
+  <ion-navbar>
+    <!--<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>-->
+    <ion-title>Articles</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding has-subheader>
+
+
+    <ion-list inset *ngFor="let item of items">
+      <ion-row>
+        <ion-col>
+          <label ion-item (click)="itemSelected(item)">
+            {{ item.name }}
+          </label>
+        </ion-col>
+        <ion-col>
+          <button ion-button (click)="decrement(item.name)"><ion-icon name="remove-circle"></ion-icon></button>
+        </ion-col>
+        <ion-col>
+          {{ item.quantity }}
+        </ion-col>
+        <ion-col>
+          <button ion-button (click)="increment(item.name)"><ion-icon name="add-circle"></ion-icon></button>
+        </ion-col>
+      </ion-row>
+
+    <!--button (click)="decrement()">
+      <ion-icon name="remove-circle"/>
+    </button>
+      {{currentQuantity}}
+    <!--<ion-icon name="add-circle" (click)="increment()"/>-->
+    </ion-list>
+
+
+</ion-content>
