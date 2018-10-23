@@ -12,10 +12,8 @@
 
 </ion-header>
 
-
-
 <ion-content padding>
-  <ion-list>
+  <ion-list class="list">
     <ion-item *ngFor="let order of orders">
       <ion-grid>
         <ion-row>
@@ -24,13 +22,13 @@
           </ion-col>
           <ion-col col-7 col-sm>
             <ion-row>
-              <b>{{order.name}}</b>
+              <b font-size="5px">{{order.name}}</b>
             </ion-row>
-            <ion-row>
-              {{order.date.seconds*1000 | date : 'dd/MMMM/yyyy h.mma'}}
+            <ion-row class="list">
+              {{order.date.seconds*1000 | date : 'dd/MM/yyyy h.mma'}}
             </ion-row>
           </ion-col>
-          <ion-col col-auto>
+          <ion-col offset-1 col-auto>
             Estado:
             <b *ngIf="order.state == 'Preparado'" class='ready'>
             {{order.state}}
@@ -47,7 +45,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-fab bottom right >
-    <button ion-fab><ion-icon name="add"></ion-icon></button>
+  <ion-fab bottom right padding >
+    <button ion-fab (click)="createOrder()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>

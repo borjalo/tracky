@@ -8,4 +8,13 @@ page-order-list {
   .delivered {
     color: green;
   }
+  .list {
+    font-size: 5 px;
+    position: relative;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 0;
+    margin-bottom: 20px;
+    height : 10px;
+  }
 }

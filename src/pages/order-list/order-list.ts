@@ -31,7 +31,9 @@ export class OrderListPage implements OnInit {
 
   }
 
-
+  createOrder () {
+    this.navCtrl.push("CreateOrderPage");
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderListPage');
