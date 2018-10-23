@@ -87,4 +87,5 @@
     <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
         <string>This App wants to track your location</string>
     </edit-config>
+    <plugin name="cordova-plugin-fcm" spec="2.1.2" />
 </widget>

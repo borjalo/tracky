@@ -13,6 +13,7 @@
 </ion-header>
 
 
+
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let order of orders">
@@ -29,14 +30,24 @@
               {{order.date.seconds*1000 | date : 'dd/MMMM/yyyy h.mma'}}
             </ion-row>
           </ion-col>
-          <!--<ion-col>-->
-            <!--{{order.client}}-->
-          <!--</ion-col>-->
           <ion-col col-auto>
-            Estado: {{order.state}}
+            Estado:
+            <b *ngIf="order.state == 'Preparado'" class='ready'>
+            {{order.state}}
+            </b>
+            <b *ngIf="order.state == 'En reparto'" class='oncourse'>
+              {{order.state}}
+            </b>
+            <b *ngIf="order.state == 'Entregado'" class='delivered'>
+              {{order.state}}
+            </b>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
   </ion-list>
+
+  <ion-fab bottom right >
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

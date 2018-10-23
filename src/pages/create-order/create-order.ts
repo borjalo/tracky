@@ -14,6 +14,7 @@ export class CreateOrderPage {
     name: "",
     client: "",
     date:"",
+    state:"",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
   };
   private clients: any;

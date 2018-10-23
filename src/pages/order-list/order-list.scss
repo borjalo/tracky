@@ -1,11 +1,11 @@
 page-order-list {
-  .Enr {
+  .ready {
+    color: black;
+  }
+  .oncourse {
     color: orange;
   }
-  .Prep {
-    color: Black;
-  }
-  .Ent {
+  .delivered {
     color: green;
   }
 }
