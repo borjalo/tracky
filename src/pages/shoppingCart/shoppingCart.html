@@ -43,8 +43,8 @@
 <ion-content padding has-subheader>
 
 
-  <ion-list inset *ngFor="let item of storage">
-    <ion-row>
+  <ion-list inset *ngFor="let item of storageItems">
+    <ion-row *ngIf="item.quantity>0">
       <ion-col>
         <label ion-item (click)="itemSelected(item)">
           {{ item.name }}

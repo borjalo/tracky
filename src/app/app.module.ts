@@ -8,7 +8,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ArticleListPage } from '../pages/articleList/articleList';
-import {Geolocation} from '@ionic-native/geolocation';
 import {CartPage} from "../pages/shoppingCart/shoppingCart";
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -29,8 +28,7 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
-    IonicModule.forRoot(MyApp),
+    AngularFirestoreModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],

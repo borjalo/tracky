@@ -34,11 +34,11 @@ export class CartPage {
     'Halo'*/
   ];
 
-  constructor(public navCtrl: NavController) {
+  public storageItems: any;
+
+  constructor(public navCtrl: NavController, public storage: Storage) {
 
   }
-
-  public storage: Storage;
 
   getAllFavorites(list: Array<Object>) {
     var promise = new Promise((resolve, reject) => {
@@ -51,10 +51,11 @@ export class CartPage {
     return promise;
   }
 
-  public storageItems: Array<Object>;
-
   ionViewWillEnter() {
-    this.storageItems = [];
+    this.storage.get('items').then((val) => {
+      this.storageItems = val;
+    });
+    //this.storageItems = this.storage.get("items");
     /*this.getAllFavorites(this.storageItems).then((val) => {
       this.storage.forEach(val,(v,k)=> {
         this.storageItems.push(v);

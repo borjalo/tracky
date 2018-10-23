@@ -3,13 +3,12 @@ import { NavController } from 'ionic-angular';
 import { CartPage } from "../shoppingCart/shoppingCart";
 import { Storage } from '@ionic/storage';
 
+
 @Component({
   selector: 'page-articleList',
   templateUrl: 'articleList.html'
 })
 export class ArticleListPage {
-
-  private storage = new Storage(localStorage);
 
   items = [
     {name:'Croissant', quantity:0},
@@ -36,7 +35,8 @@ export class ArticleListPage {
     'Halo'*/
   ];
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public storage: Storage) {
+
 
   }
 
@@ -44,7 +44,7 @@ export class ArticleListPage {
 
   private increment (selectedName: string) {
     var i = 0;
-    for(i=0; i<=this.items.length; i++) {
+    for(i=0; i<this.items.length; i++) {
 
       if(this.items[i].name == selectedName){
         this.items[i].quantity++;
@@ -55,7 +55,7 @@ export class ArticleListPage {
 
   private decrement (selectedName: string) {
     var i = 0;
-    for(i=0; i<=this.items.length; i++) {
+    for(i=0; i<this.items.length; i++) {
 
       if(this.items[i].name == selectedName){
         this.items[i].quantity--;
@@ -70,7 +70,10 @@ export class ArticleListPage {
   }
 
   goToCart() {
-    this.storage.set('items',this.items);
+
+
+    this.storage.set("items",this.items);
+
     this.navCtrl.setRoot(CartPage);
   }
 
