@@ -6,8 +6,11 @@ import { map } from 'rxjs/operators';
 export interface Order {
   id?: string;
   position: any;
-  name: any;
   client: any;
+  deliveryTime: any;
+  prize: any;
+  articles: Array<any>;
+  state: string;
 }
 
 // @ts-ignore

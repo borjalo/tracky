@@ -9,8 +9,11 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-label floating>Order name</ion-label>
-    <ion-input type="text" [(ngModel)]="order.name"></ion-input>
+    <ion-label>Delivery time</ion-label>
+    <ion-datetime displayFormat="DD MMM HH:mm"
+                  minuteValues="0,5,10,15,20,25,30,35,40,45,50,55"
+                  monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+                  [(ngModel)]="order.deliveryTime"> {{ order.deliveryTime }}</ion-datetime>
   </ion-item>
 
   <ion-item>
@@ -20,20 +23,47 @@
     </ion-select>
   </ion-item>
 
-  <ion-grid>
-    <ion-row align-items-end>
-      <ion-col>
-        <button ion-button clear float-right icon-only (click)="add()">
-          <ion-icon name="add"></ion-icon>
-        </button>
-        <ion-label float-right margin-top="20%">{{ quantity }}</ion-label>
-        <button ion-button clear float-right icon-only (click)="remove()">
-          <ion-icon name="remove"></ion-icon>
-        </button>
-      </ion-col>
+  <ion-item>
+    <button ion-button outline round (click)="addArticles()">Add articles</button>
+  </ion-item>
 
+  <ion-list *ngIf="order.articles.length > 0">
+    <ion-list-header>
+      Articles
+    </ion-list-header>
+    <ion-item *ngFor="let article of order.articles">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-10>
+            {{ article.name }} x {{ article.quantity }}
+          </ion-col>
+
+          <ion-col col-2>
+            {{ article.price * article.quantity }} €
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-9>
+        <h4>Precio total:</h4>
+      </ion-col>
+      <ion-col col-3>
+        <h4>{{ order.prize }} €</h4>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
-  <button ion-button round (click)="createOrder()">Crear</button>
+
+
+  <button ion-button
+          round
+          block
+          (click)="createOrder()"
+          [disabled]="order.articles.length == 0 || order.client == '' || !order.deliveryTime">
+    Create order
+  </button>
 </ion-content>

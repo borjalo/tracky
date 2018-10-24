@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
 import { FirebaseService } from "../../app/services/firebase-service";
 
 declare var google;
@@ -15,15 +14,12 @@ export class MapPage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
-  //pedido:Pedido;
-  public lista;
   private orders: any = [];
 
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public plt: Platform,
-              private geolocation: Geolocation,
               private firebase: FirebaseService) {}
 
   ngOnInit() {
@@ -35,8 +31,6 @@ export class MapPage implements OnInit {
         this.addMarker(order);
       }
     });
-
-
   }
 
   private loadMap() {
@@ -63,7 +57,7 @@ export class MapPage implements OnInit {
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
 
-    let content = order.name;
+    let content = "order.name";
 
     this.addInfoWindow(marker, content);
 

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
+
 
 @IonicPage()
 @Component({
@@ -11,10 +12,14 @@ import * as firebase from 'firebase';
 })
 export class CreateOrderPage {
   order: Order = {
-    name: "",
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
+    deliveryTime: new Date().toISOString(),
+    prize: 0,
+    articles: [],
+    state: "Preparado"
   };
+
   private clients: any;
   private quantity: number = 0;
 
@@ -22,16 +27,14 @@ export class CreateOrderPage {
               public navParams: NavParams,
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private modalCtrl: ModalController) {
 
+    console.log(this.order.deliveryTime)
     this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
       console.log(this.clients)
     });
-  }
-
-  ionViewDidLoad() {
-
   }
 
   remove() {
@@ -45,6 +48,7 @@ export class CreateOrderPage {
   }
 
   createOrder() {
+    console.log(this.order.deliveryTime);
     const loading = this.loadingCtrl.create({
       content: 'Creando pedido...'
     });
@@ -54,6 +58,22 @@ export class CreateOrderPage {
       loading.dismiss();
       this.navCtrl.pop();
     })
+  }
+
+  addArticles() {
+    const articleModal = this.modalCtrl.create("ArticleListPage");
+    articleModal.present();
+
+    articleModal.onDidDismiss((d: any) => {
+      if(d) {
+        for (let article of d) {
+          if (article.quantity > 0) {
+            this.order.articles.push(article);
+            this.order.prize += (article.price * article.quantity);
+          }
+        }
+      }
+    });
   }
 
 }

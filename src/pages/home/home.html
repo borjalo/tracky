@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header xmlns="http://www.w3.org/1999/html">
   <ion-navbar>
     <ion-title>
       Tracky
@@ -7,7 +7,15 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button round (click)="showMap()">Show map</button>
-  <button ion-button round (click)="createOrder()">Create order</button>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button round (click)="showMap()">Show map</button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button round (click)="createOrder()">Create order</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
