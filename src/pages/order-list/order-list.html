@@ -25,18 +25,18 @@
               <b font-size="5px">{{order.name}}</b>
             </ion-row>
             <ion-row class="list">
-              {{order.date.seconds*1000 | date : 'dd/MM/yyyy h.mma'}}
+              {{order.deliveryTime | date : 'dd/MM/yyyy HH:mm'}}
             </ion-row>
           </ion-col>
           <ion-col offset-1 col-auto>
             Estado:
-            <b *ngIf="order.state == 'Preparado'" class='ready'>
+            <b ion-text *ngIf="order.state == 'Preparado'" style="color:green">
             {{order.state}}
             </b>
-            <b *ngIf="order.state == 'En reparto'" class='oncourse'>
+            <b ion-text *ngIf="order.state == 'En reparto'" style="color:orange">
               {{order.state}}
             </b>
-            <b *ngIf="order.state == 'Entregado'" class='delivered'>
+            <b ion-text *ngIf="order.state == 'Entregado'" style="color:black">
               {{order.state}}
             </b>
           </ion-col>

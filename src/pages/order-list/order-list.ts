@@ -10,7 +10,7 @@ import { FirebaseService } from "../../app/services/firebase-service";
 })
 
 export class OrderListPage implements OnInit {
-
+  public myDate;
   public items: Array<any> = [];
   //public itemRef: firebase.database.Reference = this.firebase.database().ref('/items');
   public lista;

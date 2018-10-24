@@ -7,7 +7,7 @@ export interface Order {
   id?: string;
   position: any;
   name: any;
-  date: any;
+  deliveryTime: any;
   client: any;
   state: any;
 }
