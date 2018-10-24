@@ -10,10 +10,7 @@ import { FirebaseService } from "../../app/services/firebase-service";
 })
 
 export class OrderListPage implements OnInit {
-  public myDate;
   public items: Array<any> = [];
-  //public itemRef: firebase.database.Reference = this.firebase.database().ref('/items');
-  public lista;
   private orders: any = [];
 
   constructor(public navCtrl: NavController,
@@ -27,16 +24,8 @@ export class OrderListPage implements OnInit {
     });
   }
 
-  setTextColor(item){
-
-  }
-
   createOrder () {
     this.navCtrl.push("CreateOrderPage");
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderListPage');
   }
 
 }

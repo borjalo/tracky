@@ -5,18 +5,18 @@ import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
 
 
+
 @IonicPage()
 @Component({
   selector: 'page-create-order',
   templateUrl: 'create-order.html',
 })
 export class CreateOrderPage {
+  date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString();
   order: Order = {
     client: "",
-    deliveryTime:"",
-    state:"",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
-    deliveryTime: new Date().toISOString(),
+    deliveryTime: this.date,
     prize: 0,
     articles: [],
     state: "Preparado"
