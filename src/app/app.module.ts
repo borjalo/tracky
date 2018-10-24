@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Geolocation } from '@ionic-native/geolocation';
+import { FCM } from '@ionic-native/fcm';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -36,6 +37,7 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     Geolocation,
     FirebaseService,
     FirebaseServiceClients,
+    FCM,
   ]
 })
 export class AppModule {}

@@ -13,6 +13,8 @@ import * as firebase from 'firebase';
 export class CreateOrderPage {
   order: Order = {
     client: "",
+    deliveryTime:"",
+    state:"",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
     prize: 0,
