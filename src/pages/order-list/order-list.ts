@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 
 
@@ -26,6 +26,13 @@ export class OrderListPage implements OnInit {
 
   createOrder () {
     this.navCtrl.push("CreateOrderPage");
+  }
+
+  goToOrder(index) {
+    const orderId = this.orders[index].id;
+    this.navCtrl.push("ConfirmDelivererPage", {
+      id: orderId,
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import { IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
@@ -15,9 +15,10 @@ export class CreateOrderPage {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
-    prize: 0,
+    price: 0,
     articles: [],
-    state: "Preparado"
+    state: "Preparado",
+    deliveryman: "Pedro",
   };
 
   private clients: any;
@@ -30,10 +31,8 @@ export class CreateOrderPage {
               private loadingCtrl: LoadingController,
               private modalCtrl: ModalController) {
 
-    console.log(this.order.deliveryTime)
     this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
-      console.log(this.clients)
     });
   }
 
@@ -53,7 +52,6 @@ export class CreateOrderPage {
     } else if(this.order.client == "jj3QhUutZk2RQ6Pt74YQ") {
       this.order.position = new firebase.firestore.GeoPoint(39.466827, -0.382990)
     }
-    console.log(this.order.deliveryTime);
     const loading = this.loadingCtrl.create({
       content: 'Creando pedido...'
     });
@@ -74,7 +72,7 @@ export class CreateOrderPage {
         for (let article of d) {
           if (article.quantity > 0) {
             this.order.articles.push(article);
-            this.order.prize += (article.price * article.quantity);
+            this.order.price += (article.price * article.quantity);
           }
         }
       }

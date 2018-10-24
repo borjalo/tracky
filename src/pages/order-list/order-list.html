@@ -7,14 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>OrderList</ion-title>
+    <ion-title>Order List</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
   <ion-list class="list">
-    <ion-item *ngFor="let order of orders">
+    <button ion-item *ngFor="let order of orders; let i = index" (click)="goToOrder(i)">
       <ion-grid>
         <ion-row>
           <ion-col col-auto>
@@ -39,7 +39,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-item>
+    </button>
   </ion-list>
 
   <ion-fab bottom right padding >

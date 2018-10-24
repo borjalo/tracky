@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 
 declare var google;
@@ -16,11 +16,11 @@ export class MapPage implements OnInit {
   latLng: any;
   private orders: any = [];
 
-
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public plt: Platform,
-              private firebase: FirebaseService) {}
+              private firebase: FirebaseService) {
+
+  }
 
   ngOnInit() {
     this.loadMap();
@@ -57,7 +57,7 @@ export class MapPage implements OnInit {
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
 
-    let content = "order.name";
+    let content = order.state;
 
     this.addInfoWindow(marker, content);
 

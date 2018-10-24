@@ -8,9 +8,10 @@ export interface Order {
   position: any;
   deliveryTime: any;
   client: any;
-  prize: any;
+  price: any;
   articles: Array<any>;
   state: any;
+  deliveryman: any;
 }
 
 // @ts-ignore
