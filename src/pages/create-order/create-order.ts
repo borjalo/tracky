@@ -5,18 +5,16 @@ import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
 
 
-
 @IonicPage()
 @Component({
   selector: 'page-create-order',
   templateUrl: 'create-order.html',
 })
 export class CreateOrderPage {
-  date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString();
   order: Order = {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
-    deliveryTime: this.date,
+    deliveryTime: new Date().toISOString(),
     prize: 0,
     articles: [],
     state: "Preparado"
@@ -50,6 +48,11 @@ export class CreateOrderPage {
   }
 
   createOrder() {
+    if (this.order.client == "e7YVbvR3HRsZhGpYi291") {
+      this.order.position = new firebase.firestore.GeoPoint(39.481270, -0.359374)
+    } else if(this.order.client == "jj3QhUutZk2RQ6Pt74YQ") {
+      this.order.position = new firebase.firestore.GeoPoint(39.466827, -0.382990)
+    }
     console.log(this.order.deliveryTime);
     const loading = this.loadingCtrl.create({
       content: 'Creando pedido...'
@@ -59,7 +62,7 @@ export class CreateOrderPage {
     this.firebaseOrder.addOrder(this.order).then(() => {
       loading.dismiss();
       this.navCtrl.pop();
-    })
+    });
   }
 
   addArticles() {
