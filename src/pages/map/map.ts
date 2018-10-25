@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
+import {Subscriber, Subscription} from "rxjs";
 
 declare var google;
 
@@ -15,23 +16,42 @@ export class MapPage implements OnInit {
   map: any;
   latLng: any;
   private orders: any = [];
+    private suscripcion: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService) {
-
   }
 
   ngOnInit() {
     this.loadMap();
+console.log("dentro de nginit");
 
-    this.firebase.getOrders().subscribe(res => {
+
+   this.suscripcion= this.firebase.getOrders().subscribe(res => {
       this.orders = res;
+      console.log("dentro getorders")
+      console.log(this.orders);
+
       for (let order of this.orders) {
+        console.log("dentro for")
         this.addMarker(order);
       }
     });
+
+
+
+
+
+    console.log(this.orders+"222");
+
   }
+
+  ngOnDestroy() {
+    this.suscripcion.unsubscribe();
+  }
+
+
 
   private loadMap() {
     this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
