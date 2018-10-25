@@ -17,6 +17,7 @@ export class MapPage implements OnInit {
   latLng: any;
   private orders: any = [];
     private suscripcion: Subscription;
+    private markers=[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -25,16 +26,11 @@ export class MapPage implements OnInit {
 
   ngOnInit() {
     this.loadMap();
-console.log("dentro de nginit");
-
-
    this.suscripcion= this.firebase.getOrders().subscribe(res => {
       this.orders = res;
-      console.log("dentro getorders")
-      console.log(this.orders);
-
+      this.deleteAllMarkers();
       for (let order of this.orders) {
-        console.log("dentro for")
+        if(order.state!="Entregado")
         this.addMarker(order);
       }
     });
@@ -76,12 +72,18 @@ console.log("dentro de nginit");
       animation: google.maps.Animation.DROP,
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
-
+    this.markers.push(marker);
     let content = order.state;
 
     this.addInfoWindow(marker, content);
 
   }
+deleteAllMarkers() {
+  for (var i = 0; i < this.markers.length; i++) {
+    this.markers[i].setMap(null);
+  }
+}
+
 
   addInfoWindow(marker, content) {
 

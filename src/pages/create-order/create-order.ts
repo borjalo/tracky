@@ -3,6 +3,7 @@ import { IonicPage, LoadingController, ModalController, NavController, NavParams
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
+import {Subscription} from "rxjs";
 
 
 @IonicPage()
@@ -23,6 +24,7 @@ export class CreateOrderPage {
 
   private clients: any;
   private quantity: number = 0;
+  private sub:Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -31,10 +33,15 @@ export class CreateOrderPage {
               private loadingCtrl: LoadingController,
               private modalCtrl: ModalController) {
 
-    this.firebaseClient.getClients().subscribe(res => {
+    this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
   }
+ngOnDestroy(){
+    this.sub.unsubscribe();
+}
+
+
 
   remove() {
     if(this.quantity > 0) {
