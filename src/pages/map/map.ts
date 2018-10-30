@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
-import {Subscriber, Subscription} from "rxjs";
+import { Subscription } from "rxjs";
 
 declare var google;
 
@@ -16,8 +16,8 @@ export class MapPage implements OnInit {
   map: any;
   latLng: any;
   private orders: any = [];
-    private suscripcion: Subscription;
-    private markers=[];
+  private markers=[];
+  private suscripcion: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -26,28 +26,22 @@ export class MapPage implements OnInit {
 
   ngOnInit() {
     this.loadMap();
-   this.suscripcion= this.firebase.getOrders().subscribe(res => {
+
+    this.suscripcion = this.firebase.getOrders().subscribe(res => {
       this.orders = res;
+
       this.deleteAllMarkers();
       for (let order of this.orders) {
-        if(order.state!="Entregado")
-        this.addMarker(order);
+        if(order.state != "Entregado") {
+          this.addMarker(order);
+        }
       }
     });
-
-
-
-
-
-    console.log(this.orders+"222");
-
   }
 
   ngOnDestroy() {
     this.suscripcion.unsubscribe();
   }
-
-
 
   private loadMap() {
     this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
@@ -78,11 +72,12 @@ export class MapPage implements OnInit {
     this.addInfoWindow(marker, content);
 
   }
-deleteAllMarkers() {
-  for (var i = 0; i < this.markers.length; i++) {
-    this.markers[i].setMap(null);
+
+  deleteAllMarkers() {
+    for (var i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(null);
+    }
   }
-}
 
 
   addInfoWindow(marker, content) {

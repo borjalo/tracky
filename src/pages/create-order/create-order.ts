@@ -37,9 +37,10 @@ export class CreateOrderPage {
       this.clients = res;
     });
   }
-ngOnDestroy(){
-    this.sub.unsubscribe();
-}
+
+  ngOnDestroy(){
+      this.sub.unsubscribe();
+  }
 
 
 

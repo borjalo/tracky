@@ -23,7 +23,6 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
