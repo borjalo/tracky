@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 import {Subscriber, Subscription} from "rxjs";
+import {User, userToken} from "../../app/services/userToken";
 
 declare var google;
 
@@ -21,10 +22,14 @@ export class MapPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private firebase: FirebaseService) {
+              private firebase: FirebaseService,
+              private userLogin:userToken) {
   }
 
   ngOnInit() {
+
+    var usuarioLogeado=this.userLogin.getLogin();
+    console.log(usuarioLogeado);
     this.loadMap();
    this.suscripcion= this.firebase.getOrders().subscribe(res => {
       this.orders = res;

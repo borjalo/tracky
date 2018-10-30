@@ -12,6 +12,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
+import {userToken} from "./services/userToken";
+import {AngularFireAuthModule} from "angularfire2/auth";
 
 @NgModule({
   declarations: [
@@ -22,8 +24,8 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
-
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,6 +39,7 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     Geolocation,
     FirebaseService,
     FirebaseServiceClients,
+    userToken,
   ]
 })
 export class AppModule {}
