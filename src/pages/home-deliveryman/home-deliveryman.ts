@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {User, userToken} from "../../app/services/userToken";
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {userToken} from "../../app/services/userToken";
 
+/**
+ * Generated class for the HomeDeliverymanPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
+@IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-home-deliveryman',
+  templateUrl: 'home-deliveryman.html',
 })
-export class HomePage{
+export class HomeDeliverymanPage {
 
   usuario:any;
   constructor(public navCtrl: NavController,
@@ -27,9 +35,6 @@ export class HomePage{
     this.navCtrl.push("MapPage");
   }
 
-  createOrder () {
-    this.navCtrl.push("CreateOrderPage");
-  }
 
   showOrders () {
     this.navCtrl.push("OrderListPage");

@@ -1,7 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
+import {Subscriber, Subscription} from "rxjs";
+import {User, userToken} from "../../app/services/userToken";
 
 declare var google;
 
@@ -15,29 +16,52 @@ export class MapPage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   latLng: any;
-  //pedido:Pedido;
-  public lista;
   private orders: any = [];
-
+    private suscripcion: Subscription;
+    private markers=[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public plt: Platform,
-              private geolocation: Geolocation,
-              private firebase: FirebaseService) {}
+              private firebase: FirebaseService,
+              private userLogin:userToken
+              ) {
+  }
 
   ngOnInit() {
-    this.loadMap();
 
-    this.firebase.getOrders().subscribe(res => {
+    var usuarioLogeado=this.userLogin.getLogin();
+    console.log(usuarioLogeado);
+    this.loadMap();
+   this.suscripcion= this.firebase.getOrders().subscribe(res => {
       this.orders = res;
+      this.deleteAllMarkers();
+
       for (let order of this.orders) {
-        this.addMarker(order);
+        if(order.state=="En reparto"){
+          console.log(this.userLogin.getLogin().nombre)
+          console.log(order.deliveryman)
+          if(this.userLogin.getLogin().nombre==order.deliveryman){
+          this.addMarker(order);}
+            else if(this.userLogin.getLogin().tipo=="admin"){this.addMarker(order);}
+          }
+
+
       }
     });
 
 
+
+
+
+    console.log(this.orders+"222");
+
   }
+
+  ngOnDestroy() {
+    this.suscripcion.unsubscribe();
+  }
+
+
 
   private loadMap() {
     this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
@@ -62,12 +86,18 @@ export class MapPage implements OnInit {
       animation: google.maps.Animation.DROP,
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
-
-    let content = order.name;
+    this.markers.push(marker);
+    let content = order.deliveryman;
 
     this.addInfoWindow(marker, content);
 
   }
+deleteAllMarkers() {
+  for (var i = 0; i < this.markers.length; i++) {
+    this.markers[i].setMap(null);
+  }
+}
+
 
   addInfoWindow(marker, content) {
 

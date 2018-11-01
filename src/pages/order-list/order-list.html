@@ -1,0 +1,48 @@
+<!--
+  Generated template for the OrderListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Order List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list class="list">
+    <button ion-item *ngFor="let order of orders; let i = index" (click)="goToOrder(i)">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-auto>
+            <ion-icon name = "cart"></ion-icon>
+          </ion-col>
+          <ion-col col-7 col-sm>
+            <ion-row class="list">
+              {{order.deliveryTime | date : 'dd/MM/yyyy HH:mm'}}
+            </ion-row>
+          </ion-col>
+          <ion-col offset-1 col-auto>
+            Estado:
+            <b ion-text *ngIf="order.state == 'Preparado'" style="color:green">
+            {{order.state}}
+            </b>
+            <b ion-text *ngIf="order.state == 'En reparto'" style="color:orange">
+              {{order.state}}
+            </b>
+            <b ion-text *ngIf="order.state == 'Entregado'" style="color:black">
+              {{order.state}}
+            </b>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </button>
+  </ion-list>
+
+  <ion-fab bottom right padding >
+    <button ion-fab (click)="createOrder()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>
