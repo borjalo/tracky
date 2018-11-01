@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Order} from "./firebase-service";
+import {FirebaseServiceUsers} from "./firebase-users";
 
 export interface User {
-  tipo:String;
-  nombre:String;
+  id?: string;
+  tipo: string;
+  nombre:string;
+  email:string;
+  password:string;
 
 }
 
@@ -15,23 +19,35 @@ export interface User {
   providedIn: 'root'
 })
 export class userToken {
+  private registeredUsers=[];
   private user:User;
+private subscription:Subscription;
 
 
+  constructor(private dbusers:FirebaseServiceUsers) {
 
-  constructor() {
-    this.user=<User>{};
-    this.user.nombre="";
-    this.user.tipo="";
+    this.subscription= this.dbusers.getOrders().subscribe(res => {
+      this.registeredUsers = res;
+    });
+
   }
+
+
 
   getLogin() {
     return this.user;
   }
 
 
-  login(user:User) {
-    this.user=user;
+  login(email:string) {
+    for(let i=0;i<this.registeredUsers.length;i++){
+      if(this.registeredUsers[i].email==email) {
+        this.user = this.registeredUsers[i]
+      }
+    }
+
+
+
   }
 
 

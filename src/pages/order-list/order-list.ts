@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 import {Subscription} from "rxjs";
+import {userToken} from "../../app/services/userToken";
 
 
 @IonicPage()
@@ -17,12 +18,23 @@ export class OrderListPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private firebase: FirebaseService) {
+              private firebase: FirebaseService,
+              private userLogin:userToken) {
   }
 
   ngOnInit() {
     this.subscripcion=this.firebase.getOrders().subscribe(res => {
-      this.orders = res;
+      if(this.userLogin.getLogin().tipo=="deliveryman"){
+      var list= [];
+      for(let order of res){
+       if(this.userLogin.getLogin().nombre==order.deliveryman){
+         list.push(order);
+       }
+      }
+        this.orders=list;
+      } else {
+
+      this.orders = res;}
     });
   }
 ngOnDestroy(){

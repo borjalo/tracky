@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {User, userToken} from "../../app/services/userToken";
 
 @Component({
@@ -7,9 +7,10 @@ import {User, userToken} from "../../app/services/userToken";
   templateUrl: 'home.html'
 })
 export class HomePage{
-usuario:any;
+
+  usuario:any;
   constructor(public navCtrl: NavController,
-              public userLogin:userToken
+              public userLogin:userToken,public navParams: NavParams,
 
   ) {}
 
@@ -18,15 +19,12 @@ usuario:any;
     this.checkLogin();
   }
   checkLogin(){
-    this.usuario=<User>{};
-    this.usuario.nombre="prueba";
-    this.usuario.tipo="tipoPrueba";
-    this.userLogin.login(this.usuario);
+
     var usuarioLogeado=this.userLogin.getLogin();
     console.log(usuarioLogeado);
   }
   showMap () {
-   this.navCtrl.push("MapPage");
+    this.navCtrl.push("MapPage");
   }
 
   createOrder () {

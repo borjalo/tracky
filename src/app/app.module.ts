@@ -14,11 +14,15 @@ import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
 import {userToken} from "./services/userToken";
 import {AngularFireAuthModule} from "angularfire2/auth";
+import {LoginPage} from "../pages/login/login";
+import {FirebaseServiceUsers} from "./services/firebase-users";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+
+
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,9 @@ import {AngularFireAuthModule} from "angularfire2/auth";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+
+
   ],
   providers: [
     StatusBar,
@@ -40,6 +46,7 @@ import {AngularFireAuthModule} from "angularfire2/auth";
     FirebaseService,
     FirebaseServiceClients,
     userToken,
+    FirebaseServiceUsers
   ]
 })
 export class AppModule {}

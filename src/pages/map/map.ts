@@ -23,7 +23,8 @@ export class MapPage implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService,
-              private userLogin:userToken) {
+              private userLogin:userToken
+              ) {
   }
 
   ngOnInit() {
@@ -34,9 +35,17 @@ export class MapPage implements OnInit {
    this.suscripcion= this.firebase.getOrders().subscribe(res => {
       this.orders = res;
       this.deleteAllMarkers();
+
       for (let order of this.orders) {
-        if(order.state!="Entregado")
-        this.addMarker(order);
+        if(order.state=="En reparto"){
+          console.log(this.userLogin.getLogin().nombre)
+          console.log(order.deliveryman)
+          if(this.userLogin.getLogin().nombre==order.deliveryman){
+          this.addMarker(order);}
+            else if(this.userLogin.getLogin().tipo=="admin"){this.addMarker(order);}
+          }
+
+
       }
     });
 
@@ -78,7 +87,7 @@ export class MapPage implements OnInit {
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
     this.markers.push(marker);
-    let content = order.state;
+    let content = order.deliveryman;
 
     this.addInfoWindow(marker, content);
 
