@@ -92,14 +92,4 @@ export class MapPage implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-
-
 }

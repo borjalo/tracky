@@ -3,8 +3,7 @@ import { IonicPage, LoadingController, ModalController, NavController, NavParams
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import {Subscription} from "rxjs";
-
+import { Subscription } from "rxjs";
 
 @IonicPage()
 @Component({
@@ -22,6 +21,9 @@ export class CreateOrderPage {
     deliveryman: "Pedro",
   };
 
+  latLng: any;
+  deliveryAddress: any = "Select delivery address";
+
   private clients: any;
   private quantity: number = 0;
   private sub:Subscription;
@@ -38,11 +40,31 @@ export class CreateOrderPage {
     });
   }
 
+  selectDeliveryAddress() {
+    // Create the modal
+    const modal = this.modalCtrl.create("SelectAddressPage");
+
+    // Present the modal
+    modal.present();
+
+    // User closes the modal
+    modal.onDidDismiss(
+      (data: any) => {
+        if (data) {
+
+          // Sets origin longitude and latitude
+          this.latLng = data.latLng;
+
+          // Sets origin address
+          this.deliveryAddress = data.street;
+        }
+      },
+    );
+  }
+
   ngOnDestroy(){
       this.sub.unsubscribe();
   }
-
-
 
   remove() {
     if(this.quantity > 0) {
