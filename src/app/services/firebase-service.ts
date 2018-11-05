@@ -12,6 +12,7 @@ export interface Order {
   articles: Array<any>;
   state: any;
   deliveryman: any;
+ description: string;
 }
 
 // @ts-ignore
