@@ -24,6 +24,13 @@
   </ion-item>
 
   <ion-item>
+    <ion-label>Description</ion-label>
+    <ion-textarea [(ngModel)]="order.description">
+        {{order.description}}
+    </ion-textarea>
+  </ion-item>
+
+  <ion-item>
     <button ion-button outline round (click)="addArticles()">Add articles</button>
   </ion-item>
 

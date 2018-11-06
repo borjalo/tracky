@@ -16,6 +16,7 @@ export class CreateOrderPage {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
+   description: "",
     price: 0,
     articles: [],
     state: "Preparado",

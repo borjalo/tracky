@@ -21,6 +21,7 @@ export class ConfirmDelivererPage implements OnInit {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: "",
+    description: "",
     price: 0,
     articles:[],
     state:"",
@@ -49,6 +50,7 @@ export class ConfirmDelivererPage implements OnInit {
     this.geocoder =  new google.maps.Geocoder();
     this.firebaseOrder.getOrder(this.orderId).subscribe(res => {
       this.order = res;
+      console.log(this.order);
       this.firebaseClient.getClient(this.order.client).subscribe(r => {
         this.clientName = r.name;
       });
