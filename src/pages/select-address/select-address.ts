@@ -84,13 +84,14 @@ export class SelectAddressPage implements OnInit {
         this.markers.push(marker);
         this.street = results[0].formatted_address;
         this.map.setCenter(results[0].geometry.location);
+        this.latLng = results[0].geometry.location;
       }
     })
   }
 
   clearMarkers(){
     for (let i = 0; i < this.markers.length; i++) {
-      console.log(this.markers[i])
+      console.log(this.markers[i]);
       this.markers[i].setMap(null);
     }
     this.markers = [];
