@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { ArticleListPage } from "../articleList/articleList";
+//import { ArticleListPage } from "../articleList/articleList";
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -93,7 +93,7 @@ export class CartPage {
   }
 
   goToArticles() {
-    this.navCtrl.setRoot(ArticleListPage);
+    //this.navCtrl.setRoot(ArticleListPage);
   }
 
 }

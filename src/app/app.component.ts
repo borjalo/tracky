@@ -10,6 +10,7 @@ import {userToken} from "./services/userToken";
 import {Subscription} from "rxjs";
 import {FirebaseServiceUsers} from "./services/firebase-users";
 import {HomeDeliverymanPage} from "../pages/home-deliveryman/home-deliveryman";
+import {NewArticlePage} from "../pages/new-article/new-article";
 @Component({
   templateUrl: 'app.html'
 })
@@ -36,7 +37,7 @@ ngOnInit(){this.testLogin();}
       this.subscription= this.dbusers.getOrders().subscribe(res => {
         this.userLogin.login(user.email);
         if(this.userLogin.getLogin().tipo=="deliveryman"){
-          this.nav.push("HomeDeliverymanPage");
+          this.nav.push("HomePage");
         }else {
           this.nav.push(HomePage)
         }
@@ -49,7 +50,7 @@ ngOnInit(){this.testLogin();}
     }
     else{
       this.subscription= this.dbusers.getOrders().subscribe(res => {
-        this.nav.push("LoginPage");
+        this.nav.push("HomePage");
         this.subscription.unsubscribe();
       });
 

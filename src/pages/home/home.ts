@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {User, userToken} from "../../app/services/userToken";
 
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -37,6 +38,14 @@ export class HomePage{
 
   showLogin(){
     this.navCtrl.push("LoginPage");
+  }
+
+  createArticle () {
+    this.navCtrl.push("NewArticlePage");
+  }
+
+  showArticles () {
+    this.navCtrl.push("ArticleManagerPage");
   }
 
 }
