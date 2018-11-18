@@ -120,7 +120,7 @@ export class NewArticlePage {
 
       error.present();
 
-    } else if(this.article.name=="" || this.article.category=="" || this.article.price==null) {
+    } else if(this.article.name==null || this.article.category==null || this.article.price==null) {
 
       const error = this.alertCtrl.create({
         title: 'Artículo inválido',
