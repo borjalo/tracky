@@ -18,10 +18,16 @@ export class MapPage implements OnInit {
   private orders: any = [];
   private markers=[];
   private suscripcion: Subscription;
+  viewingOrders: boolean;
+  viewingDeliverers: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService) {
+    this.viewingOrders = this.navParams.get("orders");
+    this.viewingDeliverers = this.navParams.get("deliverers");
+    console.log(this.viewingOrders);
+    console.log(this.viewingDeliverers);
   }
 
   ngOnInit() {

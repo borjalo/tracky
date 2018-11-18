@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';

@@ -12,6 +12,10 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
+import { FirebaseServiceDeliveryMans } from './services/firebase-deliverymans';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +39,10 @@ import { FirebaseServiceClients } from "./services/firebase-clients";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
     FirebaseService,
+    FirebaseServiceDeliveryMans,
     FirebaseServiceClients,
+    AndroidPermissions,
+    LocationAccuracy
   ]
 })
 export class AppModule {}
