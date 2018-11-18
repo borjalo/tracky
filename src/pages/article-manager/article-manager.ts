@@ -25,6 +25,7 @@ export class ArticleManagerPage {
   categories: any;
   articles: any;
   sub: Subscription;
+  sub2: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -36,12 +37,16 @@ export class ArticleManagerPage {
     this.sub = this.firebaseCategory.getCategories().subscribe(res => {
       this.categories = res;
     });
-    this.sub = this.firebaseArticle.getArticles().subscribe(res => {
+    this.sub2 = this.firebaseArticle.getArticles().subscribe(res => {
       this.articles = res;
     });
 
   }
 
+  ngOnDestroy(){
+    this.sub.unsubscribe();
+    this.sub2.unsubscribe();
+  }
 
 
 

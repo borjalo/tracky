@@ -27,6 +27,8 @@ export class NewArticlePage {
   articleToEditID: any;
   articleToEdit: any;
   articleExistFlag: any;
+  private sub:Subscription;
+  private sub2:Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -36,11 +38,11 @@ export class NewArticlePage {
               private alertCtrl: AlertController,
               private viewCtrl: ViewController) {
 
-    this.firebaseCategory.getCategories().subscribe(res => {
+    this.sub=this.firebaseCategory.getCategories().subscribe(res => {
       this.categories = res;
     });
 
-    this.firebaseArticle.getArticles().subscribe(res => {
+    this.sub2=this.firebaseArticle.getArticles().subscribe(res => {
       this.articles = res;
     });
 
@@ -61,6 +63,11 @@ export class NewArticlePage {
       this.article.category = this.articleToEdit.category;*/
     }
 
+  }
+
+  ngOnDestroy(){
+    this.sub.unsubscribe();
+    this.sub2.unsubscribe();
   }
 
 
