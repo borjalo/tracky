@@ -23,7 +23,7 @@ import {FirebaseServiceCategories} from "./services/firebase-categories";
 @NgModule({
   declarations: [
     MyApp,
-    LoginPage
+    HomePage
 
 
   ],
@@ -37,7 +37,7 @@ import {FirebaseServiceCategories} from "./services/firebase-categories";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LoginPage
+    HomePage
 
 
   ],

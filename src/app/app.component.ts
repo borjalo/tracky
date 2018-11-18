@@ -37,7 +37,7 @@ ngOnInit(){this.testLogin();}
       this.subscription= this.dbusers.getOrders().subscribe(res => {
         this.userLogin.login(user.email);
         if(this.userLogin.getLogin().tipo=="deliveryman"){
-          this.nav.push("HomePage");
+          this.nav.push("HomeDeliverymanPage");
         }else {
           this.nav.push(HomePage)
         }
@@ -50,7 +50,7 @@ ngOnInit(){this.testLogin();}
     }
     else{
       this.subscription= this.dbusers.getOrders().subscribe(res => {
-        this.nav.push("HomePage");
+        this.nav.push("LoginPage");
         this.subscription.unsubscribe();
       });
 
