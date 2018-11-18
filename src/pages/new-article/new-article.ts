@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
 import { FirebaseServiceArticles, Article } from '../../app/services/firebase-articles';
 import * as firebase from "firebase";
 import {Order} from "../../app/services/firebase-service";
@@ -23,24 +23,28 @@ export class NewArticlePage {
   totalPrice: any = 0;
 
   categories: any;
+  articles: any;
   articleToEditID: any;
   articleToEdit: any;
+  articleExistFlag: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebaseArticle: FirebaseServiceArticles,
               private firebaseCategory: FirebaseServiceCategories,
               private loadingCtrl: LoadingController,
+              private alertCtrl: AlertController,
               private viewCtrl: ViewController) {
 
     this.firebaseCategory.getCategories().subscribe(res => {
       this.categories = res;
-      console.log("In cat:"+res);
     });
-    console.log("Out cat:"+this.categories);
+
+    this.firebaseArticle.getArticles().subscribe(res => {
+      this.articles = res;
+    });
 
     this.articleToEditID = this.navParams.get("id");
-    console.log("Id:"+this.articleToEditID);
 
     if(this.articleToEditID != undefined) {
       this.firebaseArticle.getArticle(this.articleToEditID).subscribe(res => {
@@ -104,15 +108,41 @@ export class NewArticlePage {
     this.article.price = newArticle.price;
     this.article.category = newArticle.category;
 
-    const loading = this.loadingCtrl.create({
-      content: 'Creando artículo...'
-    });
-    loading.present();
+    const articleFlag = this.articleExists(this.article.name);
 
-    this.firebaseArticle.addArticle(this.article).then(() => {
-      loading.dismiss();
-      this.navCtrl.pop();
-    });
+    if( articleFlag==true ) {
+
+      const error = this.alertCtrl.create({
+        title: 'Artículo existente',
+        subTitle: 'Este artículo ya existe',
+        buttons: ['OK']
+      })
+
+      error.present();
+
+    } else if(this.article.name=="" || this.article.category=="" || this.article.price==null) {
+
+      const error = this.alertCtrl.create({
+        title: 'Artículo inválido',
+        subTitle: 'Indique un nombre, precio y categoría',
+        buttons: ['OK']
+      })
+
+      error.present();
+
+    } else {
+
+      const loading = this.loadingCtrl.create({
+        content: 'Creando artículo...'
+      });
+      loading.present();
+
+      this.firebaseArticle.addArticle(this.article).then(() => {
+        loading.dismiss();
+        this.navCtrl.pop();
+      });
+
+    }
   }
 
   updateArticle(id, articleEdited) {
@@ -133,5 +163,18 @@ export class NewArticlePage {
     });
   }
 
+  articleExists(name) {
+
+    for( let article of this.articles ) {
+      if(article.name == name) {
+        console.log(article.name);
+        console.log(name);
+;        this.articleExistFlag = true;
+      }
+    }
+
+    return this.articleExistFlag;
+
+  }
 
 }

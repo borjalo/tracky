@@ -86,5 +86,12 @@ export class ArticleManagerPage {
 
   }
 
+  deleteArticle(id) {
+
+    this.firebaseArticle.removeArticle(id);
+
+  }
+
+
 
 }

@@ -17,6 +17,7 @@
         <p>{{article.description}}</p>
         <p>{{article.price}}€</p>
         <button ion-button clear item-end (click)="editArticle(article.id)">Edit</button>
+        <button ion-button clear item-end style="color:red" (click)="deleteArticle(article.id)">Delete</button>
       </ion-item>
     </ion-row>
   </ion-grid>
