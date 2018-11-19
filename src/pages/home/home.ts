@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {User, userToken} from "../../app/services/userToken";
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { userToken } from "../../app/services/userToken";
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -12,8 +13,7 @@ export class HomePage{
   usuario:any;
   constructor(public navCtrl: NavController,
               public userLogin:userToken,public navParams: NavParams,
-
-  ) {}
+              public auth: AngularFireAuth) {}
 
 
   ngOnInit(){
@@ -21,7 +21,7 @@ export class HomePage{
   }
   checkLogin(){
 
-    var usuarioLogeado=this.userLogin.getLogin();
+    let usuarioLogeado=this.userLogin.getLogin();
     console.log(usuarioLogeado);
   }
   showMap () {
@@ -46,6 +46,12 @@ export class HomePage{
 
   showArticles () {
     this.navCtrl.push("ArticleManagerPage");
+  }
+
+  signOut() {
+    this.auth.auth.signOut().then(() => {
+      this.navCtrl.push("LoginPage");
+    });
   }
 
 }

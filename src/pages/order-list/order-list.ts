@@ -22,22 +22,22 @@ export class OrderListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.subscripcion=this.firebase.getOrders().subscribe(res => {
-      if(this.userLogin.getLogin().tipo=="deliveryman"){
-      var list= [];
-      for(let order of res){
-       if(this.userLogin.getLogin().nombre==order.deliveryman){
-         list.push(order);
-       }
-      }
-        this.orders=list;
+    this.subscripcion = this.firebase.getOrders().subscribe(res => {
+      if(this.userLogin.getLogin().tipo == "deliveryman") {
+        let list = [];
+        for(let order of res) {
+          if(this.userLogin.getLogin().nombre==order.deliveryman) {
+            list.push(order);
+          }
+        }
+        this.orders = list;
       } else {
-
-      this.orders = res;}
+        this.orders = res;
+      }
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscripcion.unsubscribe();
   }
 

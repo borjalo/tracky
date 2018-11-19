@@ -41,7 +41,7 @@ export class CartPage {
   }
 
   getAllFavorites(list: Array<Object>) {
-    var promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve, reject) => {
       this.storage.forEach((value, key, index) => {
         list.push(value);
       }).then((d) => {
@@ -66,7 +66,7 @@ export class CartPage {
   private currentQuantity = 0;
 
   private increment (selectedName: string) {
-    var i = 0;
+    let i = 0;
     for(i=1; i<=this.items.length; i++) {
 
       if(this.items[i].name == selectedName){
@@ -77,7 +77,7 @@ export class CartPage {
   }
 
   private decrement (selectedName: string) {
-    var i = 0;
+    let i = 0;
     for(i=1; i<=this.items.length; i++) {
 
       if(this.items[i].name == selectedName){

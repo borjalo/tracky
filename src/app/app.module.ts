@@ -12,13 +12,11 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
-import {userToken} from "./services/userToken";
-import {AngularFireAuthModule} from "angularfire2/auth";
-import {LoginPage} from "../pages/login/login";
-import {FirebaseServiceUsers} from "./services/firebase-users";
-import {NewArticlePage} from "../pages/new-article/new-article";
-import {FirebaseServiceArticles} from "./services/firebase-articles";
-import {FirebaseServiceCategories} from "./services/firebase-categories";
+import { userToken } from "./services/userToken";
+import { AngularFireAuthModule } from "angularfire2/auth";
+import { FirebaseServiceUsers } from "./services/firebase-users";
+import { FirebaseServiceArticles } from "./services/firebase-articles";
+import { FirebaseServiceCategories } from "./services/firebase-categories";
 
 @NgModule({
   declarations: [
@@ -29,7 +27,7 @@ import {FirebaseServiceCategories} from "./services/firebase-categories";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],

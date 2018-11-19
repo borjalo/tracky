@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {AngularFireAuth} from "angularfire2/auth";
-import {HomePage} from "../home/home";
-import {userToken} from "../../app/services/userToken";
-import {HomeDeliverymanPage} from "../home-deliveryman/home-deliveryman";
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import { AngularFireAuth} from "angularfire2/auth";
+import { HomePage} from "../home/home";
+import { userToken} from "../../app/services/userToken";
+import { HomeDeliverymanPage} from "../home-deliveryman/home-deliveryman";
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -21,42 +15,37 @@ export class LoginPage {
   private user;
   private email= "";
   private password= "";
-  constructor(private afAuth:AngularFireAuth, private usersToken:userToken ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private afAuth: AngularFireAuth,
+              private usersToken:userToken,
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              public alertCtrl: AlertController) {
 
   }
 
   login(){
-    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(this.email, this.password).then(() => {
+    this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
-      //console.log(this.usersToken.getLogin());
-
-      if(this.usersToken.getLogin().tipo=="deliveryman"){
+      if(this.usersToken.getLogin().tipo=="deliveryman") {
         this.navCtrl.push("HomeDeliverymanPage");
-      }else{
-      this.navCtrl.push(HomePage);}
+      } else {
+        this.navCtrl.push("HomePage");}
     }).catch(() => {
-      console.log("Login malo")
+      let errorAlert = this.alertCtrl.create({
+        title: "Wrong credentials. Please try again.",
+        buttons: ['OK']
+      });
+      errorAlert.present();
     })
   }
-  register(){
+
+  register() {
     this.afAuth.auth.createUserWithEmailAndPassword(this.email, this.password)
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
 
-  patata(){
-    console.log("Login bueno")
-  }
-
-  getUser(){
-    var usuario = this.afAuth.auth.currentUser;
+  getUser() {
+    let usuario = this.afAuth.auth.currentUser;
     return usuario;
-  }
-
-  ngOnInit(){
-
-
   }
 
 }

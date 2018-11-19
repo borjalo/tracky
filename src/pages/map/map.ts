@@ -29,8 +29,8 @@ export class MapPage implements OnInit {
 
   ngOnInit() {
 
-    var usuarioLogeado=this.userLogin.getLogin();
-    console.log(usuarioLogeado);
+    let usuarioLogeado=this.userLogin.getLogin();
+
     this.loadMap();
 
     this.suscripcion = this.firebase.getOrders().subscribe(res => {
@@ -39,15 +39,16 @@ export class MapPage implements OnInit {
       this.deleteAllMarkers();
 
       for (let order of this.orders) {
-        if(order.state=="En reparto"){
+        if(order.state=="En reparto") {
           console.log(this.userLogin.getLogin().nombre)
           console.log(order.deliveryman)
-          if(this.userLogin.getLogin().nombre==order.deliveryman){
-          this.addMarker(order);}
-            else if(this.userLogin.getLogin().tipo=="admin"){this.addMarker(order);}
+
+          if(this.userLogin.getLogin().nombre==order.deliveryman) {
+            this.addMarker(order);
+          } else if(this.userLogin.getLogin().tipo=="admin") {
+            this.addMarker(order);
           }
-
-
+        }
       }
     });
   }
@@ -87,7 +88,7 @@ export class MapPage implements OnInit {
   }
 
   deleteAllMarkers() {
-    for (var i = 0; i < this.markers.length; i++) {
+    for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
   }

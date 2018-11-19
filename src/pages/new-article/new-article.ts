@@ -117,7 +117,7 @@ export class NewArticlePage {
 
     const articleFlag = this.articleExists(this.article.name);
 
-    if( articleFlag==true ) {
+    if( articleFlag == true ) {
 
       const error = this.alertCtrl.create({
         title: 'Artículo existente',
@@ -127,7 +127,7 @@ export class NewArticlePage {
 
       error.present();
 
-    } else if(this.article.name==null || this.article.category==null || this.article.price==null) {
+    } else if(this.article.name == null || this.article.category == null || this.article.price == null) {
 
       const error = this.alertCtrl.create({
         title: 'Artículo inválido',
@@ -142,13 +142,12 @@ export class NewArticlePage {
       const loading = this.loadingCtrl.create({
         content: 'Creando artículo...'
       });
-      loading.present();
-
-      this.firebaseArticle.addArticle(this.article).then(() => {
-        loading.dismiss();
-        this.navCtrl.pop();
+      loading.present().then(() => {
+        this.firebaseArticle.addArticle(this.article).then(() => {
+          loading.dismiss();
+          this.navCtrl.pop();
+        });
       });
-
     }
   }
 
@@ -162,12 +161,14 @@ export class NewArticlePage {
     const loading = this.loadingCtrl.create({
       content: 'Actualizando artículo...'
     });
-    loading.present();
+    loading.present().then(() => {
 
-    this.firebaseArticle.updateArticle(articleEdited, id).then(() => {
-      loading.dismiss();
-      this.navCtrl.pop();
+      this.firebaseArticle.updateArticle(articleEdited, id).then(() => {
+        loading.dismiss();
+        this.navCtrl.pop();
+      });
     });
+
   }
 
   articleExists(name) {

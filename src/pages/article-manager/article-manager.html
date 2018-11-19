@@ -10,12 +10,9 @@
   <ion-grid>
     <ion-row *ngFor="let article of articles">
       <ion-item>
-        <!--<ion-thumbnail item-start>
-          <img src="img/thumbnail-totoro.png">
-        </ion-thumbnail>-->
-        <h2>{{article.name}}</h2>
-        <p>{{article.description}}</p>
-        <p>{{article.price}}€</p>
+        <h2>{{ article.name }}</h2>
+        <p>{{ article.description }}</p>
+        <p>{{ article.price }}€</p>
         <button ion-button clear item-end (click)="editArticle(article.id)">Edit</button>
         <button ion-button clear item-end style="color:red" (click)="deleteArticle(article.id)">Delete</button>
       </ion-item>

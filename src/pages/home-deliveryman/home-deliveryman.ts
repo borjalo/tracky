@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {userToken} from "../../app/services/userToken";
+import {AngularFireAuth} from 'angularfire2/auth';
 
 /**
  * Generated class for the HomeDeliverymanPage page.
@@ -17,31 +18,39 @@ import {userToken} from "../../app/services/userToken";
 export class HomeDeliverymanPage {
 
   usuario:any;
+
   constructor(public navCtrl: NavController,
-              public userLogin:userToken,public navParams: NavParams,
+              public userLogin: userToken,
+              public navParams: NavParams,
+              public auth: AngularFireAuth) {
 
-  ) {}
+  }
 
-
-  ngOnInit(){
+  ngOnInit() {
     this.checkLogin();
   }
-  checkLogin(){
 
-    var usuarioLogeado=this.userLogin.getLogin();
-    console.log(usuarioLogeado);
+  checkLogin() {
+
+    let usuarioLogeado=this.userLogin.getLogin();
   }
+
   showMap () {
     this.navCtrl.push("MapPage");
   }
-
 
   showOrders () {
     this.navCtrl.push("OrderListPage");
   }
 
-  showLogin(){
+  showLogin() {
     this.navCtrl.push("LoginPage");
+  }
+
+  signOut() {
+    this.auth.auth.signOut().then(() => {
+      this.navCtrl.push("LoginPage")
+    })
   }
 
 }
