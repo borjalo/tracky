@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
@@ -25,12 +25,16 @@ export class CreateOrderPage {
     deliveryman: "",
   };
 
+  latLng: any;
+  deliveryAddress: any = "Select delivery address";
+
   private clients: any;
   private quantity: number = 0;
   private sub:Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private alertCtrl: AlertController,
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
               private loadingCtrl: LoadingController,
@@ -42,9 +46,32 @@ export class CreateOrderPage {
       this.clients = res;
     });
   }
-ngOnDestroy(){
-    this.sub.unsubscribe();
-}
+
+  selectDeliveryAddress() {
+    // Create the modal
+    const modal = this.modalCtrl.create("SelectAddressPage");
+
+    // Present the modal
+    modal.present();
+
+    // User closes the modal
+    modal.onDidDismiss(
+      (data: any) => {
+        if (data) {
+
+          // Sets origin longitude and latitude
+          this.latLng = data.latLng;
+
+          // Sets origin address
+          this.deliveryAddress = data.street;
+        }
+      },
+    );
+  }
+
+  ngOnDestroy(){
+      this.sub.unsubscribe();
+  }
 
 
 
@@ -59,15 +86,12 @@ ngOnDestroy(){
   }
 
   createOrder() {
-    if (this.order.client == "e7YVbvR3HRsZhGpYi291") {
-      this.order.position = new firebase.firestore.GeoPoint(39.481270, -0.359374)
-    } else if(this.order.client == "jj3QhUutZk2RQ6Pt74YQ") {
-      this.order.position = new firebase.firestore.GeoPoint(39.466827, -0.382990)
-    }
+    this.order.position._lat = this.latLng.lat();
+    this.order.position._long = this.latLng.lng();
     const loading = this.loadingCtrl.create({
       content: 'Creando pedido...'
     });
-    loading.present();
+    loading.present().then(() => {
 
     this.firebaseOrder.addOrder(this.order).then(() => {
       var titulo="Hay un nuevo pedido";
@@ -83,8 +107,17 @@ ngOnDestroy(){
       }
       this.notificationToDeliveres.update2(aviso);
 
-      loading.dismiss();
+      loading.dismiss().then(() => {
       this.navCtrl.pop();
+    });
+    }).catch(() => {
+      let errorAlert = this.alertCtrl.create({
+        title: 'Error creating order',
+        subTitle: 'Try again in a few minutes',
+        buttons: ['OK']
+      });
+      errorAlert.present();
+    });
     });
   }
 

@@ -28,32 +28,39 @@ private subscription:Subscription;
       statusBar.styleDefault();
       splashScreen.hide();
     });
+
+
   }
 ngOnInit(){this.testLogin();}
 
   testLogin(){
+
     this.afAuth.auth.onAuthStateChanged((user)=>{
-      if(user){
-        this.subscription= this.dbusers.getOrders().subscribe(res => {
+    if(user){
+      this.subscription= this.dbusers.getOrders().subscribe(res => {
         this.userLogin.login(user.email);
-        console.log("userToken en component usuario= "+this.userLogin.getLogin())
         if(this.userLogin.getLogin().tipo=="deliveryman"){
           this.nav.push("HomeDeliverymanPage");
-          }else {
-           this.nav.push(HomePage)
-          }
+        }else {
+          this.nav.push(HomePage)
+        }
+
 
         this.subscription.unsubscribe();
         this.notificationConfig.start();
       });
-      }
-       else{
-         this.subscription= this.dbusers.getOrders().subscribe(res => {
-          this.nav.push("LoginPage");
-           this.subscription.unsubscribe();
+
+
+    }
+    else{
+      this.subscription= this.dbusers.getOrders().subscribe(res => {
+        this.nav.push("LoginPage");
+        this.subscription.unsubscribe();
       });
-          }
-            });}
+
+    }
+
+  });}
 
 
 }

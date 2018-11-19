@@ -33,13 +33,14 @@ export class OrderListPage implements OnInit {
       }
         this.orders=list;
       } else {
-
-      this.orders = res;}
+        this.orders = res;
+      }
     });
   }
 ngOnDestroy(){
     this.subscripcion.unsubscribe();
-}
+  }
+
   createOrder () {
     this.navCtrl.push("CreateOrderPage");
   }

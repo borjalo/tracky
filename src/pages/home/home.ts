@@ -19,9 +19,6 @@ export class HomePage{
   ngOnInit(){
     this.checkLogin();
   }
-
-
-
   checkLogin(){
 
     var usuarioLogeado=this.userLogin.getLogin();
@@ -40,8 +37,19 @@ export class HomePage{
   }
 
   showLogin(){
-    this.afAuth.auth.signOut();
-   this.navCtrl.push("LoginPage");
+    this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.push("LoginPage");
+    });
   }
+
+  createArticle () {
+    this.navCtrl.push("NewArticlePage");
+  }
+
+  showArticles () {
+    this.navCtrl.push("ArticleManagerPage");
+  }
+
+
 
 }

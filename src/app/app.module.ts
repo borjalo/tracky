@@ -21,6 +21,8 @@ import { Firebase } from '@ionic-native/firebase';
 import {NotificationToAdminCore} from "./services/notificationsToAdmin";
 import {NotificationByPlatfrom} from "./services/notificationByPlatform";
 import {HttpClientModule} from "@angular/common/http";
+import { FirebaseServiceArticles } from "./services/firebase-articles";
+import { FirebaseServiceCategories } from "./services/firebase-categories";
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import {HttpClientModule} from "@angular/common/http";
     FirebaseServiceUsers,
     FcmProvider,
     NotificationToAdminCore,
-    NotificationByPlatfrom
+    NotificationByPlatfrom,
+    FirebaseServiceArticles,
+    FirebaseServiceCategories
 
   ]
 })

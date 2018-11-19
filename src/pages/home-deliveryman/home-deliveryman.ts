@@ -28,8 +28,7 @@ export class HomeDeliverymanPage {
   }
   checkLogin(){
 
-    var usuarioLogeado=this.userLogin.getLogin();
-    console.log(usuarioLogeado);
+    let usuarioLogeado=this.userLogin.getLogin();
   }
   showMap () {
     this.navCtrl.push("MapPage");
@@ -41,8 +40,10 @@ export class HomeDeliverymanPage {
   }
 
   showLogin(){
-    this.afAuth.auth.signOut();
-    this.navCtrl.push("LoginPage");
+    this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.push("LoginPage")
+    })
   }
 
 }
+

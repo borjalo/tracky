@@ -17,8 +17,8 @@ export class MapPage implements OnInit {
   map: any;
   latLng: any;
   private orders: any = [];
-    private suscripcion: Subscription;
-    private markers=[];
+  private markers=[];
+  private suscripcion: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -29,39 +29,33 @@ export class MapPage implements OnInit {
 
   ngOnInit() {
 
-    var usuarioLogeado=this.userLogin.getLogin();
-    console.log(usuarioLogeado);
+    let usuarioLogeado=this.userLogin.getLogin();
+
     this.loadMap();
-   this.suscripcion= this.firebase.getOrders().subscribe(res => {
+
+    this.suscripcion = this.firebase.getOrders().subscribe(res => {
       this.orders = res;
+
       this.deleteAllMarkers();
 
       for (let order of this.orders) {
-        if(order.state=="En reparto"){
+        if(order.state=="En reparto") {
           console.log(this.userLogin.getLogin().nombre)
           console.log(order.deliveryman)
-          if(this.userLogin.getLogin().nombre==order.deliveryman){
-          this.addMarker(order);}
-            else if(this.userLogin.getLogin().tipo=="admin"){this.addMarker(order);}
+
+          if(this.userLogin.getLogin().nombre==order.deliveryman) {
+            this.addMarker(order);
+          } else if(this.userLogin.getLogin().tipo=="admin") {
+            this.addMarker(order);
           }
-
-
+        }
       }
     });
-
-
-
-
-
-    console.log(this.orders+"222");
-
   }
 
   ngOnDestroy() {
     this.suscripcion.unsubscribe();
   }
-
-
 
   private loadMap() {
     this.latLng = new google.maps.LatLng("39.470156", "-0.377324");
@@ -92,11 +86,12 @@ export class MapPage implements OnInit {
     this.addInfoWindow(marker, content);
 
   }
-deleteAllMarkers() {
-  for (var i = 0; i < this.markers.length; i++) {
-    this.markers[i].setMap(null);
+
+  deleteAllMarkers() {
+    for (let i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(null);
+    }
   }
-}
 
 
   addInfoWindow(marker, content) {
@@ -110,15 +105,5 @@ deleteAllMarkers() {
     });
 
   }
-
-
-
-
-
-
-
-
-
-
 
 }

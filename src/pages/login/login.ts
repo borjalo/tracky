@@ -6,12 +6,6 @@ import {userToken} from "../../app/services/userToken";
 import {HomeDeliverymanPage} from "../home-deliveryman/home-deliveryman";
 import {NotificationByPlatfrom} from "../../app/services/notificationByPlatform";
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -27,7 +21,7 @@ export class LoginPage {
   }
 
   login(){
-    this.afAuth.auth.signInAndRetrieveDataWithEmailAndPassword(this.email, this.password).then(() => {
+    this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
       //console.log(this.usersToken.getLogin());
 
@@ -48,22 +42,10 @@ export class LoginPage {
   register(){
     this.afAuth.auth.createUserWithEmailAndPassword(this.email, this.password)
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
-
-  patata(){
-    console.log("Login bueno")
-  }
 
   getUser(){
     var usuario = this.afAuth.auth.currentUser;
     return usuario;
-  }
-
-  ngOnInit(){
-
-
   }
 
 }
