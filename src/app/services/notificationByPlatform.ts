@@ -1,0 +1,108 @@
+import { Injectable } from '@angular/core';
+
+import {Observable, Subscription} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import {AlertController, Platform, ToastController} from "ionic-angular";
+import {NotificationToAdminCore} from "./notificationsToAdmin";
+import {FcmProvider} from "./fcm";
+import {userToken} from "./userToken";
+
+
+// @ts-ignore
+@Injectable({
+  providedIn: 'root'
+})
+
+
+
+
+
+export class NotificationByPlatfrom {
+ usuario:any;
+  private sub:Subscription;
+  constructor(public alertCtrl:AlertController,private notificationToAdmin:NotificationToAdminCore,private platform: Platform,private fcm:FcmProvider,private userLogin:userToken,private toastCtrl: ToastController) {
+  }
+
+
+ public esMovil(){return (!this.platform.is("core")&& !this.platform.is("mobileweb"))}
+
+ public esAdmin(){
+    return this.userLogin.getLogin().tipo=="admin"}
+
+  private initializeAdminWeb(){
+    this.sub = this.notificationToAdmin.getItem().subscribe(res=>{
+      if(res.order!=""){
+        let alert = this.alertCtrl.create({
+          title: res.order+" entregado!",
+          subTitle: 'Entregado por '+res.from,
+          buttons: ['Ok']
+        });
+        alert.present();
+        let reset={
+          order:"",to:"",from:""
+        }
+        this.notificationToAdmin.update(reset);}});
+  }
+
+  private initializeDelivererWeb(){
+    this.sub = this.notificationToAdmin.getItem2().subscribe(res=>{
+      if(res.order!=""){
+        let alert = this.alertCtrl.create({
+          title: "Nuevo pedido!",
+          subTitle: "se ha creado un nuevo pedido",
+          buttons: ['Ok']
+        });
+        alert.present();
+        let reset={
+          order:"",to:"",from:""
+        }
+        this.notificationToAdmin.update2(reset);}});
+
+  }
+  private initializeAdminDevice(){
+    this.initializeOnNotification();
+    this.fcm.unsubscribeOfTopic("repartidores");
+    this.fcm.subscribeToTopic("administradores");
+  }
+
+  private initializeDeliversDevice(){
+    this.initializeOnNotification();
+    this.fcm.unsubscribeOfTopic("administradores");
+    this.fcm.subscribeToTopic("repartidores");
+  }
+
+  private initializeOnNotification(){
+    this.fcm.getToken()
+    // Listen to incoming messages
+    this.fcm.listenToNotifications().pipe(
+      tap(msg => {
+        // show a toast
+        const toast = this.toastCtrl.create({
+          message: msg.body,
+          duration: 3000
+        });
+        toast.present();
+      })
+    )
+      .subscribe()
+  }
+
+ public start(){
+    if(this.sub == undefined){}
+    else{this.sub.unsubscribe();}
+    if(!this.esMovil()&& this.esAdmin()){
+      this.initializeAdminWeb();
+    }
+    else if(this.esMovil()&& this.esAdmin()){
+      this.initializeAdminDevice();
+    } else if(!this.esMovil()&& !this.esAdmin()){
+       this.initializeDelivererWeb()
+    }else {
+      this.initializeDeliversDevice();
+    }
+
+ }
+
+}

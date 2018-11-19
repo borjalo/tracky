@@ -4,6 +4,8 @@ import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
 import {Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
 
 
 @IonicPage()
@@ -20,7 +22,7 @@ export class CreateOrderPage {
     price: 0,
     articles: [],
     state: "Preparado",
-    deliveryman: "Pedro",
+    deliveryman: "",
   };
 
   private clients: any;
@@ -32,7 +34,9 @@ export class CreateOrderPage {
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
               private loadingCtrl: LoadingController,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private httpClient: HttpClient,
+              private notificationToDeliveres:NotificationToAdminCore) {
 
     this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
@@ -66,6 +70,19 @@ ngOnDestroy(){
     loading.present();
 
     this.firebaseOrder.addOrder(this.order).then(() => {
+      var titulo="Hay un nuevo pedido";
+      var descripcion="Se acaba de añadir un nuevo pedido";
+
+      new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_nuevopedido.php?titulo="+titulo+"&descripcion="+descripcion).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+      });
+      let aviso={order:"pedido",to:"repartidores",from:"admin"
+      }
+      this.notificationToDeliveres.update2(aviso);
+
       loading.dismiss();
       this.navCtrl.pop();
     });

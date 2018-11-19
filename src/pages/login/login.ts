@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AngularFireAuth} from "angularfire2/auth";
 import {HomePage} from "../home/home";
 import {userToken} from "../../app/services/userToken";
 import {HomeDeliverymanPage} from "../home-deliveryman/home-deliveryman";
+import {NotificationByPlatfrom} from "../../app/services/notificationByPlatform";
 
 /**
  * Generated class for the LoginPage page.
@@ -21,7 +22,7 @@ export class LoginPage {
   private user;
   private email= "";
   private password= "";
-  constructor(private afAuth:AngularFireAuth, private usersToken:userToken ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private alertCtrl:AlertController,private notificationConfig:NotificationByPlatfrom,private afAuth:AngularFireAuth, private usersToken:userToken ,public navCtrl: NavController, public navParams: NavParams) {
 
   }
 
@@ -34,8 +35,14 @@ export class LoginPage {
         this.navCtrl.push("HomeDeliverymanPage");
       }else{
       this.navCtrl.push(HomePage);}
+      this.notificationConfig.start();
     }).catch(() => {
-      console.log("Login malo")
+      let alert = this.alertCtrl.create({
+        title: "Error de inicio de sesión",
+        subTitle: "Compruebe su usuario y contraseña",
+        buttons: ['Ok']
+      });
+      alert.present();
     })
   }
   register(){

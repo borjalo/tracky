@@ -16,6 +16,11 @@ import {userToken} from "./services/userToken";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {LoginPage} from "../pages/login/login";
 import {FirebaseServiceUsers} from "./services/firebase-users";
+import {FcmProvider} from "./services/fcm";
+import { Firebase } from '@ionic-native/firebase';
+import {NotificationToAdminCore} from "./services/notificationsToAdmin";
+import {NotificationByPlatfrom} from "./services/notificationByPlatform";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -30,6 +35,7 @@ import {FirebaseServiceUsers} from "./services/firebase-users";
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,13 +46,18 @@ import {FirebaseServiceUsers} from "./services/firebase-users";
   ],
   providers: [
     StatusBar,
+    Firebase,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
     FirebaseService,
     FirebaseServiceClients,
     userToken,
-    FirebaseServiceUsers
+    FirebaseServiceUsers,
+    FcmProvider,
+    NotificationToAdminCore,
+    NotificationByPlatfrom
+
   ]
 })
 export class AppModule {}

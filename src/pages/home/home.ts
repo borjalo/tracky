@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {User, userToken} from "../../app/services/userToken";
-
+import {Item, NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
+import {AngularFireAuth} from "angularfire2/auth";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -9,8 +10,8 @@ import {User, userToken} from "../../app/services/userToken";
 export class HomePage{
 
   usuario:any;
-  constructor(public navCtrl: NavController,
-              public userLogin:userToken,public navParams: NavParams,
+  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,public notificationToAdmin:NotificationToAdminCore,
+              public userLogin:userToken,public navParams: NavParams,public alertCtrl:AlertController
 
   ) {}
 
@@ -18,6 +19,9 @@ export class HomePage{
   ngOnInit(){
     this.checkLogin();
   }
+
+
+
   checkLogin(){
 
     var usuarioLogeado=this.userLogin.getLogin();
@@ -36,7 +40,8 @@ export class HomePage{
   }
 
   showLogin(){
-    this.navCtrl.push("LoginPage");
+    this.afAuth.auth.signOut();
+   this.navCtrl.push("LoginPage");
   }
 
 }

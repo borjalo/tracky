@@ -37,7 +37,7 @@
       {{ article.name }} x {{ article.quantity }}
     </ion-item>
   </ion-list>
-
+  <button ion-button block round *ngIf="order.state == 'En reparto'" (click)="delivered()">Order delivered</button>
   <button ion-button block round *ngIf="order.state == 'Preparado'" (click)="onCatchDelivery()">Get delivery</button>
 
 </ion-content>

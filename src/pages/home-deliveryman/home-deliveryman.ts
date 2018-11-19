@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {userToken} from "../../app/services/userToken";
-
+import {AngularFireAuth} from "angularfire2/auth";
 /**
  * Generated class for the HomeDeliverymanPage page.
  *
@@ -17,7 +17,7 @@ import {userToken} from "../../app/services/userToken";
 export class HomeDeliverymanPage {
 
   usuario:any;
-  constructor(public navCtrl: NavController,
+  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,
               public userLogin:userToken,public navParams: NavParams,
 
   ) {}
@@ -41,6 +41,7 @@ export class HomeDeliverymanPage {
   }
 
   showLogin(){
+    this.afAuth.auth.signOut();
     this.navCtrl.push("LoginPage");
   }
 
