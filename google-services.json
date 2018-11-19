@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "111896583373",
+    "firebase_url": "https://tracky-db157.firebaseio.com",
+    "project_id": "tracky-db157",
+    "storage_bucket": "tracky-db157.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111896583373:android:0d7a4595a2b386a9",
+        "android_client_info": {
+          "package_name": "com.trackyapp.upv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111896583373-qrhhhko00b4insr29m53q514kr71gmc6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEtAh3Vx8v8HL2lC6aR-a7_VxVf81CHCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

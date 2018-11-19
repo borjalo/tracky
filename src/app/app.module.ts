@@ -12,30 +12,56 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
+import {userToken} from "./services/userToken";
+import {AngularFireAuthModule} from "angularfire2/auth";
+import {LoginPage} from "../pages/login/login";
+import {FirebaseServiceUsers} from "./services/firebase-users";
+import {FcmProvider} from "./services/fcm";
+import { Firebase } from '@ionic-native/firebase';
+import {NotificationToAdminCore} from "./services/notificationsToAdmin";
+import {NotificationByPlatfrom} from "./services/notificationByPlatform";
+import {HttpClientModule} from "@angular/common/http";
+import { FirebaseServiceArticles } from "./services/firebase-articles";
+import { FirebaseServiceCategories } from "./services/firebase-categories";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+
+
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+
+
   ],
   providers: [
     StatusBar,
+    Firebase,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
     FirebaseService,
     FirebaseServiceClients,
+    userToken,
+    FirebaseServiceUsers,
+    FcmProvider,
+    NotificationToAdminCore,
+    NotificationByPlatfrom,
+    FirebaseServiceArticles,
+    FirebaseServiceCategories
+
   ]
 })
 export class AppModule {}

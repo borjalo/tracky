@@ -12,6 +12,7 @@ export interface Order {
   articles: Array<any>;
   state: any;
   deliveryman: any;
+ description: string;
 }
 
 // @ts-ignore
@@ -54,6 +55,7 @@ export class FirebaseService {
   }
 
   removeOrder(id) {
+  
     return this.ordersCollection.doc(id).delete();
   }
 }

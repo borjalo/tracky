@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
-import { Subscription } from "rxjs";
+import {Subscriber, Subscription} from "rxjs";
+import {User, userToken} from "../../app/services/userToken";
 
 declare var google;
 
@@ -21,19 +22,32 @@ export class MapPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private firebase: FirebaseService) {
+              private firebase: FirebaseService,
+              private userLogin:userToken
+              ) {
   }
 
   ngOnInit() {
+
+    let usuarioLogeado=this.userLogin.getLogin();
+
     this.loadMap();
 
     this.suscripcion = this.firebase.getOrders().subscribe(res => {
       this.orders = res;
 
       this.deleteAllMarkers();
+
       for (let order of this.orders) {
-        if(order.state != "Entregado") {
-          this.addMarker(order);
+        if(order.state=="En reparto") {
+          console.log(this.userLogin.getLogin().nombre)
+          console.log(order.deliveryman)
+
+          if(this.userLogin.getLogin().nombre==order.deliveryman) {
+            this.addMarker(order);
+          } else if(this.userLogin.getLogin().tipo=="admin") {
+            this.addMarker(order);
+          }
         }
       }
     });
@@ -67,14 +81,14 @@ export class MapPage implements OnInit {
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
     this.markers.push(marker);
-    let content = order.state;
+    let content = order.deliveryman;
 
     this.addInfoWindow(marker, content);
 
   }
 
   deleteAllMarkers() {
-    for (var i = 0; i < this.markers.length; i++) {
+    for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
   }
@@ -91,15 +105,5 @@ export class MapPage implements OnInit {
     });
 
   }
-
-
-
-
-
-
-
-
-
-
 
 }

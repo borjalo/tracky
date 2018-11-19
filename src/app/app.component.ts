@@ -1,22 +1,67 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component , ViewChild} from '@angular/core';
+import {AlertController, Nav, NavController, Platform, ToastController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import {AngularFireAuth} from "angularfire2/auth";
 
 import { HomePage } from '../pages/home/home';
+import {LoginPage} from "../pages/login/login";
+import {userToken} from "./services/userToken";
+import {Subscription} from "rxjs";
+import {FirebaseServiceUsers} from "./services/firebase-users";
+import {HomeDeliverymanPage} from "../pages/home-deliveryman/home-deliveryman";
+import {FcmProvider} from "./services/fcm";
+import {tap} from "rxjs/operators";
+import {NotificationToAdminCore} from "./services/notificationsToAdmin";
+import {NotificationByPlatfrom} from "./services/notificationByPlatform";
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
-
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(() => {
+ //rootPage:any = HomePage;
+  @ViewChild(Nav) nav: Nav
+private subscription:Subscription;
+  constructor(private notificationConfig:NotificationByPlatfrom,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private afAuth:AngularFireAuth,private userLogin:userToken,private dbusers:FirebaseServiceUsers) {
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
+
+
   }
+ngOnInit(){this.testLogin();}
+
+  testLogin(){
+
+    this.afAuth.auth.onAuthStateChanged((user)=>{
+    if(user){
+      this.subscription= this.dbusers.getOrders().subscribe(res => {
+        this.userLogin.login(user.email);
+        if(this.userLogin.getLogin().tipo=="deliveryman"){
+          this.nav.push("HomeDeliverymanPage");
+        }else {
+          this.nav.push(HomePage)
+        }
+
+
+        this.subscription.unsubscribe();
+        this.notificationConfig.start();
+      });
+
+
+    }
+    else{
+      this.subscription= this.dbusers.getOrders().subscribe(res => {
+        this.nav.push("LoginPage");
+        this.subscription.unsubscribe();
+      });
+
+    }
+
+  });}
+
+
 }
 

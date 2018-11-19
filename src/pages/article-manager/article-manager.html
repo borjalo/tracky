@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Articles</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row *ngFor="let article of articles">
+      <ion-item>
+        <h2>{{ article.name }}</h2>
+        <p>{{ article.description }}</p>
+        <p>{{ article.price }}€</p>
+        <button ion-button clear item-end (click)="editArticle(article.id)">Edit</button>
+        <button ion-button clear item-end style="color:red" (click)="deleteArticle(article.id)">Delete</button>
+      </ion-item>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

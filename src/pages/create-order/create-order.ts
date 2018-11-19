@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
 import {Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
 
 
 @IonicPage()
@@ -16,11 +18,15 @@ export class CreateOrderPage {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
+   description: "",
     price: 0,
     articles: [],
     state: "Preparado",
-    deliveryman: "Pedro",
+    deliveryman: "",
   };
+
+  latLng: any;
+  deliveryAddress: any = "Select delivery address";
 
   private clients: any;
   private quantity: number = 0;
@@ -28,14 +34,39 @@ export class CreateOrderPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private alertCtrl: AlertController,
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
               private loadingCtrl: LoadingController,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private httpClient: HttpClient,
+              private notificationToDeliveres:NotificationToAdminCore) {
 
     this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
+  }
+
+  selectDeliveryAddress() {
+    // Create the modal
+    const modal = this.modalCtrl.create("SelectAddressPage");
+
+    // Present the modal
+    modal.present();
+
+    // User closes the modal
+    modal.onDidDismiss(
+      (data: any) => {
+        if (data) {
+
+          // Sets origin longitude and latitude
+          this.latLng = data.latLng;
+
+          // Sets origin address
+          this.deliveryAddress = data.street;
+        }
+      },
+    );
   }
 
   ngOnDestroy(){
@@ -55,19 +86,38 @@ export class CreateOrderPage {
   }
 
   createOrder() {
-    if (this.order.client == "e7YVbvR3HRsZhGpYi291") {
-      this.order.position = new firebase.firestore.GeoPoint(39.481270, -0.359374)
-    } else if(this.order.client == "jj3QhUutZk2RQ6Pt74YQ") {
-      this.order.position = new firebase.firestore.GeoPoint(39.466827, -0.382990)
-    }
+    this.order.position._lat = this.latLng.lat();
+    this.order.position._long = this.latLng.lng();
     const loading = this.loadingCtrl.create({
       content: 'Creando pedido...'
     });
-    loading.present();
+    loading.present().then(() => {
 
     this.firebaseOrder.addOrder(this.order).then(() => {
-      loading.dismiss();
+      var titulo="Hay un nuevo pedido";
+      var descripcion="Se acaba de añadir un nuevo pedido";
+
+      new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_nuevopedido.php?titulo="+titulo+"&descripcion="+descripcion).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+      });
+      let aviso={order:"pedido",to:"repartidores",from:"admin"
+      }
+      this.notificationToDeliveres.update2(aviso);
+
+      loading.dismiss().then(() => {
       this.navCtrl.pop();
+    });
+    }).catch(() => {
+      let errorAlert = this.alertCtrl.create({
+        title: 'Error creating order',
+        subTitle: 'Try again in a few minutes',
+        buttons: ['OK']
+      });
+      errorAlert.present();
+    });
     });
   }
 

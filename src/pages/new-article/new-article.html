@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>New Article</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div *ngIf="articleToEditID == undefined" text-center>
+          <h4>New article Form</h4>
+        </div>
+        <div *ngIf="articleToEditID != undefined" text-center>
+          <h4>Article Form</h4>
+        </div>
+        <div padding>
+          <ion-label>Name</ion-label>
+          <ion-item>
+            <ion-input type="text" placeholder="Name" [(ngModel)]="article.name"></ion-input>
+          </ion-item>
+          <ion-label>Description</ion-label>
+          <ion-item>
+            <ion-input type="text" placeholder="Description" [(ngModel)]="article.description"></ion-input>
+          </ion-item>
+          <ion-label>Price</ion-label>
+          <ion-item>
+            <ion-input type="text" placeholder="Price" [(ngModel)]="article.price"></ion-input>
+          </ion-item>
+          <ion-label *ngIf="articleToEditID == undefined">Category</ion-label>
+          <ion-item *ngIf="articleToEditID == undefined" scroll="false">
+            <ion-select type="text" placeholder="Category" [(ngModel)]="article.category">
+              <ion-option *ngFor="let category of categories" [value]="category.name">
+                {{category.name}}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <div padding>
+          <button ion-button size="medium" *ngIf="articleToEditID == undefined" (click)="createArticle(article)">Create</button>
+        </div>
+        <div padding>
+          <button ion-button size="medium" *ngIf="articleToEditID != undefined" (click)="updateArticle(articleToEditID, article)">Update</button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>
