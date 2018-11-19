@@ -4,7 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 import * as firebase from 'firebase';
-import {AndroidPermissions} from '@ionic-native/android-permissions';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @Component({
   selector: 'page-home',
@@ -14,9 +14,8 @@ export class HomePage{
   deliveryman: Deliveryman =  {
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     name: "Pedro",
+    order: ""
   };
-
-  private deliverymans: any;
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
@@ -26,10 +25,6 @@ export class HomePage{
               public loadingCtrl: LoadingController,
               public androidPermissions: AndroidPermissions) {
 
-    this.firebaseDm.getDeliverymans().subscribe((res) => {
-      this.deliverymans = res;
-      console.log(this.deliverymans)
-    });
 
     this.requestPermissionsAndroid();
 
@@ -123,7 +118,10 @@ export class HomePage{
   }
 
   showMap () {
-   this.navCtrl.push("MapPage");
+    this.navCtrl.push("MapPage", {
+      orders: true,
+      deliverers: false
+    });
   }
 
   createOrder () {
@@ -135,6 +133,9 @@ export class HomePage{
   }
 
   showDeliverers() {
-    this.navCtrl.push("MapPage");
+    this.navCtrl.push("MapPage", {
+      deliverers: true,
+      orders: false
+    });
   }
 }

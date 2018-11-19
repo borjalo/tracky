@@ -7,6 +7,7 @@ export interface Deliveryman {
   id?: string;
   position: any;
   name: any;
+  order: any;
 }
 
 // @ts-ignore

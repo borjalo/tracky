@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 import { Subscription } from "rxjs";
+import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 
 declare var google;
 
@@ -20,10 +21,14 @@ export class MapPage implements OnInit {
   private suscripcion: Subscription;
   viewingOrders: boolean;
   viewingDeliverers: boolean;
+  private deliverymans: any = [];
+  private suscripcionDm: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private firebase: FirebaseService) {
+              private firebase: FirebaseService,
+              public firebaseDm: FirebaseServiceDeliveryMans) {
+
     this.viewingOrders = this.navParams.get("orders");
     this.viewingDeliverers = this.navParams.get("deliverers");
     console.log(this.viewingOrders);
@@ -33,16 +38,29 @@ export class MapPage implements OnInit {
   ngOnInit() {
     this.loadMap();
 
-    this.suscripcion = this.firebase.getOrders().subscribe(res => {
-      this.orders = res;
+    if (this.viewingOrders) {
+      this.suscripcion = this.firebase.getOrders().subscribe(res => {
+        this.orders = res;
 
-      this.deleteAllMarkers();
-      for (let order of this.orders) {
-        if(order.state != "Entregado") {
-          this.addMarker(order);
+        this.deleteAllMarkers();
+        for (let order of this.orders) {
+          if(order.state != "Entregado") {
+            this.addMarker(order);
+          }
         }
-      }
-    });
+      });
+    }
+
+    if (this.viewingDeliverers) {
+      this.suscripcionDm = this.firebaseDm.getDeliverymans().subscribe((res) => {
+        this.deliverymans = res;
+
+        this.deleteAllMarkers();
+        for (let dm of this.deliverymans) {
+          this.addMarker(dm)
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
