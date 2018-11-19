@@ -1,5 +1,5 @@
 import { Component , ViewChild} from '@angular/core';
-import {AlertController, Nav, NavController, Platform, ToastController} from 'ionic-angular';
+import { Nav,  Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {AngularFireAuth} from "angularfire2/auth";
@@ -10,10 +10,8 @@ import {userToken} from "./services/userToken";
 import {Subscription} from "rxjs";
 import {FirebaseServiceUsers} from "./services/firebase-users";
 import {HomeDeliverymanPage} from "../pages/home-deliveryman/home-deliveryman";
-import {FcmProvider} from "./services/fcm";
-import {tap} from "rxjs/operators";
-import {NotificationToAdminCore} from "./services/notificationsToAdmin";
 import {NotificationByPlatfrom} from "./services/notificationByPlatform";
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -28,40 +26,33 @@ private subscription:Subscription;
       statusBar.styleDefault();
       splashScreen.hide();
     });
-
-
   }
-ngOnInit(){this.testLogin();}
+
+  ngOnInit(){
+    this.testLogin();
+  }
 
   testLogin(){
-
     this.afAuth.auth.onAuthStateChanged((user)=>{
-    if(user){
-      this.subscription= this.dbusers.getOrders().subscribe(res => {
-        this.userLogin.login(user.email);
-        if(this.userLogin.getLogin().tipo=="deliveryman"){
-          this.nav.push("HomeDeliverymanPage");
-        }else {
-          this.nav.push(HomePage)
-        }
-
-
-        this.subscription.unsubscribe();
-        this.notificationConfig.start();
-      });
-
-
-    }
-    else{
-      this.subscription= this.dbusers.getOrders().subscribe(res => {
-        this.nav.push("LoginPage");
-        this.subscription.unsubscribe();
-      });
-
-    }
-
-  });}
-
-
+      if(user){
+        this.subscription= this.dbusers.getOrders().subscribe(res => {
+          this.userLogin.login(user.email);
+          if(this.userLogin.getLogin().tipo=="deliveryman"){
+            this.nav.push("HomeDeliverymanPage");
+          }else {
+            this.nav.push(HomePage)
+          }
+          this.subscription.unsubscribe();
+          this.notificationConfig.start();
+        });
+      }
+      else{
+        this.subscription= this.dbusers.getOrders().subscribe(res => {
+          this.nav.push("LoginPage");
+          this.subscription.unsubscribe();
+        });
+      }
+    });
+  }
 }
 
