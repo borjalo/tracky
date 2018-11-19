@@ -1,9 +1,3 @@
-<!--
-  Generated template for the SettingsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -14,5 +8,21 @@
 
 
 <ion-content padding>
-
+  <ion-list radio-group title="Add articles to order" [(ngModel)]="articleSettings">
+    <ion-item>
+      <ion-label> Text Area, manual price </ion-label>
+      <ion-radio value="comments" (ionSelect)="true"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label> List from database  </ion-label>
+      <ion-radio value="list"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label> Both </ion-label>
+      <ion-radio value="both"></ion-radio>
+    </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <button ion-button align-items-end (click)="onSaveSettings()">Save</button>
+</ion-footer>

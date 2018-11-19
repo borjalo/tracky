@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Storage } from "@ionic/storage";
 
 @IonicPage()
 @Component({
@@ -15,11 +9,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  articleSettings: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public storage: Storage, public toastCtrl: ToastController) {
+    this.storage.get("TypeView").then((data) =>{
+      console.log(data);
+      this.articleSettings = data;
+    });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
+  onSaveSettings(){
+    this.storage.set('{{ order.price }} €', this.articleSettings);
+    let toast = this.toastCtrl.create({
+      message: 'Settings saved',
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present();
   }
-
 }
