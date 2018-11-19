@@ -36,8 +36,6 @@ import {IonicStorageModule} from "@ionic/storage";
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
-    BrowserModule,
-    IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],

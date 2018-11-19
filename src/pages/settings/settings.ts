@@ -20,7 +20,7 @@ export class SettingsPage {
   }
 
   onSaveSettings(){
-    this.storage.set('{{ order.price }} €', this.articleSettings);
+    this.storage.set('TypeView', this.articleSettings);
     let toast = this.toastCtrl.create({
       message: 'Settings saved',
       duration: 3000,

@@ -9,7 +9,6 @@ import {AngularFireAuth} from "angularfire2/auth";
 })
 export class HomePage{
 
-  usuario:any;
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,public notificationToAdmin:NotificationToAdminCore,
               public userLogin:userToken,public navParams: NavParams,public alertCtrl:AlertController
 
@@ -50,6 +49,8 @@ export class HomePage{
     this.navCtrl.push("ArticleManagerPage");
   }
 
-
+  showSettings () {
+    this.navCtrl.push("SettingsPage");
+  }
 
 }

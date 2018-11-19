@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
+import { Storage} from "@ionic/storage";
 
 
 @IonicPage()
@@ -18,12 +19,15 @@ export class CreateOrderPage {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
-   description: "",
+    description: "",
     price: 0,
     articles: [],
     state: "Preparado",
     deliveryman: "",
   };
+
+  commentsVisible: boolean = false;
+  listVisible: boolean = false;
 
   latLng: any;
   deliveryAddress: any = "Select delivery address";
@@ -40,12 +44,26 @@ export class CreateOrderPage {
               private loadingCtrl: LoadingController,
               private modalCtrl: ModalController,
               private httpClient: HttpClient,
-              private notificationToDeliveres:NotificationToAdminCore) {
-
-    this.sub=this.firebaseClient.getClients().subscribe(res => {
+              private notificationToDeliveres:NotificationToAdminCore,
+              private  storage:Storage) {
+      this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
+    this.storage.get("TypeView").then((data) =>{
+      console.log(data);
+      if(data == "comments"){
+        this.commentsVisible = true;
+        this.listVisible = false;
+      }else if(data == "list"){
+        this.commentsVisible = false;
+        this.listVisible = true;
+      }else if(data == "both"){
+        this.commentsVisible = true;
+        this.listVisible = true;
+      }
+    });
   }
+
 
   selectDeliveryAddress() {
     // Create the modal
