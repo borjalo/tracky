@@ -3,7 +3,6 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import {Observable} from "rxjs";
 
 declare var google;
 

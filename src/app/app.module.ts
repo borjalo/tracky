@@ -24,13 +24,12 @@ import {FirebaseServiceCategories} from "./services/firebase-categories";
   declarations: [
     MyApp,
     HomePage
-
-
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],
@@ -38,8 +37,6 @@ import {FirebaseServiceCategories} from "./services/firebase-categories";
   entryComponents: [
     MyApp,
     HomePage
-
-
   ],
   providers: [
     StatusBar,

@@ -24,6 +24,13 @@
   </ion-item>
 
   <ion-item>
+    <button ion-button block round color="light" (click)="selectDeliveryAddress()">Select delivery address</button>
+  </ion-item>
+
+  <h5 padding-left="10px">Delivery address:</h5>
+  <ion-label padding-left="10px" text-wrap *ngIf="deliveryAddress != 'Select delivery address'">{{ deliveryAddress }}</ion-label>
+
+  <ion-item>
     <button ion-button outline round (click)="addArticles()">Add articles</button>
   </ion-item>
 
@@ -35,7 +42,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-10>
-            {{ article.name }} x {{ article.quantity }}
+            {{ article.quantity }} x {{ article.name }}
           </ion-col>
 
           <ion-col col-2>
