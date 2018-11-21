@@ -24,6 +24,12 @@
   </ion-item>
 
   <ion-item>
+    <ion-label>Description</ion-label>
+    <ion-textarea [(ngModel)]="order.description" [readonly]="!commentsVisible">
+        {{order.description}}
+    </ion-textarea>
+  </ion-item>
+  <ion-item>
     <button ion-button block round color="light" (click)="selectDeliveryAddress()">Select delivery address</button>
   </ion-item>
 
@@ -31,10 +37,10 @@
   <ion-label padding-left="10px" text-wrap *ngIf="deliveryAddress != 'Select delivery address'">{{ deliveryAddress }}</ion-label>
 
   <ion-item>
-    <button ion-button outline round (click)="addArticles()">Add articles</button>
+    <button ion-button outline round [disabled]="!listVisible" (click)="addArticles()">Add articles</button>
   </ion-item>
 
-  <ion-list *ngIf="order.articles.length > 0">
+  <ion-list *ngIf="order.articles.length > 0" >
     <ion-list-header>
       Articles
     </ion-list-header>
@@ -59,7 +65,7 @@
         <h4>Precio total:</h4>
       </ion-col>
       <ion-col col-3>
-        <h4>{{ order.price }} €</h4>
+        <ion-input value="{{ order.price }} €" placeholder="Price" [readonly]="!commentsVisible"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>

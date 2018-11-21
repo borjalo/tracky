@@ -3,7 +3,11 @@ import { AlertController, IonicPage, LoadingController, ModalController, NavCont
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import { Subscription } from "rxjs";
+import {Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
+import { Storage} from "@ionic/storage";
+
 
 @IonicPage()
 @Component({
@@ -15,11 +19,15 @@ export class CreateOrderPage {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: new Date().toISOString(),
+    description: "",
     price: 0,
     articles: [],
     state: "Preparado",
-    deliveryman: "Pedro",
+    deliveryman: "",
   };
+
+  commentsVisible: boolean = false;
+  listVisible: boolean = false;
 
   latLng: any;
   deliveryAddress: any = "Select delivery address";
@@ -34,12 +42,28 @@ export class CreateOrderPage {
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
               private loadingCtrl: LoadingController,
-              private modalCtrl: ModalController) {
-
-    this.sub=this.firebaseClient.getClients().subscribe(res => {
+              private modalCtrl: ModalController,
+              private httpClient: HttpClient,
+              private notificationToDeliveres:NotificationToAdminCore,
+              private  storage:Storage) {
+      this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
+    this.storage.get("TypeView").then((data) =>{
+      console.log(data);
+      if(data == "comments"){
+        this.commentsVisible = true;
+        this.listVisible = false;
+      }else if(data == "list"){
+        this.commentsVisible = false;
+        this.listVisible = true;
+      }else if(data == "both"){
+        this.commentsVisible = true;
+        this.listVisible = true;
+      }
+    });
   }
+
 
   selectDeliveryAddress() {
     // Create the modal
@@ -67,6 +91,8 @@ export class CreateOrderPage {
       this.sub.unsubscribe();
   }
 
+
+
   remove() {
     if(this.quantity > 0) {
       this.quantity -= 1;
@@ -84,20 +110,32 @@ export class CreateOrderPage {
       content: 'Creando pedido...'
     });
     loading.present().then(() => {
-      this.firebaseOrder.addOrder(this.order).then(() => {
-        loading.dismiss().then(() => {
-          this.navCtrl.pop();
-        });
 
-      }).catch(() => {
-        let errorAlert = this.alertCtrl.create({
-          title: 'Error creating order',
-          subTitle: 'Try again in a few minutes',
-          buttons: ['OK']
-        });
-        errorAlert.present();
+    this.firebaseOrder.addOrder(this.order).then(() => {
+      var titulo="Hay un nuevo pedido";
+      var descripcion="Se acaba de añadir un nuevo pedido";
 
+      new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_nuevopedido.php?titulo="+titulo+"&descripcion="+descripcion).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
       });
+      });
+      let aviso={order:"pedido",to:"repartidores",from:"admin"
+      }
+      this.notificationToDeliveres.update2(aviso);
+
+      loading.dismiss().then(() => {
+      this.navCtrl.pop();
+    });
+    }).catch(() => {
+      let errorAlert = this.alertCtrl.create({
+        title: 'Error creating order',
+        subTitle: 'Try again in a few minutes',
+        buttons: ['OK']
+      });
+      errorAlert.present();
+    });
     });
   }
 

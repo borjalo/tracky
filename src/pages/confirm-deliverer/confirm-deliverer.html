@@ -20,6 +20,10 @@
     <ion-item>
       <ion-label>Client: {{ clientName }}</ion-label>
     </ion-item>
+    <ion-item text-wrap>
+      <ion-label>Description: {{order.description}}</ion-label>
+    </ion-item>
+    
     <ion-item>
       <ion-label>Price: {{ order.price }}€</ion-label>
     </ion-item>
@@ -33,7 +37,7 @@
       {{ article.quantity }} x {{ article.name }}
     </ion-item>
   </ion-list>
-
+  <button ion-button block round *ngIf="order.state == 'En reparto'" (click)="delivered()">Order delivered</button>
   <button ion-button block round *ngIf="order.state == 'Preparado'" (click)="onCatchDelivery()">Get delivery</button>
 
 </ion-content>

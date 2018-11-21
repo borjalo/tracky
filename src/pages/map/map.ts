@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
 import { Subscription } from "rxjs";
 import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
+import {Subscriber, Subscription} from "rxjs";
+import {User, userToken} from "../../app/services/userToken";
 
 declare var google;
 
@@ -27,6 +29,8 @@ export class MapPage implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService,
+              private userLogin:userToken
+              private firebase: FirebaseService,
               public firebaseDm: FirebaseServiceDeliveryMans) {
 
     this.viewingOrders = this.navParams.get("orders");
@@ -36,6 +40,9 @@ export class MapPage implements OnInit {
   }
 
   ngOnInit() {
+
+    let usuarioLogeado=this.userLogin.getLogin();
+
     this.loadMap();
 
     if (this.viewingOrders) {
@@ -44,8 +51,15 @@ export class MapPage implements OnInit {
 
         this.deleteAllMarkers();
         for (let order of this.orders) {
-          if(order.state != "Entregado") {
-            this.addMarker(order);
+          if(order.state=="En reparto") {
+            console.log(this.userLogin.getLogin().nombre)
+            console.log(order.deliveryman)
+
+            if(this.userLogin.getLogin().nombre==order.deliveryman) {
+              this.addMarker(order);
+            } else if(this.userLogin.getLogin().tipo=="admin") {
+              this.addMarker(order);
+            }
           }
         }
       });
@@ -91,14 +105,14 @@ export class MapPage implements OnInit {
       position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
     });
     this.markers.push(marker);
-    let content = order.state;
+    let content = order.deliveryman;
 
     this.addInfoWindow(marker, content);
 
   }
 
   deleteAllMarkers() {
-    for (var i = 0; i < this.markers.length; i++) {
+    for (let i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(null);
     }
   }

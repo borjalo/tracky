@@ -16,25 +16,40 @@ import { FirebaseServiceDeliveryMans } from './services/firebase-deliverymans';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
+import {userToken} from "./services/userToken";
+import {AngularFireAuthModule} from "angularfire2/auth";
+import {FirebaseServiceUsers} from "./services/firebase-users";
+import {FcmProvider} from "./services/fcm";
+import { Firebase } from '@ionic-native/firebase';
+import {NotificationToAdminCore} from "./services/notificationsToAdmin";
+import {NotificationByPlatfrom} from "./services/notificationByPlatform";
+import {HttpClientModule} from "@angular/common/http";
+import { FirebaseServiceArticles } from "./services/firebase-articles";
+import { FirebaseServiceCategories } from "./services/firebase-categories";
+import {IonicStorageModule} from "@ionic/storage";
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
   ],
   providers: [
     StatusBar,
+    Firebase,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
@@ -43,6 +58,14 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
     FirebaseServiceClients,
     AndroidPermissions,
     LocationAccuracy
+    userToken,
+    FirebaseServiceUsers,
+    FcmProvider,
+    NotificationToAdminCore,
+    NotificationByPlatfrom,
+    FirebaseServiceArticles,
+    FirebaseServiceCategories
+
   ]
 })
 export class AppModule {}

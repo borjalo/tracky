@@ -3,6 +3,10 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
+import {Observable} from "rxjs";
+import {userToken} from "../../app/services/userToken";
+import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
+import {HttpClient} from "@angular/common/http";
 
 declare var google;
 
@@ -20,6 +24,7 @@ export class ConfirmDelivererPage implements OnInit {
     client: "",
     position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
     deliveryTime: "",
+    description: "",
     price: 0,
     articles:[],
     state:"",
@@ -38,7 +43,10 @@ export class ConfirmDelivererPage implements OnInit {
               public navParams: NavParams,
               private firebaseClient: FirebaseServiceClients,
               private firebaseOrder: FirebaseService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private user:userToken,
+              private httpClient: HttpClient,
+              private notificationToAdmin:NotificationToAdminCore) {
 
     this.orderId = this.navParams.get("id");
 
@@ -103,6 +111,40 @@ export class ConfirmDelivererPage implements OnInit {
     this.confirmDelivery();
   }
 
+  delivered(){
+    const confirm = this.alertCtrl.create({
+      title: 'Atención',
+      message: '¿Quiere entregar el pedido?',
+      buttons: [
+        {
+          text: 'No',
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.order.state = "Entregado";
+            new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
+              resolve(data);
+            }, err => {
+              console.log(err);
+            });
+            });
+            let aviso={order:this.orderId,to:"Admin",from:this.order.deliveryman
+            }
+            this.notificationToAdmin.update(aviso);
+            this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
+              this.navCtrl.pop();
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+
+
+
   confirmDelivery() {
     const confirm = this.alertCtrl.create({
       title: 'Atención',
@@ -114,7 +156,7 @@ export class ConfirmDelivererPage implements OnInit {
         {
           text: 'Sí',
           handler: () => {
-            this.order.deliveryman = "deliveryman1";
+            this.order.deliveryman = this.user.getLogin().nombre;
             this.order.state = "En reparto";
             this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
               this.navCtrl.pop();

@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar hideBackButton="true">
+    <ion-title text-center>Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+<ion-grid>
+  <ion-row justify-content-center>
+    <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+      <div text-center>
+        <h4>Enter your credentials</h4>
+      </div>
+      <div padding>
+        <ion-item>
+          <ion-input type="text" placeholder="Username" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+      </div>
+
+      <div padding>
+        <button ion-button round block (click)="login()">Log in</button>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+</ion-content>
+
+
