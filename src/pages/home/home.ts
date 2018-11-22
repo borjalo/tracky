@@ -91,7 +91,7 @@ export class HomePage{
           text: "Yes",
           handler: () => {
             this.afAuth.auth.signOut().then(() => {
-              this.navCtrl.push("LoginPage");
+              this.navCtrl.setRoot("LoginPage");
             });
           }
         },

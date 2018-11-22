@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {userToken} from "../../app/services/userToken";
 import {AngularFireAuth} from "angularfire2/auth";
 /**
@@ -17,15 +17,17 @@ import {AngularFireAuth} from "angularfire2/auth";
 export class HomeDeliverymanPage {
 
   usuario:any;
-  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,
-              public userLogin:userToken,public navParams: NavParams,
-
-  ) {}
+  constructor(private afAuth:AngularFireAuth,
+              public navCtrl: NavController,
+              public userLogin:userToken,
+              public navParams: NavParams,
+              private alertCtrl: AlertController) {}
 
 
   ngOnInit() {
     this.checkLogin();
   }
+
   checkLogin() {
 
     let usuarioLogeado=this.userLogin.getLogin();
@@ -39,9 +41,30 @@ export class HomeDeliverymanPage {
     this.navCtrl.push("OrderListPage");
   }
 
+  signOut() {
+    let alertSignOut = this.alertCtrl.create({
+      title: "Are you sure you want to log out?",
+      buttons: [
+        {
+          text: "No",
+          role: "cancel",
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            this.afAuth.auth.signOut().then(() => {
+              this.navCtrl.setRoot("LoginPage");
+            });
+          }
+        },
+      ]
+    });
+    alertSignOut.present();
+  }
+
   showLogin() {
     this.afAuth.auth.signOut().then(() => {
-      this.navCtrl.push("LoginPage")
+      this.navCtrl.setRoot("LoginPage")
     })
   }
 

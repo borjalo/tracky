@@ -43,19 +43,19 @@ export class MyApp {
   testLogin(){
     this.afAuth.auth.onAuthStateChanged((user)=>{
       if(user){
-        this.subscription = this.dbusers.getUsers().subscribe(res => {
+        this.subscription = this.dbusers.getUsers().subscribe(() => {
           this.userLogin.login(user.email);
           if(this.userLogin.getLogin().tipo=="deliveryman") {
-            this.nav.push("HomeDeliverymanPage");
+            this.nav.setRoot("HomeDeliverymanPage");
           } else {
-            this.nav.push(HomePage)
+            this.nav.setRoot(HomePage);
           }
           this.subscription.unsubscribe();
           this.notificationConfig.start();
         });
       } else {
-        this.subscription = this.dbusers.getUsers().subscribe(res => {
-          this.nav.push("LoginPage");
+        this.subscription = this.dbusers.getUsers().subscribe(() => {
+          this.nav.setRoot("LoginPage");
           this.subscription.unsubscribe();
         });
       }
