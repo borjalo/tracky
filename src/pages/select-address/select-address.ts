@@ -91,7 +91,6 @@ export class SelectAddressPage implements OnInit {
 
   clearMarkers(){
     for (let i = 0; i < this.markers.length; i++) {
-      console.log(this.markers[i]);
       this.markers[i].setMap(null);
     }
     this.markers = [];

@@ -1,66 +1,71 @@
 import { Injectable } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import {AlertController, Platform, ToastController} from "ionic-angular";
-import {NotificationToAdminCore} from "./notificationsToAdmin";
-import {FcmProvider} from "./fcm";
-import {userToken} from "./userToken";
+import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AlertController, Platform, ToastController } from "ionic-angular";
+import { NotificationToAdminCore } from "./notificationsToAdmin";
+import { FcmProvider } from "./fcm";
+import { userToken } from "./userToken";
 
 
 // @ts-ignore
 @Injectable({
   providedIn: 'root'
 })
-
-
-
-
-
 export class NotificationByPlatfrom {
- usuario:any;
+
   private sub:Subscription;
-  constructor(public alertCtrl:AlertController,private notificationToAdmin:NotificationToAdminCore,private platform: Platform,private fcm:FcmProvider,private userLogin:userToken,private toastCtrl: ToastController) {
+
+  constructor(public alertCtrl: AlertController,
+              private notificationToAdmin: NotificationToAdminCore,
+              private platform: Platform,
+              private fcm: FcmProvider,
+              private userLogin:userToken,
+              private toastCtrl: ToastController) {
   }
 
+  public esMovil() {
+    return (!this.platform.is("core")&& !this.platform.is("mobileweb"))
+  }
 
- public esMovil(){return (!this.platform.is("core")&& !this.platform.is("mobileweb"))}
-
- public esAdmin(){
-    return this.userLogin.getLogin().tipo=="admin"}
+  public esAdmin() {
+    return this.userLogin.getLogin().tipo=="admin"
+  }
 
   private initializeAdminWeb(){
     this.sub = this.notificationToAdmin.getItem().subscribe(res=>{
-      if(res.order!=""){
+      if(res.order! = "") {
         let alert = this.alertCtrl.create({
-          title: res.order+" entregado!",
-          subTitle: 'Entregado por '+res.from,
-          buttons: ['Ok']
+          title: "Order nº " + res.order + " delivered!",
+          subTitle: 'Delivered by '+ res.from,
+          buttons: ['OK']
         });
         alert.present();
         let reset={
-          order:"",to:"",from:""
-        }
-        this.notificationToAdmin.update(reset);}});
+          order: "",to: "",from: ""
+        };
+        this.notificationToAdmin.update(reset);
+      }
+    });
   }
 
   private initializeDelivererWeb(){
     this.sub = this.notificationToAdmin.getItem2().subscribe(res=>{
-      if(res.order!=""){
+      if(res.order != ""){
         let alert = this.alertCtrl.create({
-          title: "Nuevo pedido!",
-          subTitle: "se ha creado un nuevo pedido",
-          buttons: ['Ok']
+          title: "New order!",
+          subTitle: "An order has been created",
+          buttons: ['OK']
         });
         alert.present();
-        let reset={
-          order:"",to:"",from:""
-        }
-        this.notificationToAdmin.update2(reset);}});
-
+        let reset = {
+          order: "",to: "",from: ""
+        };
+        this.notificationToAdmin.update2(reset);
+      }
+    });
   }
+
   private initializeAdminDevice(){
     this.initializeOnNotification();
     this.fcm.unsubscribeOfTopic("repartidores");
@@ -74,7 +79,7 @@ export class NotificationByPlatfrom {
   }
 
   private initializeOnNotification(){
-    this.fcm.getToken()
+    this.fcm.getToken();
     // Listen to incoming messages
     this.fcm.listenToNotifications().pipe(
       tap(msg => {
@@ -89,17 +94,20 @@ export class NotificationByPlatfrom {
       .subscribe()
   }
 
- public start(){
-    if(this.sub == undefined){}
-    else{this.sub.unsubscribe();}
-    if(!this.esMovil()&& this.esAdmin()){
-      this.initializeAdminWeb();
+  public start(){
+    if(this.sub == undefined) {
+      // Does nothing
+    } else {
+      this.sub.unsubscribe();
     }
-    else if(this.esMovil()&& this.esAdmin()){
+
+    if(!this.esMovil()&& this.esAdmin()) {
+      this.initializeAdminWeb();
+    } else if(this.esMovil()&& this.esAdmin()) {
       this.initializeAdminDevice();
-    } else if(!this.esMovil()&& !this.esAdmin()){
+    } else if(!this.esMovil()&& !this.esAdmin()) {
        this.initializeDelivererWeb()
-    }else {
+    } else {
       this.initializeDeliversDevice();
     }
 

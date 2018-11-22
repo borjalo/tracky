@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  ModalController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
@@ -30,7 +38,7 @@ export class CreateOrderPage {
   listVisible: boolean = false;
 
   latLng: any;
-  deliveryAddress: any = "Select delivery address";
+  deliveryAddress: any = "";
 
   private clients: any;
   private quantity: number = 0;
@@ -45,19 +53,21 @@ export class CreateOrderPage {
               private modalCtrl: ModalController,
               private httpClient: HttpClient,
               private notificationToDeliveres:NotificationToAdminCore,
-              private  storage:Storage) {
-      this.sub=this.firebaseClient.getClients().subscribe(res => {
+              private  storage:Storage,
+              public toastCtrl: ToastController) {
+
+    this.sub=this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
+
     this.storage.get("TypeView").then((data) =>{
-      console.log(data);
-      if(data == "comments"){
+      if(data == "comments") {
         this.commentsVisible = true;
         this.listVisible = false;
-      }else if(data == "list"){
+      } else if(data == "list") {
         this.commentsVisible = false;
         this.listVisible = true;
-      }else if(data == "both"){
+      } else if(data == "both") {
         this.commentsVisible = true;
         this.listVisible = true;
       }
@@ -87,20 +97,8 @@ export class CreateOrderPage {
     );
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
       this.sub.unsubscribe();
-  }
-
-
-
-  remove() {
-    if(this.quantity > 0) {
-      this.quantity -= 1;
-    }
-  }
-
-  add(){
-    this.quantity += 1;
   }
 
   createOrder() {
@@ -112,13 +110,12 @@ export class CreateOrderPage {
     loading.present().then(() => {
 
     this.firebaseOrder.addOrder(this.order).then(() => {
-      var titulo="Hay un nuevo pedido";
-      var descripcion="Se acaba de añadir un nuevo pedido";
+      let titulo="Hay un nuevo pedido";
+      let descripcion ="Se acaba de añadir un nuevo pedido";
 
       new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_nuevopedido.php?titulo="+titulo+"&descripcion="+descripcion).subscribe(data => {
         resolve(data);
       }, err => {
-        console.log(err);
       });
       });
       let aviso={order:"pedido",to:"repartidores",from:"admin"
@@ -126,8 +123,15 @@ export class CreateOrderPage {
       this.notificationToDeliveres.update2(aviso);
 
       loading.dismiss().then(() => {
-      this.navCtrl.pop();
-    });
+        this.navCtrl.pop().then(() => {
+          let toast = this.toastCtrl.create({
+            message: 'Order created successfully',
+            duration: 3000,
+            position: 'bottom'
+          });
+          toast.present();
+        });
+      });
     }).catch(() => {
       let errorAlert = this.alertCtrl.create({
         title: 'Error creating order',

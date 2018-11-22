@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import {Observable} from "rxjs";
-import {userToken} from "../../app/services/userToken";
-import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
-import {HttpClient} from "@angular/common/http";
+import { userToken } from "../../app/services/userToken";
+import { NotificationToAdminCore } from "../../app/services/notificationsToAdmin";
+import { HttpClient } from "@angular/common/http";
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 
 declare var google;
 
@@ -30,6 +32,13 @@ export class ConfirmDelivererPage implements OnInit {
     state:"",
     deliveryman: "",
   };
+
+  deliveryman: Deliveryman =  {
+    position: new firebase.firestore.GeoPoint(39.481270, -0.359374),
+    name: "",
+    order: ""
+  };
+
   address: any;
 
   clientName: any;
@@ -39,6 +48,8 @@ export class ConfirmDelivererPage implements OnInit {
 
   latLng: any;
 
+  deliverymans: any;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebaseClient: FirebaseServiceClients,
@@ -46,7 +57,12 @@ export class ConfirmDelivererPage implements OnInit {
               private alertCtrl: AlertController,
               private user:userToken,
               private httpClient: HttpClient,
-              private notificationToAdmin:NotificationToAdminCore) {
+              private notificationToAdmin:NotificationToAdminCore,
+              public locationAccuracy: LocationAccuracy,
+              public geolocation: Geolocation,
+              public loadingCtrl: LoadingController,
+              private firebaseDm: FirebaseServiceDeliveryMans,
+              private toastCtrl: ToastController) {
 
     this.orderId = this.navParams.get("id");
 
@@ -64,8 +80,6 @@ export class ConfirmDelivererPage implements OnInit {
       this.addMarker(this.latLng);
       this.geocode(this.latLng);
     });
-
-
   }
 
   loadMap(latLng) {
@@ -111,16 +125,16 @@ export class ConfirmDelivererPage implements OnInit {
     this.confirmDelivery();
   }
 
-  delivered(){
+  delivered() {
     const confirm = this.alertCtrl.create({
-      title: 'Atención',
-      message: '¿Quiere entregar el pedido?',
+      title: 'Attention',
+      message: 'Do you want to deliver this order?',
       buttons: [
         {
           text: 'No',
         },
         {
-          text: 'Sí',
+          text: 'Yes',
           handler: () => {
             this.order.state = "Entregado";
             new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
@@ -129,8 +143,11 @@ export class ConfirmDelivererPage implements OnInit {
               console.log(err);
             });
             });
-            let aviso={order:this.orderId,to:"Admin",from:this.order.deliveryman
-            }
+            let aviso = {
+              order: this.orderId,
+              to: "Admin",
+              from: this.order.deliveryman
+            };
             this.notificationToAdmin.update(aviso);
             this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
               this.navCtrl.pop();
@@ -142,30 +159,97 @@ export class ConfirmDelivererPage implements OnInit {
     confirm.present();
   }
 
-
-
-
   confirmDelivery() {
     const confirm = this.alertCtrl.create({
-      title: 'Atención',
-      message: '¿Está seguro de que desea repartir este pedido?',
+      title: 'Attention',
+      message: 'Are you sure you want to deliver this order?',
       buttons: [
         {
           text: 'No',
+          role:'cancel',
         },
         {
-          text: 'Sí',
+          text: 'Yes',
           handler: () => {
-            this.order.deliveryman = this.user.getLogin().nombre;
-            this.order.state = "En reparto";
-            this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
-              this.navCtrl.pop();
-            });
+            this.getCurrentLocation();
           }
         }
       ]
     });
     confirm.present();
+  }
+
+  getCurrentLocation() {
+    // Request activate location
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+
+        // the accuracy option will be ignored by iOS
+        this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
+
+            // Create loading toast
+            const loading = this.loadingCtrl.create({
+              content: "Obteniendo ubicación actual...",
+              spinner: "dots",
+            });
+
+            // Present loading toast
+            loading.present().then(() => {
+              const positionOptions = {
+                enableHighAccuracy: true,
+                maximumAge: 600000,
+                timeout: 7000,
+              };
+
+              this.geolocation.getCurrentPosition(positionOptions).then((position) => {
+                alert(position.coords.latitude);
+                let userName = this.user.getLogin().nombre;
+                this.order.deliveryman = userName;
+                this.deliveryman.name = userName;
+
+                this.order.state = "En reparto";
+                this.firebaseOrder.updateOrder(this.order, this.orderId);
+                this.deliveryman.order = this.orderId;
+                this.deliveryman.position._lat = position.coords.latitude;
+                this.deliveryman.position._lng = position.coords.longitude;
+                alert(this.deliveryman.position._lat + ' ' + this.deliveryman.position._lng);
+
+                this.firebaseDm.addDeliveryman(this.deliveryman);
+                loading.dismiss().then(() => {
+                  this.navCtrl.pop().then(() => {
+                    let toastOrderBeingDelivered = this.toastCtrl.create({
+                      message: 'Order in the way!',
+                      duration: 3000,
+                      position: 'bottom'
+                    });
+                    toastOrderBeingDelivered.present();
+                  });
+                });
+              }).catch(() => {
+                loading.dismiss().then(() => {
+                  // If error create and present alert
+                  const alertErrorLocation = this.alertCtrl.create({
+                    buttons: ["Aceptar"],
+                    message: "Error al obtener la ubicación",
+                  });
+                  alertErrorLocation.present();
+                });
+
+              })
+            });
+          },
+
+          // If error requesting location permissions
+          (error: any) => {
+            const alertWhenNoPermissions = this.alertCtrl.create({
+              buttons: ["Aceptar"],
+              message: "Error al solicitar los permisos de geolocalización",
+            });
+            alertWhenNoPermissions.present();
+          },
+        );
+      }
+    });
   }
 
 }

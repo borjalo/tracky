@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
-import { Subscription } from "rxjs";
 import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
-import {Subscriber, Subscription} from "rxjs";
-import {User, userToken} from "../../app/services/userToken";
+import { Subscription } from "rxjs";
+import { userToken } from "../../app/services/userToken";
 
 declare var google;
 
@@ -19,8 +18,8 @@ export class MapPage implements OnInit {
   map: any;
   latLng: any;
   private orders: any = [];
-  private markers=[];
-  private suscripcion: Subscription;
+  private markers = [];
+  private suscription: Subscription;
   viewingOrders: boolean;
   viewingDeliverers: boolean;
   private deliverymans: any = [];
@@ -29,56 +28,46 @@ export class MapPage implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService,
-              private userLogin:userToken
-              private firebase: FirebaseService,
+              private userLogin:userToken,
               public firebaseDm: FirebaseServiceDeliveryMans) {
 
     this.viewingOrders = this.navParams.get("orders");
     this.viewingDeliverers = this.navParams.get("deliverers");
-    console.log(this.viewingOrders);
-    console.log(this.viewingDeliverers);
   }
 
   ngOnInit() {
 
-    let usuarioLogeado=this.userLogin.getLogin();
-
     this.loadMap();
 
-    if (this.viewingOrders) {
-      this.suscripcion = this.firebase.getOrders().subscribe(res => {
-        this.orders = res;
 
-        this.deleteAllMarkers();
-        for (let order of this.orders) {
-          if(order.state=="En reparto") {
-            console.log(this.userLogin.getLogin().nombre)
-            console.log(order.deliveryman)
+    this.suscription = this.firebase.getOrders().subscribe(res => {
+      this.orders = res;
 
-            if(this.userLogin.getLogin().nombre==order.deliveryman) {
-              this.addMarker(order);
-            } else if(this.userLogin.getLogin().tipo=="admin") {
-              this.addMarker(order);
-            }
+      for (let order of this.orders) {
+        if(order.state == "En reparto") {
+
+          if(this.userLogin.getLogin().nombre == order.deliveryman) {
+            this.addMarkerOrder(order);
+          } else if(this.userLogin.getLogin().tipo == "admin") {
+            this.addMarkerOrder(order);
           }
         }
-      });
-    }
+      }
+    });
 
-    if (this.viewingDeliverers) {
-      this.suscripcionDm = this.firebaseDm.getDeliverymans().subscribe((res) => {
-        this.deliverymans = res;
+    this.suscripcionDm = this.firebaseDm.getDeliverymans().subscribe((res) => {
+      this.deliverymans = res;
 
-        this.deleteAllMarkers();
-        for (let dm of this.deliverymans) {
-          this.addMarker(dm)
-        }
-      });
-    }
+      for (let dm of this.deliverymans) {
+        this.addMarkerDm(dm)
+      }
+    });
   }
 
   ngOnDestroy() {
-    this.suscripcion.unsubscribe();
+    this.deleteAllMarkers();
+    this.suscription.unsubscribe();
+    this.suscripcionDm.unsubscribe();
   }
 
   private loadMap() {
@@ -97,15 +86,30 @@ export class MapPage implements OnInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
-  addMarker(order: any) {
+  addMarkerOrder(order: any) {
 
     let marker = new google.maps.Marker({
       map: this.map,
       animation: google.maps.Animation.DROP,
-      position: new google.maps.LatLng(order.position.latitude, order.position.longitude)
+      position: new google.maps.LatLng(order.position.latitude, order.position.longitude),
+      icon: 'assets/order-marker.png',
     });
     this.markers.push(marker);
-    let content = order.deliveryman;
+    let content = order.client.name;
+
+    this.addInfoWindow(marker, content);
+
+  }
+
+  addMarkerDm(dm: any) {
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: new google.maps.LatLng(dm.position.latitude, dm.position.longitude),
+      icon: 'assets/dm-marker.png',
+    });
+    this.markers.push(marker);
+    let content = dm.name;
 
     this.addInfoWindow(marker, content);
 
@@ -116,7 +120,6 @@ export class MapPage implements OnInit {
       this.markers[i].setMap(null);
     }
   }
-
 
   addInfoWindow(marker, content) {
 

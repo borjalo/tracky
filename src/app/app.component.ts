@@ -18,8 +18,16 @@ import {NotificationByPlatfrom} from "./services/notificationByPlatform";
 export class MyApp {
  //rootPage:any = HomePage;
   @ViewChild(Nav) nav: Nav
-private subscription:Subscription;
-  constructor(private notificationConfig:NotificationByPlatfrom,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private afAuth:AngularFireAuth,private userLogin:userToken,private dbusers:FirebaseServiceUsers) {
+  private subscription:Subscription;
+
+  constructor(private notificationConfig: NotificationByPlatfrom,
+              private platform: Platform,
+              statusBar: StatusBar,
+              splashScreen: SplashScreen,
+              private afAuth: AngularFireAuth,
+              private userLogin: userToken,
+              private dbusers: FirebaseServiceUsers) {
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -35,19 +43,18 @@ private subscription:Subscription;
   testLogin(){
     this.afAuth.auth.onAuthStateChanged((user)=>{
       if(user){
-        this.subscription= this.dbusers.getOrders().subscribe(res => {
+        this.subscription = this.dbusers.getUsers().subscribe(res => {
           this.userLogin.login(user.email);
-          if(this.userLogin.getLogin().tipo=="deliveryman"){
+          if(this.userLogin.getLogin().tipo=="deliveryman") {
             this.nav.push("HomeDeliverymanPage");
-          }else {
+          } else {
             this.nav.push(HomePage)
           }
           this.subscription.unsubscribe();
           this.notificationConfig.start();
         });
-      }
-      else{
-        this.subscription= this.dbusers.getOrders().subscribe(res => {
+      } else {
+        this.subscription = this.dbusers.getUsers().subscribe(res => {
           this.nav.push("LoginPage");
           this.subscription.unsubscribe();
         });

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Firebase } from '@ionic-native/firebase';
 import { Platform } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireModule } from 'angularfire2';
 
 @Injectable()
 export class FcmProvider {
@@ -23,30 +22,32 @@ export class FcmProvider {
       token = await this.firebaseNative.getToken();
       await this.firebaseNative.grantPermission();
     }
-    return this.saveTokenToFirestore(token) }
+    return this.saveTokenToFirestore(token);
+  }
 
   // Save the token to firestore
 
 
   private saveTokenToFirestore(token) {
     if (!token) return;
-    const devicesRef = this.afs.collection('devices')
+    const devicesRef = this.afs.collection('devices');
     const docData = {
       token,
       userId: 'testUser',
-    }
-    return devicesRef.doc(token).set(docData)
+    };
+    return devicesRef.doc(token).set(docData);
   }
 
   // Listen to incoming FCM messages
-  listenToNotifications() {return this.firebaseNative.onNotificationOpen()}
-
-
-  subscribeToTopic(topic:string){
-    this.firebaseNative.subscribe(topic);
-    console.log(topic);
+  listenToNotifications() {
+    return this.firebaseNative.onNotificationOpen()
   }
-  unsubscribeOfTopic(topic:string){
+
+  subscribeToTopic(topic:string) {
+    this.firebaseNative.subscribe(topic);
+  }
+
+  unsubscribeOfTopic(topic:string) {
     this.firebaseNative.unsubscribe(topic);
   }
 

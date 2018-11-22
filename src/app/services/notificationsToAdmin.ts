@@ -20,23 +20,29 @@ export class NotificationToAdminCore {
   private itemDoc2: AngularFirestoreDocument<Item>;
   item: Observable<Item>;
   item2: Observable<Item>;
+
   constructor(private afs: AngularFirestore) {
+
     this.itemDoc = afs.doc<Item>('notificationToAdminCore/1');
     this.item = this.itemDoc.valueChanges();
     this.itemDoc2 = afs.doc<Item>('notificationToAdminCore/2');
     this.item2 = this.itemDoc2.valueChanges();
 
   }
+
   update(item: Item) {
     this.itemDoc.update(item);
   }
-  getItem(){
+
+  getItem() {
     return this.item;
   }
+
   update2(item: Item) {
     this.itemDoc2.update(item);
   }
-  getItem2(){
+
+  getItem2() {
     return this.item2;
   }
 }

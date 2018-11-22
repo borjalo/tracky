@@ -24,17 +24,11 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Description</ion-label>
-    <ion-textarea [(ngModel)]="order.description" [readonly]="!commentsVisible">
-        {{order.description}}
-    </ion-textarea>
-  </ion-item>
-  <ion-item>
     <button ion-button block round color="light" (click)="selectDeliveryAddress()">Select delivery address</button>
   </ion-item>
 
   <h5 padding-left="10px">Delivery address:</h5>
-  <ion-label padding-left="10px" text-wrap *ngIf="deliveryAddress != 'Select delivery address'">{{ deliveryAddress }}</ion-label>
+  <ion-label padding-left="10px" text-wrap *ngIf="deliveryAddress != ''">{{ deliveryAddress }}</ion-label>
 
   <ion-item>
     <button ion-button outline round [disabled]="!listVisible" (click)="addArticles()">Add articles</button>
@@ -59,24 +53,39 @@
     </ion-item>
   </ion-list>
 
+  <ion-item *ngIf="commentsVisible">
+    <ion-label stacked style="font-size: 16px">Description</ion-label>
+    <ion-textarea
+      [(ngModel)]="order.description"
+      placeholder="Order description"
+      type="text"
+      rows="4">
+      {{order.description}}
+    </ion-textarea>
+  </ion-item>
+
   <ion-grid>
     <ion-row>
-      <ion-col col-9>
+      <ion-col col-7>
         <h4>Precio total:</h4>
       </ion-col>
-      <ion-col col-3>
-        <ion-input value="{{ order.price }} €" placeholder="Price" [readonly]="!commentsVisible"></ion-input>
+      <ion-col col-5>
+        <h4 *ngIf="listVisible">{{ order.price }} €</h4>
+
+        <ion-item *ngIf="commentsVisible">
+          <ion-input [(ngModel)]="order.price" type="number"></ion-input>
+          <ion-label item-end>€</ion-label>
+        </ion-item>
+
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 
   <button ion-button
           round
           block
           (click)="createOrder()"
-          [disabled]="order.articles.length == 0 || order.client == '' || !order.deliveryTime">
+          [disabled]="(order.articles.length == 0 && listVisible == true) || order.client == '' || !order.deliveryTime || deliveryAddress == '' || order.price == 0 || (order.description == '' && commentsVisible ==  true)">
     Create order
   </button>
 </ion-content>

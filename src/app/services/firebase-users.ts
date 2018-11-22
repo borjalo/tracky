@@ -6,9 +6,9 @@ import { map } from 'rxjs/operators';
 export interface User {
   id?: string;
   tipo: string;
-  nombre:string;
-  email:string;
-  password:string;
+  nombre: string;
+  email: string;
+  password: string;
 
 }
 
@@ -35,23 +35,23 @@ export class FirebaseServiceUsers {
     );
   }
 
-  getOrders() {
+  getUsers() {
     return this.users;
   }
 
-  getOrder(id) {
+  getUser(id) {
     return this.usersCollection.doc<User>(id).valueChanges();
   }
 
-  updateOrder(user: User, id: string) {
+  updateUser(user: User, id: string) {
     return this.usersCollection.doc(id).update(user);
   }
 
-  addOrder(user: User) {
+  addUser(user: User) {
     return this.usersCollection.add(user);
   }
 
-  removeOrder(id) {
+  removeUser(id) {
     return this.usersCollection.doc(id).delete();
   }
 }

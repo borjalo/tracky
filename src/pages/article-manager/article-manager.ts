@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseServiceArticles, Article } from '../../app/services/firebase-articles';
 import { FirebaseServiceCategories } from "../../app/services/firebase-categories";
 import { Subscription } from "rxjs";
@@ -28,7 +28,8 @@ export class ArticleManagerPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebaseArticle: FirebaseServiceArticles,
-              private firebaseCategory: FirebaseServiceCategories) {
+              private firebaseCategory: FirebaseServiceCategories,
+              private alertCtrl: AlertController) {
 
     this.sub = this.firebaseCategory.getCategories().subscribe(res => {
       this.categories = res;
@@ -52,8 +53,24 @@ export class ArticleManagerPage {
   }
 
   deleteArticle(id) {
+    let deleteArticleAlert = this.alertCtrl.create({
+      buttons: [
+        {
+          text: "No",
+          role: 'cancel'
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            this.firebaseArticle.removeArticle(id);
+          }
+        }
+        ],
+      enableBackdropDismiss: false,
+      message: "Are you sure you want to delete this article?",
+    })
+    deleteArticleAlert.present();
 
-    this.firebaseArticle.removeArticle(id);
 
   }
 

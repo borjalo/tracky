@@ -40,10 +40,10 @@
         </div>
 
         <div padding>
-          <button ion-button size="medium" *ngIf="articleToEditID == undefined" (click)="createArticle(article)">Create</button>
+          <button ion-button size="medium" round block *ngIf="articleToEditID == undefined" (click)="createArticle(article)">Create</button>
         </div>
         <div padding>
-          <button ion-button size="medium" *ngIf="articleToEditID != undefined" (click)="updateArticle(articleToEditID, article)">Update</button>
+          <button ion-button size="medium" round block *ngIf="articleToEditID != undefined" (click)="updateArticle(articleToEditID, article)">Update</button>
         </div>
       </ion-col>
     </ion-row>

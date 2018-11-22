@@ -14,7 +14,6 @@ export class SettingsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public storage: Storage, public toastCtrl: ToastController) {
     this.storage.get("TypeView").then((data) =>{
-      console.log(data);
       this.articleSettings = data;
     });
   }
@@ -26,6 +25,6 @@ export class SettingsPage {
       duration: 3000,
       position: 'bottom'
     });
-    toast.present();
+    toast.present().then(() => this.navCtrl.pop());
   }
 }

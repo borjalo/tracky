@@ -56,11 +56,6 @@ export class NewArticlePage {
         this.article.price = res.price;
         this.article.category = res.category;
       });
-      console.log(this.articleToEdit);
-      /*his.article.name = this.articleToEdit.name;
-      this.article.description = this.articleToEdit.description;
-      this.article.price = this.articleToEdit.price;
-      this.article.category = this.articleToEdit.category;*/
     }
 
   }
@@ -69,44 +64,6 @@ export class NewArticlePage {
     this.sub.unsubscribe();
     this.sub2.unsubscribe();
   }
-
-
-
-
-  /*ok() {
-    this.viewCtrl.dismiss(this.articles);
-  }
-
-  closeView() {
-    this.viewCtrl.dismiss();
-  }
-
-  remove() {
-    if(this.quantity > 0) {
-      this.quantity -= 1;
-    }
-  }
-
-  add(){
-    this.quantity += 1;
-  }*/
-
-
-
-      /*var arr =[];
-      for(let o in this.categories) {
-        if (this.categories.hasOwnProperty(o)) {
-          arr.push(this.categories[o]);
-        }
-      };
-
-
-    for (let entry of arr) {
-      console.log(entry); // 1, "string", false
-    }*/
-
-
-
 
   createArticle(newArticle) {
 
@@ -175,9 +132,7 @@ export class NewArticlePage {
 
     for( let article of this.articles ) {
       if(article.name == name) {
-        console.log(article.name);
-        console.log(name);
-;        this.articleExistFlag = true;
+        this.articleExistFlag = true;
       }
     }
 
