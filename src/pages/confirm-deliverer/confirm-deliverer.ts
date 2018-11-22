@@ -9,6 +9,7 @@ import { HttpClient } from "@angular/common/http";
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 
 declare var google;
 
@@ -62,7 +63,8 @@ export class ConfirmDelivererPage implements OnInit {
               public geolocation: Geolocation,
               public loadingCtrl: LoadingController,
               private firebaseDm: FirebaseServiceDeliveryMans,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              public locationTracker: LocationTrackerProvider) {
 
     this.orderId = this.navParams.get("id");
 
@@ -137,6 +139,7 @@ export class ConfirmDelivererPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.order.state = "Entregado";
+            this.locationTracker.stopTracking();
             new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
               resolve(data);
             }, err => {
@@ -214,7 +217,8 @@ export class ConfirmDelivererPage implements OnInit {
                 this.deliveryman.position._lng = position.coords.longitude;
                 alert(this.deliveryman.position._lat + ' ' + this.deliveryman.position._lng);
 
-                this.firebaseDm.addDeliveryman(this.deliveryman);
+                this.locationTracker.startTracking(this.deliveryman);
+
                 loading.dismiss().then(() => {
                   this.navCtrl.pop().then(() => {
                     let toastOrderBeingDelivered = this.toastCtrl.create({

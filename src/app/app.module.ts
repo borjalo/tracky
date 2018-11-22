@@ -27,7 +27,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { FirebaseServiceArticles } from "./services/firebase-articles";
 import { FirebaseServiceCategories } from "./services/firebase-categories";
 import { IonicStorageModule } from "@ionic/storage";
-import { GeolocationMock } from '@ionic-native-mocks/geolocation';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 
 @NgModule({
   declarations: [
@@ -52,8 +53,9 @@ import { GeolocationMock } from '@ionic-native-mocks/geolocation';
     StatusBar,
     Firebase,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    { provide: Geolocation, useClass: GeolocationMock },
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    BackgroundGeolocation,
+    Geolocation,
     FirebaseService,
     FirebaseServiceDeliveryMans,
     FirebaseServiceClients,
@@ -65,7 +67,8 @@ import { GeolocationMock } from '@ionic-native-mocks/geolocation';
     NotificationToAdminCore,
     NotificationByPlatfrom,
     FirebaseServiceArticles,
-    FirebaseServiceCategories
+    FirebaseServiceCategories,
+    LocationTrackerProvider
 
   ]
 })

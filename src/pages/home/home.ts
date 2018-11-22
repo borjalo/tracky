@@ -27,7 +27,7 @@ export class HomePage{
               public navParams: NavParams) {
 
 
-    /*this.requestPermissionsAndroid();*/
+    this.requestPermissionsAndroid();
 
   }
 
