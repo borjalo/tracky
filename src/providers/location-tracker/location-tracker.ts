@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter';
 import { ToastController} from 'ionic-angular';
 import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 
+@Injectable()
 export class LocationTrackerProvider {
 
   public watch: any;
@@ -26,7 +27,7 @@ export class LocationTrackerProvider {
       position: 'middle'
     });
     toastStart.present().then(() => {
-      this.firebaseDm.addDeliveryman(dm);
+
       // Background Tracking
       let config = {
         desiredAccuracy: 0,

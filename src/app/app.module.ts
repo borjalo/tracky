@@ -68,7 +68,7 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     NotificationByPlatfrom,
     FirebaseServiceArticles,
     FirebaseServiceCategories,
-    LocationTrackerProvider
+    LocationTrackerProvider,
 
   ]
 })
