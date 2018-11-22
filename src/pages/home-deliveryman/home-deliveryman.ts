@@ -23,23 +23,23 @@ export class HomeDeliverymanPage {
   ) {}
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.checkLogin();
   }
-  checkLogin(){
+  checkLogin() {
 
     let usuarioLogeado=this.userLogin.getLogin();
   }
+
   showMap () {
     this.navCtrl.push("MapPage");
   }
-
 
   showOrders () {
     this.navCtrl.push("OrderListPage");
   }
 
-  showLogin(){
+  showLogin() {
     this.afAuth.auth.signOut().then(() => {
       this.navCtrl.push("LoginPage")
     })
