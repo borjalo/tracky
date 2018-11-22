@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-export interface Item { order: string;to: string;from: string }
+export interface Item { order: string; to: string; from: string }
 
 // @ts-ignore
 @Injectable({
   providedIn: 'root'
 })
-
-
-
-
-
 export class NotificationToAdminCore {
   private itemDoc: AngularFirestoreDocument<Item>;
   private itemDoc2: AngularFirestoreDocument<Item>;

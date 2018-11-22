@@ -13,9 +13,9 @@ import { NotificationByPlatfrom } from "../../app/services/notificationByPlatfor
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  private user;
-  private email= "";
-  private password= "";
+
+  private email = "";
+  private password = "";
 
   constructor(private alertCtrl: AlertController,
               private notificationConfig: NotificationByPlatfrom,
@@ -27,7 +27,7 @@ export class LoginPage {
 
   }
 
-  login(){
+  login() {
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
 
@@ -36,11 +36,12 @@ export class LoginPage {
       });
       loadingLogIn.present().then(() => {
         if(this.usersToken.getLogin().tipo == "deliveryman") {
-          this.navCtrl.push("HomeDeliverymanPage").then(() => {
+          this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
             loadingLogIn.dismiss();
           });
+
         } else {
-          this.navCtrl.push(HomePage).then(() => {
+          this.navCtrl.setRoot(HomePage).then(() => {
             loadingLogIn.dismiss();
           });
         }

@@ -70,12 +70,14 @@
         <h4>Precio total:</h4>
       </ion-col>
       <ion-col col-5>
-        <h4 *ngIf="listVisible">{{ order.price }} €</h4>
+        <h4 *ngIf="listVisible && !commentsVisible">{{ order.price }} €</h4>
 
-        <ion-item *ngIf="commentsVisible">
+        <ion-item *ngIf="commentsVisible && !listVisible">
           <ion-input [(ngModel)]="order.price" type="number"></ion-input>
           <ion-label item-end>€</ion-label>
         </ion-item>
+
+        <h4 *ngIf="listVisible && commentsVisible">{{ order.price }} €</h4>
 
       </ion-col>
     </ion-row>

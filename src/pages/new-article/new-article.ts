@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { FirebaseServiceArticles, Article } from '../../app/services/firebase-articles';
-import * as firebase from "firebase";
-import {Order} from "../../app/services/firebase-service";
-import {FirebaseServiceCategories} from "../../app/services/firebase-categories";
-import {Subscription} from "rxjs";
+import { FirebaseServiceCategories } from "../../app/services/firebase-categories";
+import { Subscription } from "rxjs";
 
 @IonicPage()
 @Component({
@@ -35,14 +33,13 @@ export class NewArticlePage {
               private firebaseArticle: FirebaseServiceArticles,
               private firebaseCategory: FirebaseServiceCategories,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController,
-              private viewCtrl: ViewController) {
+              private alertCtrl: AlertController) {
 
-    this.sub=this.firebaseCategory.getCategories().subscribe(res => {
+    this.sub = this.firebaseCategory.getCategories().subscribe(res => {
       this.categories = res;
     });
 
-    this.sub2=this.firebaseArticle.getArticles().subscribe(res => {
+    this.sub2 = this.firebaseArticle.getArticles().subscribe(res => {
       this.articles = res;
     });
 
