@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { AlertController, LoadingController, NavController, IonicPage, NavParams } from 'ionic-angular';
+import { AlertController, LoadingController, NavController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
-import * as firebase from 'firebase';
+import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { userToken } from "../../app/services/userToken";
 import { AngularFireAuth } from "angularfire2/auth";
@@ -24,11 +23,14 @@ export class HomePage{
               public androidPermissions: AndroidPermissions,
               private afAuth:AngularFireAuth,
               public userLogin:userToken,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              public platform: Platform) {
 
-
-    this.requestPermissionsAndroid();
-
+    if (!this.platform.is("core")&& !this.platform.is("mobileweb")) {
+      this.requestPermissionsAndroid();
+    } else {
+      // Does nothing
+    }
   }
 
   requestPermissionsAndroid() {

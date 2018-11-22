@@ -39,7 +39,6 @@ export class MapPage implements OnInit {
 
     this.loadMap();
 
-
     this.suscription = this.firebase.getOrders().subscribe(res => {
       this.orders = res;
 

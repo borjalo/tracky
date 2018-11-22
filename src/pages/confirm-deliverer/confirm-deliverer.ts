@@ -214,7 +214,14 @@ export class ConfirmDelivererPage implements OnInit {
                 this.deliveryman.position._lat = position.coords.latitude;
                 this.deliveryman.position._long = position.coords.longitude;
 
-                this.firebaseDm.addDeliveryman(this.deliveryman);
+                this.firebaseDm.addDeliveryman(this.deliveryman).then(() => {
+                  let toastStart = this.toastCtrl.create({
+                    message: 'Tracking started!',
+                    duration: 3000,
+                    position: 'middle'
+                  });
+                  toastStart.present()
+                });
                 // this.locationTracker.startTracking(this.deliveryman);
 
                 loading.dismiss().then(() => {
