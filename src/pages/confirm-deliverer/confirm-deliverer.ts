@@ -142,7 +142,7 @@ export class ConfirmDelivererPage implements OnInit {
             new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
               resolve(data);
             }, err => {
-              console.log(err);
+              // Error
             });
             });
             let aviso = {
@@ -204,7 +204,6 @@ export class ConfirmDelivererPage implements OnInit {
               };
 
               this.geolocation.getCurrentPosition(positionOptions).then((position) => {
-                alert(position.coords.latitude);
                 let userName = this.user.getLogin().nombre;
                 this.order.deliveryman = userName;
                 this.deliveryman.name = userName;
@@ -212,9 +211,8 @@ export class ConfirmDelivererPage implements OnInit {
                 this.order.state = "En reparto";
                 this.firebaseOrder.updateOrder(this.order, this.orderId);
                 this.deliveryman.order = this.orderId;
-                this.deliveryman.position.latitude = position.coords.latitude;
-                this.deliveryman.position.longitude = position.coords.longitude;
-                alert(this.deliveryman.position.latitude + ' ' + this.deliveryman.position.longitude);
+                this.deliveryman.position._lat = position.coords.latitude;
+                this.deliveryman.position._long = position.coords.longitude;
 
                 this.firebaseDm.addDeliveryman(this.deliveryman);
                 // this.locationTracker.startTracking(this.deliveryman);
