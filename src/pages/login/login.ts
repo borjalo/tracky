@@ -27,37 +27,23 @@ export class LoginPage {
 
   }
 
-  login() {
+  login(){
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
+      //console.log(this.usersToken.getLogin());
 
-      let loadingLogIn = this.loadingCtrl.create({
-        content: 'Logging in...'
+      if(this.usersToken.getLogin().tipo=="deliveryman"){
+        this.navCtrl.push("HomeDeliverymanPage");
+      }else{
+        this.navCtrl.push(HomePage);}
+      this.notificationConfig.start();
+    }).catch(() => {
+      let alert = this.alertCtrl.create({
+        title: "Error de inicio de sesión",
+        subTitle: "Compruebe su usuario y contraseña",
+        buttons: ['Ok']
       });
-      loadingLogIn.present().then(() => {
-        if(this.usersToken.getLogin().tipo == "deliveryman") {
-          this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
-            loadingLogIn.dismiss();
-          });
-
-        } else {
-          this.navCtrl.setRoot(HomePage).then(() => {
-            loadingLogIn.dismiss();
-          });
-        }
-        this.notificationConfig.start();
-      }).catch(() => {
-        loadingLogIn.dismiss().then(() => {
-          let alert = this.alertCtrl.create({
-            title: "Error de inicio de sesión",
-            subTitle: "Compruebe su usuario y contraseña",
-            buttons: ['Ok']
-          });
-          alert.present();
-        });
-
-      })
-
+      alert.present();
     })
   }
 
