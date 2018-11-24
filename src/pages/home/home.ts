@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, LoadingController, NavController, IonicPage, NavParams, Platform} from 'ionic-angular';
+import { AlertController, LoadingController, NavController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
@@ -25,11 +25,13 @@ export class HomePage{
               private afAuth:AngularFireAuth,
               public userLogin:userToken,
               public navParams: NavParams,
-              private platform: Platform) {
+              public platform: Platform) {
 
-    if(!this.platform.is("core")&& !this.platform.is("mobileweb")){
-    this.requestPermissionsAndroid();}
-
+    if (!this.platform.is("core")&& !this.platform.is("mobileweb")) {
+      this.requestPermissionsAndroid();
+    } else {
+      // Does nothing
+    }
   }
 
   requestPermissionsAndroid() {
@@ -90,7 +92,7 @@ export class HomePage{
           text: "Yes",
           handler: () => {
             this.afAuth.auth.signOut().then(() => {
-              this.navCtrl.push("LoginPage");
+              this.navCtrl.setRoot("LoginPage");
             });
           }
         },
