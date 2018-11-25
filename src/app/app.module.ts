@@ -9,6 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
@@ -41,6 +42,7 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     HttpClientModule,
     IonicStorageModule.forRoot()
   ],

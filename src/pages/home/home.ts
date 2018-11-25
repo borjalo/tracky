@@ -79,6 +79,9 @@ export class HomePage{
   showOrders () {
     this.navCtrl.push("OrderListPage");
   }
+  signatureView(){
+    this.navCtrl.push("SignaturePage");
+  }
 
   signOut() {
     let alertSignOut = this.alertCtrl.create({
