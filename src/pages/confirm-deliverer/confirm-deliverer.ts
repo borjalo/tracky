@@ -1,5 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  NavController,
+  NavParams,
+  Platform,
+  ToastController
+} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
@@ -32,6 +40,7 @@ export class ConfirmDelivererPage implements OnInit {
     articles:[],
     state:"",
     deliveryman: "",
+    comment:""
   };
 
   deliveryman: Deliveryman =  {
@@ -64,7 +73,8 @@ export class ConfirmDelivererPage implements OnInit {
               public loadingCtrl: LoadingController,
               private firebaseDm: FirebaseServiceDeliveryMans,
               private toastCtrl: ToastController,
-              public locationTracker: LocationTrackerProvider) {
+              public locationTracker: LocationTrackerProvider,
+              public platform: Platform) {
 
     this.orderId = this.navParams.get("id");
 
@@ -173,7 +183,24 @@ export class ConfirmDelivererPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
+            if (!this.platform.is("core")&& !this.platform.is("mobileweb")) {
             this.getCurrentLocation();
+            } else {
+              let userName = this.user.getLogin().nombre;
+              this.order.deliveryman = userName;
+              this.deliveryman.name = userName;
+              this.order.state = "En reparto";
+              this.firebaseOrder.updateOrder(this.order, this.orderId);
+              this.deliveryman.order = this.orderId;
+                this.navCtrl.pop().then(() => {
+                  let toastOrderBeingDelivered = this.toastCtrl.create({
+                    message: 'Order in the way!',
+                    duration: 3000,
+                    position: 'bottom'
+                  });
+                  toastOrderBeingDelivered.present();
+                });
+            }
           }
         }
       ]
@@ -181,6 +208,21 @@ export class ConfirmDelivererPage implements OnInit {
     confirm.present();
   }
 
+
+
+  saveComment(){
+    this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
+      let toastOrderBeingDelivered = this.toastCtrl.create({
+        message: 'Comment saved!',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toastOrderBeingDelivered.present();
+    });
+
+
+
+  }
   getCurrentLocation() {
     // Request activate location
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {

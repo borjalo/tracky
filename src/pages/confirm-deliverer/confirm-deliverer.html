@@ -37,6 +37,26 @@
       {{ article.quantity }} x {{ article.name }}
     </ion-item>
   </ion-list>
+  <ion-list *ngIf="order.state == 'Entregado' && order.comment!=undefined">
+    <ion-item></ion-item>
+    <ion-item text-wrap >
+      <ion-label>Comment:  {{ order.comment }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="order.state == 'En reparto'">
+        <ion-item></ion-item>
+        <ion-item >
+          <ion-label>Comment: </ion-label>
+          <ion-textarea [(ngModel)]="order.comment"
+                        placeholder="Deliveryman comment"
+                        type="text">{{order.comment}}</ion-textarea>
+          <button ion-button clear item-end icon-only (click)="saveComment()">
+            <ion-icon name="ios-checkmark-circle-outline" ></ion-icon>
+          </button>
+        </ion-item>
+  </ion-list>
+
   <button ion-button block round *ngIf="order.state == 'En reparto'" (click)="delivered()">Order delivered</button>
   <button ion-button block round *ngIf="order.state == 'Preparado'" (click)="onCatchDelivery()">Get delivery</button>
 

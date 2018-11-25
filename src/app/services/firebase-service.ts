@@ -13,6 +13,7 @@ export interface Order {
   state: any;
   deliveryman: any;
   description: string;
+  comment:string;
 }
 
 // @ts-ignore

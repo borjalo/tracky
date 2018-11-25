@@ -33,8 +33,9 @@ export class NotificationByPlatfrom {
   }
 
   private initializeAdminWeb(){
+    console.log("Iniciando sistema notificaciones Admin web")
     this.sub = this.notificationToAdmin.getItem().subscribe(res=>{
-      if(res.order! = "") {
+      if(res.order!= "") {
         let alert = this.alertCtrl.create({
           title: "Order nº " + res.order + " delivered!",
           subTitle: 'Delivered by '+ res.from,
@@ -95,6 +96,7 @@ export class NotificationByPlatfrom {
   }
 
   public start(){
+    console.log("Es web? :"+!this.esMovil())
     if(this.sub == undefined) {
       // Does nothing
     } else {
