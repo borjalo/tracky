@@ -56,8 +56,11 @@
           </button>
         </ion-item>
   </ion-list>
-
-  <button ion-button block round *ngIf="order.state == 'En reparto'" (click)="delivered()">Order delivered</button>
+  <div *ngIf="order.signatureURL != undefined && order.state=='Entregado'" text-center="">
+   <p> Client signature:</p>
+  <ion-img style="background-color:transparent;width: 110px; height: 110px; " [src]=order.signatureURL></ion-img>
+  </div>
+  <button ion-button block round *ngIf="order.state == 'En reparto'" (click)="signature()">Order delivered</button>
   <button ion-button block round *ngIf="order.state == 'Preparado'" (click)="onCatchDelivery()">Get delivery</button>
 
 </ion-content>

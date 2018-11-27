@@ -14,6 +14,7 @@ export interface Order {
   deliveryman: any;
   description: string;
   comment:string;
+  signatureURL:string;
 }
 
 // @ts-ignore

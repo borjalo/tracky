@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AlertController,
   IonicPage,
-  LoadingController,
+  LoadingController, ModalController,
   NavController,
   NavParams,
   Platform,
@@ -18,6 +18,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
+import {ModalSignaturePage} from "../modal-signature/modal-signature";
 
 declare var google;
 
@@ -40,7 +41,8 @@ export class ConfirmDelivererPage implements OnInit {
     articles:[],
     state:"",
     deliveryman: "",
-    comment:""
+    comment:"",
+    signatureURL:""
   };
 
   deliveryman: Deliveryman =  {
@@ -74,7 +76,8 @@ export class ConfirmDelivererPage implements OnInit {
               private firebaseDm: FirebaseServiceDeliveryMans,
               private toastCtrl: ToastController,
               public locationTracker: LocationTrackerProvider,
-              public platform: Platform) {
+              public platform: Platform,
+              public modalCtrl: ModalController) {
 
     this.orderId = this.navParams.get("id");
 
@@ -138,16 +141,6 @@ export class ConfirmDelivererPage implements OnInit {
   }
 
   delivered() {
-    const confirm = this.alertCtrl.create({
-      title: 'Attention',
-      message: 'Do you want to deliver this order?',
-      buttons: [
-        {
-          text: 'No',
-        },
-        {
-          text: 'Yes',
-          handler: () => {
             this.order.state = "Entregado";
             new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
               resolve(data);
@@ -164,12 +157,21 @@ export class ConfirmDelivererPage implements OnInit {
             this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
               this.navCtrl.pop();
             });
-          }
-        }
-      ]
-    });
-    confirm.present();
+
+
   }
+
+
+  signature(){
+    let chooseModal = this.modalCtrl.create(ModalSignaturePage);
+    chooseModal.onDidDismiss(data => {
+      this.order.signatureURL=data;
+      if(data != undefined){
+    this.delivered();}
+
+
+    });
+    chooseModal.present();}
 
   confirmDelivery() {
     const confirm = this.alertCtrl.create({
