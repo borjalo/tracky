@@ -11,10 +11,10 @@ import {
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import {Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
-import { Storage} from "@ionic/storage";
+import { Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { NotificationToAdminCore } from "../../app/services/notificationsToAdmin";
+import { Storage } from "@ionic/storage";
 
 
 @IonicPage()
