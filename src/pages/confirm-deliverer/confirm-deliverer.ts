@@ -141,12 +141,23 @@ export class ConfirmDelivererPage implements OnInit {
   }
 
   delivered() {
+    const confirm = this.alertCtrl.create({
+      title: 'Attention',
+      message: 'Do you want to deliver this order?',
+      buttons: [
+        {
+          text: 'No',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
             this.order.state = "Entregado";
-            new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
-              resolve(data);
-            }, err => {
-              // Error
-            });
+            new Promise(resolve => {
+              this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion=" + this.orderId + " entregado por " + this.order.deliveryman).subscribe(data => {
+                resolve(data);
+              }, err => {
+                // Error
+              });
             });
             let aviso = {
               order: this.orderId,
@@ -157,21 +168,24 @@ export class ConfirmDelivererPage implements OnInit {
             this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
               this.navCtrl.pop();
             });
-
-
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 
-  signature(){
+  signature() {
     let chooseModal = this.modalCtrl.create(ModalSignaturePage);
     chooseModal.onDidDismiss(data => {
-      this.order.signatureURL=data;
+      this.order.signatureURL = data;
       if(data != undefined){
-    this.delivered();}
-
-
+        this.delivered();
+      }
     });
-    chooseModal.present();}
+    chooseModal.present();
+  }
 
   confirmDelivery() {
     const confirm = this.alertCtrl.create({
@@ -210,8 +224,6 @@ export class ConfirmDelivererPage implements OnInit {
     confirm.present();
   }
 
-
-
   saveComment(){
     this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
       let toastOrderBeingDelivered = this.toastCtrl.create({
@@ -222,9 +234,8 @@ export class ConfirmDelivererPage implements OnInit {
       toastOrderBeingDelivered.present();
     });
 
-
-
   }
+
   getCurrentLocation() {
     // Request activate location
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {

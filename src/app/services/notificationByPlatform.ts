@@ -29,13 +29,12 @@ export class NotificationByPlatfrom {
   }
 
   public esAdmin() {
-    return this.userLogin.getLogin().tipo=="admin"
+    return this.userLogin.getLogin().tipo == "admin"
   }
 
   private initializeAdminWeb(){
-    console.log("Iniciando sistema notificaciones Admin web")
     this.sub = this.notificationToAdmin.getItem().subscribe(res=>{
-      if(res.order!= "") {
+      if(res.order != "") {
         let alert = this.alertCtrl.create({
           title: "Order nº " + res.order + " delivered!",
           subTitle: 'Delivered by '+ res.from,
@@ -91,12 +90,10 @@ export class NotificationByPlatfrom {
         });
         toast.present();
       })
-    )
-      .subscribe()
+    ).subscribe();
   }
 
-  public start(){
-    console.log("Es web? :"+!this.esMovil())
+  public start() {
     if(this.sub == undefined) {
       // Does nothing
     } else {

@@ -30,12 +30,11 @@ export class LoginPage {
   login(){
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
-      //console.log(this.usersToken.getLogin());
 
-      if(this.usersToken.getLogin().tipo=="deliveryman"){
-        this.navCtrl.push("HomeDeliverymanPage");
+      if(this.usersToken.getLogin().tipo == "deliveryman"){
+        this.navCtrl.setRoot("HomeDeliverymanPage");
       }else{
-        this.navCtrl.push(HomePage);}
+        this.navCtrl.setRoot(HomePage);}
       this.notificationConfig.start();
     }).catch(() => {
       let alert = this.alertCtrl.create({

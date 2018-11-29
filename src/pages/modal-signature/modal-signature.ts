@@ -128,16 +128,16 @@ export class ModalSignaturePage {
         {
           text: 'Yes',
           handler: () => {
-    var dataUrl = this.canvasElement.toDataURL();
-    let ctx = this.canvasElement.getContext('2d');
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-    var data = dataUrl.split(',')[1];
-    let blob = this.b64toBlob(data, 'image/png');
-    this.uploadToStorage(blob);
-                          }
+            var dataUrl = this.canvasElement.toDataURL();
+            let ctx = this.canvasElement.getContext('2d');
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+            var data = dataUrl.split(',')[1];
+            let blob = this.b64toBlob(data, 'image/png');
+            this.uploadToStorage(blob);
+          }
         }
-          ]
-                                          });
+      ]
+    });
     confirm.present();
   }
 
@@ -148,17 +148,16 @@ export class ModalSignaturePage {
     });
     loading.present().then(() => {
     let newName = `${new Date().getTime()}.png`;
-    const ref = this.storage.ref(`/signatures/` + newName);
-    this.task = this.storage.ref(`/signatures/` + newName).put(data);
-    this.task.snapshotChanges().pipe(
-        finalize(() => this.downloadURL = this.storage.ref(`/signatures/` + newName).getDownloadURL().subscribe(res => {
-          this.url = res;
-          loading.dismiss().then(() => {
-            this.dismiss()
-          });
-        }))
-      )
-        .subscribe();
+      const ref = this.storage.ref(`/signatures/` + newName);
+      this.task = this.storage.ref(`/signatures/` + newName).put(data);
+      this.task.snapshotChanges().pipe(
+          finalize(() => this.downloadURL = this.storage.ref(`/signatures/` + newName).getDownloadURL().subscribe(res => {
+            this.url = res;
+            loading.dismiss().then(() => {
+              this.dismiss()
+            });
+          }))
+      ).subscribe();
     });
 
   }
