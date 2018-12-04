@@ -11,9 +11,13 @@
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div text-center>
-          <h4>Enter your credentials</h4>
+          <h4>Enter the credentials</h4>
         </div>
         <div padding>
+          <ion-item>
+            <ion-input placeholder="Username" autocapitalize="off" [(ngModel)]="username"></ion-input>
+          </ion-item>
+
           <ion-item>
             <ion-input type="email" placeholder="Email" autocapitalize="off" [(ngModel)]="email"></ion-input>
           </ion-item>
@@ -25,10 +29,24 @@
           <ion-item>
             <ion-input type="password" placeholder="ConfirmPassword" [(ngModel)]="confirmPassword"></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-list radio-group="type" [(ngModel)]="type">
+              <ion-item>
+                <ion-label>Deliveryman</ion-label>
+                <ion-radio value="deliveryman" checked/>
+              </ion-item>
+              <ion-item>
+                <ion-label>Admin</ion-label>
+                <ion-radio value="admin"/>
+              </ion-item>
+            </ion-list>
+
+          </ion-item>
         </div>
 
         <div padding>
-          <button ion-button round block (click)="signup()">Sign Up</button>
+          <button ion-button round block (click)="createAcount()">Create Account</button>
         </div>
       </ion-col>
     </ion-row>
