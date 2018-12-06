@@ -21,52 +21,78 @@
     <ion-row text-center>
       <ion-col>
         <button class="btnMiddle" ion-button outline large (click)="showMap()">
-          <ion-grid>
-            <ion-row text-center>
-                <ion-icon name="map" class="iconMiddle"></ion-icon>
-            </ion-row>
-            <ion-row text-center>
-                <p>Show Map</p>
-            </ion-row>
-          </ion-grid>
-
+          <div>
+              <ion-icon name="map" class="iconMiddle"></ion-icon>
+              <br/>
+                Show Map
+          </div>
         </button>
       </ion-col>
       <ion-col>
         <button class="btnMiddle" ion-button outline large (click)="showOrders()">
-            <ion-icon name="clipboard" class="iconMiddle"></ion-icon>View orders</button>
-      </ion-col>
-
-    </ion-row>
-
-    <ion-row text-center *ngIf="isAdmin">
-      <ion-col col-6 class="colMiddle">
-        <button ion-button (click)="createOrder()">
-          <div> </div>
-            <ion-icon name="create" class="iconMiddle"></ion-icon> Create order</button>
-      </ion-col>
-      <ion-col col-6 class="colMiddle">
-        <button ion-button (click)="createArticle()">
-            <ion-icon name="add" class="iconMiddle"></ion-icon>Create article</button>
+          <div><ion-icon name="clipboard" class="iconMiddle"></ion-icon>
+            <br/>View orders</div>
+            
+          </button>
       </ion-col>
     </ion-row>
 
     <ion-row text-center *ngIf="isAdmin">
-      <ion-col col-5 class="colMiddle">
-        <button class="btnMiddle" ion-button (click)="showArticles()">
-            <ion-icon name="cart" class="iconMiddle"></ion-icon> View articles</button>
+      <ion-col>
+        <button class="btnMiddle" ion-button outline large (click)="createOrder()">
+          <div>
+            <ion-icon name="create" class="iconMiddle"></ion-icon> <br/> Create Order</div></button>
       </ion-col>
-      <ion-col col-5 class="colMiddle">
-        <button class="btnMiddle" ion-button (click)="showSettings()">
-            <ion-icon name="construct" class="iconMiddle"></ion-icon>Settings</button>
+      <ion-col>
+        <button class="btnMiddle" ion-button outline large (click)="createArticle()">
+          <div>
+              <ion-icon name="add" class="iconMiddle"></ion-icon> <br/>Create article
+          </div>
+        </button>
       </ion-col>
     </ion-row>
 
-    <ion-row text-center>
-      <ion-col col-6>
-        <button class="btnMiddle" ion-button round (click)="showLogin()">LogOut</button>
+    <ion-row text-center *ngIf="isAdmin">
+      <ion-col>
+        <button class="btnMiddle" ion-button outline large (click)="showArticles()">
+          <div>
+              <ion-icon name="cart" class="iconMiddle"></ion-icon> <br/>View articles
+          </div>
+            </button>
+      </ion-col>
+      <ion-col >
+        <button class="btnMiddle" ion-button outline large (click)="showSettings()">
+          <div>
+              <ion-icon name="construct" class="iconMiddle"></ion-icon> <br/>Settings
+          </div>
+            </button>
       </ion-col>
     </ion-row>
+    <ion-row text-center *ngIf="isAdmin">
+      <ion-col>
+        <button class="btnMiddle" ion-button outline large (click)="showLogin()">
+          <div>
+            <ion-icon name="log-out" class="iconMiddle"></ion-icon> 
+            <br/>Log Out
+            </div></button>
+      </ion-col>
+    </ion-row>
+    <ion-row text-center *ngIf="!isAdmin">
+        <ion-col >
+          <button class="btnMiddle" ion-button outline large (click)="showSettings()">
+            <div>
+                <ion-icon name="construct" class="iconMiddle"></ion-icon> <br/>Settings
+            </div>
+              </button>
+        </ion-col>
+        <ion-col>
+            <button class="btnMiddle" ion-button outline large (click)="showLogin()">
+              <div>
+                <ion-icon name="log-out" class="iconMiddle"></ion-icon> 
+                <br/>Log Out
+                </div></button>
+          </ion-col>
+      </ion-row>
   </ion-grid>
 
 </ion-content>

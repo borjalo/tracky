@@ -7,9 +7,9 @@
                         <ion-col>
                             <ion-icon name="contact" style="font-size: 60px;"></ion-icon>
                         </ion-col>
-                        <ion-col col-8 style="margin:auto; width:50%; text-align:left;">
+                        <ion-col col-9 style="margin:auto; width:50%; text-align:left;">
                             <p style="margin:0; font-size: 20px;"> {{username}}</p>
-                            <p style="margin:0; font-size: 15px;"> {{usermail}}</p>
+                            <p style="margin:0; font-size: 13px;"> {{usermail}}</p>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -19,24 +19,24 @@
     <ion-content>
         <ion-list no-lines>
             <button ion-item menuClose (click)="showMap()">
-                <ion-icon color="primary" name="navigate" style="font-size:30px; color:gray;"></ion-icon>
-                <span style="margin-left: 10px; color:gray;">Show map</span>
+                <ion-icon name="navigate" class="iconSlideMenu"></ion-icon>
+                <span class="spanSlideMenu">Show map</span>
             </button>
             <button ion-item menuClose (click)="createOrder()">
-                    <ion-icon color="primary" name="create" style="font-size:30px; color:gray;"></ion-icon>
-                    <span style="margin-left: 10px; color:gray;">Create order</span>
+                    <ion-icon name="create" class="iconSlideMenu"></ion-icon>
+                    <span class="spanSlideMenu">Create order</span>
                     </button>
             <button ion-item menuClose (click)="showOrders()">
-                    <ion-icon name="clipboard" style="font-size:30px; color:gray"></ion-icon>
-                    <span style="margin-left: 10px; color:gray;">View orders</span>
+                    <ion-icon name="clipboard" class="iconSlideMenu"></ion-icon>
+                    <span class="spanSlideMenu">View orders</span>
                     </button>
             <button ion-item menuClose (click)="showArticles()">
-                    <ion-icon color="primary" name="cart" style="font-size:30px; color:gray;"></ion-icon>
-                    <span style="margin-left: 10px; color:gray;">View articles</span>
+                    <ion-icon name="cart" class="iconSlideMenu"></ion-icon>
+                    <span class="spanSlideMenu">View articles</span>
                 </button>
             <button ion-item menuClose (click)="showSettings()">
-                    <ion-icon color="primary" name="construct" style="font-size:30px; color:gray;"></ion-icon>
-                    <span style="margin-left: 10px; color:gray;">Settings</span>
+                    <ion-icon name="construct" class="iconSlideMenu"></ion-icon>
+                    <span class="spanSlideMenu">Settings</span>
                     </button>
         </ion-list>
     </ion-content>

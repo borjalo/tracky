@@ -71,6 +71,7 @@ private subscription:Subscription;
         this.subscription= this.dbusers.getOrders().subscribe(res => {
           this.userLogin.login(user.email);
           this.username= this.userLogin.getLogin().nombre;
+          console.log(this.userLogin.getLogin().nombre);
           this.usermail= this.userLogin.getLogin().email;
           this.nav.push(HomePage);
           this.subscription.unsubscribe();
