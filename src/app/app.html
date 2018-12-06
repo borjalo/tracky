@@ -1,1 +1,45 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="mycontent" persistent="true">
+    <ion-header>
+        <ion-toolbar style="height: 100px;" color="primary">
+            <ion-title style="padding: 0px;">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-icon name="contact" style="font-size: 60px;"></ion-icon>
+                        </ion-col>
+                        <ion-col col-8 style="margin:auto; width:50%; text-align:left;">
+                            <p style="margin:0; font-size: 20px;"> {{username}}</p>
+                            <p style="margin:0; font-size: 15px;"> {{usermail}}</p>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list no-lines>
+            <button ion-item menuClose (click)="showMap()">
+                <ion-icon color="primary" name="navigate" style="font-size:30px; color:gray;"></ion-icon>
+                <span style="margin-left: 10px; color:gray;">Show map</span>
+            </button>
+            <button ion-item menuClose (click)="createOrder()">
+                    <ion-icon color="primary" name="create" style="font-size:30px; color:gray;"></ion-icon>
+                    <span style="margin-left: 10px; color:gray;">Create order</span>
+                    </button>
+            <button ion-item menuClose (click)="showOrders()">
+                    <ion-icon name="clipboard" style="font-size:30px; color:gray"></ion-icon>
+                    <span style="margin-left: 10px; color:gray;">View orders</span>
+                    </button>
+            <button ion-item menuClose (click)="showArticles()">
+                    <ion-icon color="primary" name="cart" style="font-size:30px; color:gray;"></ion-icon>
+                    <span style="margin-left: 10px; color:gray;">View articles</span>
+                </button>
+            <button ion-item menuClose (click)="showSettings()">
+                    <ion-icon color="primary" name="construct" style="font-size:30px; color:gray;"></ion-icon>
+                    <span style="margin-left: 10px; color:gray;">Settings</span>
+                    </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>

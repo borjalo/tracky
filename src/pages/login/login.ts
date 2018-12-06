@@ -24,11 +24,11 @@ export class LoginPage {
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
       this.usersToken.login(this.getUser().email);
       //console.log(this.usersToken.getLogin());
-
-      if(this.usersToken.getLogin().tipo=="deliveryman"){
+      this.navCtrl.push(HomePage);
+/*       if(this.usersToken.getLogin().tipo=="deliveryman"){
         this.navCtrl.push("HomeDeliverymanPage");
       }else{
-      this.navCtrl.push(HomePage);}
+      this.navCtrl.push(HomePage);} */
       this.notificationConfig.start();
     }).catch(() => {
       let alert = this.alertCtrl.create({

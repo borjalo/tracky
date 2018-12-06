@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, MenuController} from 'ionic-angular';
 import {User, userToken} from "../../app/services/userToken";
 import {Item, NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
 import {AngularFireAuth} from "angularfire2/auth";
@@ -8,13 +8,14 @@ import {AngularFireAuth} from "angularfire2/auth";
   templateUrl: 'home.html'
 })
 export class HomePage{
+  isAdmin = false;
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,public notificationToAdmin:NotificationToAdminCore,
-              public userLogin:userToken,public navParams: NavParams,public alertCtrl:AlertController
+              public userLogin:userToken,public navParams: NavParams,public alertCtrl:AlertController, public menu:MenuController
 
-  ) {}
-
-
+  ) 
+  {}
+  
   ngOnInit(){
     this.checkLogin();
   }
@@ -22,6 +23,8 @@ export class HomePage{
 
     var usuarioLogeado=this.userLogin.getLogin();
     console.log(usuarioLogeado);
+    this.isAdmin = this.userLogin.getLogin().tipo=="admin" ? true : false;
+    console.log(this.isAdmin);
   }
   showMap () {
     this.navCtrl.push("MapPage");
