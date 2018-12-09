@@ -88,7 +88,12 @@ export class ConfirmDelivererPage implements OnInit {
     this.firebaseOrder.getOrder(this.orderId).subscribe(res => {
       this.order = res;
       this.firebaseClient.getClient(this.order.client).subscribe(r => {
-        this.clientName = r.name;
+        if (r == undefined) {
+          this.clientName = "Client not found";
+        }
+        else {
+          this.clientName = r.name;
+        }
       });
       this.latLng = new google.maps.LatLng(this.order.position.latitude, this.order.position.longitude);
       this.loadMap(this.latLng);

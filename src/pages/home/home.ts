@@ -113,4 +113,8 @@ export class HomePage{
   showSettings () {
     this.navCtrl.push("SettingsPage");
   }
+
+  showHistory() {
+    this.navCtrl.push("HistorycPage");
+  }
 }
