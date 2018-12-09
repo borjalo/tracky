@@ -6,16 +6,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Geolocation } from '@ionic-native/geolocation';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { firebaseConfig } from './credentials';
 import { FirebaseService } from "./services/firebase-service";
 import { FirebaseServiceClients } from "./services/firebase-clients";
 import { FirebaseServiceDeliveryMans } from './services/firebase-deliverymans';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
-
 import { userToken} from "./services/userToken";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { FirebaseServiceUsers } from "./services/firebase-users";
@@ -29,6 +28,7 @@ import { FirebaseServiceCategories } from "./services/firebase-categories";
 import { IonicStorageModule } from "@ionic/storage";
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
+import {ModalSignaturePageModule} from "../pages/modal-signature/modal-signature.module";
 
 @NgModule({
   declarations: [
@@ -41,7 +41,9 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     HttpClientModule,
+    ModalSignaturePageModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -68,7 +70,7 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
     NotificationByPlatfrom,
     FirebaseServiceArticles,
     FirebaseServiceCategories,
-    LocationTrackerProvider,
+    LocationTrackerProvider
 
   ]
 })
