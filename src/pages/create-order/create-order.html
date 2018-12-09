@@ -54,13 +54,12 @@
   </ion-list>
 
   <ion-item *ngIf="commentsVisible">
-    <ion-label stacked style="font-size: 16px">Description</ion-label>
+    <ion-label floating>Order description</ion-label>
     <ion-textarea
       [(ngModel)]="order.description"
-      placeholder="Order description"
       type="text"
       rows="4">
-      {{order.description}}
+      {{ order.description }}
     </ion-textarea>
   </ion-item>
 

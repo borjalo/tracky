@@ -2,7 +2,7 @@
 <ion-content class="main-view" >
   <div class="overlay" (click)="dismiss()"></div>
   <div class="modal_content" #fixedContainer ion-fixed>
-<p align="center">Client signature:</p>
+  <p align="center">Client signature:</p>
     <canvas #imageCanvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)"></canvas>
 
     <button ion-button full (click)="saveCanvasImage()">Save and finalize</button>

@@ -9,6 +9,9 @@
 
 <ion-content padding>
   <ion-list radio-group title="Add articles to order" [(ngModel)]="articleSettings">
+    <ion-list-header style="margin-bottom: 0%">
+      Order creation
+    </ion-list-header>
     <ion-item>
       <ion-label> Text area & manual price </ion-label>
       <ion-radio value="comments" (ionSelect)="true"></ion-radio>
@@ -20,6 +23,42 @@
     <ion-item>
       <ion-label> Both </ion-label>
       <ion-radio value="both"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header style="margin-bottom: 0%">
+      Company data
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label floating>Company name</ion-label>
+      <ion-input type="text" [(ngModel)]="companydata.companyname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Phone number</ion-label>
+      <ion-input type="number" [(ngModel)]="companydata.phonenumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="companydata.email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Address</ion-label>
+      <ion-input type="text" [(ngModel)]="companydata.address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input type="text" [(ngModel)]="companydata.description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Website</ion-label>
+      <ion-input type="url" [(ngModel)]="companydata.website"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>

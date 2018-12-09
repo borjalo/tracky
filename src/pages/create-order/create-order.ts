@@ -44,7 +44,7 @@ export class CreateOrderPage {
 
   private clients: any;
   private quantity: number = 0;
-  private sub:Subscription;
+  private sub: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -58,7 +58,7 @@ export class CreateOrderPage {
               private  storage:Storage,
               public toastCtrl: ToastController) {
 
-    this.sub=this.firebaseClient.getClients().subscribe(res => {
+    this.sub = this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
 

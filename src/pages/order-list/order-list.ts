@@ -23,25 +23,26 @@ export class OrderListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.subscripcion=this.firebase.getOrders().subscribe(res => {
-      if(this.userLogin.getLogin().tipo=="deliveryman"){
-      var list= [];
-      for(let order of res){
-       if((this.userLogin.getLogin().nombre==order.deliveryman && order.state!="Entregado")|| order.state=="Preparado"){
-         list.push(order);
-       }
-      }
-        this.orders=list;
+    this.subscripcion = this.firebase.getOrders().subscribe(res => {
+      if(this.userLogin.getLogin().tipo == "deliveryman"){
+        let list = [];
+        for(let order of res) {
+         if((this.userLogin.getLogin().nombre == order.deliveryman && order.state != "Entregado") || order.state == "Preparado") {
+           list.push(order);
+         }
+        }
+          this.orders = list;
       } else {
         this.orders = res;
       }
     });
   }
-ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subscripcion.unsubscribe();
   }
 
-  createOrder () {
+  createOrder() {
     this.navCtrl.push("CreateOrderPage");
   }
 

@@ -54,7 +54,6 @@ export class ModalSignaturePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignaturePage');
     this.canvasElement = this.canvas.nativeElement;
     this.canvasElement.width = this.plt.width() + '';
     this.canvasElement.height = 200;

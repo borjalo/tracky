@@ -28,7 +28,8 @@ import { FirebaseServiceCategories } from "./services/firebase-categories";
 import { IonicStorageModule } from "@ionic/storage";
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
-import {ModalSignaturePageModule} from "../pages/modal-signature/modal-signature.module";
+import { ModalSignaturePageModule } from "../pages/modal-signature/modal-signature.module";
+import { ModalClientPageModule } from '../pages/modal-client/modal-client.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {ModalSignaturePageModule} from "../pages/modal-signature/modal-signature
     AngularFireStorageModule,
     HttpClientModule,
     ModalSignaturePageModule,
+    ModalClientPageModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],

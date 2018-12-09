@@ -1,0 +1,76 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="clientID != undefined">Edit client</ion-title>
+    <ion-title *ngIf="clientID == undefined">New client</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="client.name"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Phone number</ion-label>
+      <ion-input
+        type="number"
+        maxlength="9"
+        [(ngModel)]="client.phone"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Email (optional)</ion-label>
+      <ion-input
+        type="text"
+        autocapitalize="off"
+        [(ngModel)]="client.email"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Street</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="client.street"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>City (optional)</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="client.city"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Additional info (optional)</ion-label>
+      <ion-textarea
+        type="text"
+        rows="4"
+        [(ngModel)]="client.info"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <ion-row *ngIf="clientID == undefined">
+    <ion-col>
+      <button ion-button round block (click)="createClient(client)" [disabled]="client.name == '' || client.street == '' || client.phone == null">Save</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="clientID != undefined">
+    <ion-col>
+      <button ion-button round block (click)="updateClient(client)" [disabled]="client.name == '' || client.street == '' || client.phone == null">Update client</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
