@@ -57,7 +57,7 @@ export class FirebaseService {
   }
 
   removeOrder(id) {
-  
+
     return this.ordersCollection.doc(id).delete();
   }
 }
