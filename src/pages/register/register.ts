@@ -35,7 +35,7 @@ export class RegisterPage {
               private firebaseService: FirebaseServiceUsers,
               public toastCtrl: ToastController,
   ) {
-    this.navCtrl.setRoot("UserListPage");
+
   }
 
   createAcount(){
@@ -58,7 +58,7 @@ export class RegisterPage {
             message: 'User has been created',
             duration: 3000,
             position: 'bottom'
-          }).present().then( () => this.navCtrl.pop());
+          }).present().then( () => this.navCtrl.setRoot("UserListPage"));
 
         });
       });
