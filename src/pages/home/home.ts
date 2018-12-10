@@ -102,16 +102,19 @@ export class HomePage{
 
   }
 
-  createArticle () {
-    this.navCtrl.push("NewArticlePage");
-  }
-
   showArticles () {
     this.navCtrl.push("ArticleManagerPage");
   }
 
+  showClients() {
+    this.navCtrl.push("ClientListPage")
+  }
+
   showSettings () {
     this.navCtrl.push("SettingsPage");
+    /* Here we have to open a page to give the possibility
+    to the company to introduces their personal data and
+    be able to edit it*/
   }
 
   showHistory() {

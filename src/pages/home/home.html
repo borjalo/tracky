@@ -5,6 +5,10 @@
     </ion-title>
 
     <ion-buttons end>
+      <button ion-button icon-only (click)="showSettings()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+
       <button ion-button icon-only (click)="signOut()">
         <ion-icon name="log-out"></ion-icon>
       </button>
@@ -41,19 +45,13 @@
 
     <ion-row text-center>
       <ion-col>
-        <button ion-button round (click)="createArticle()">Create article</button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row text-center>
-      <ion-col>
         <button ion-button round (click)="showArticles()">View articles</button>
       </ion-col>
     </ion-row>
 
     <ion-row text-center>
       <ion-col>
-        <button ion-button round (click)="showSettings()">Settings</button>
+        <button ion-button round (click)="showClients()">View clients</button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -27,23 +27,37 @@ export class LoginPage {
 
   }
 
-  login(){
-    this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
-      this.usersToken.login(this.getUser().email);
+  login() {
+    let loadingLogIn = this.loadingCtrl.create({
+      content: 'Logging in...'
+    });
+    loadingLogIn.present().then(() => {
+      this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
+        this.usersToken.login(this.getUser().email);
 
-      if(this.usersToken.getLogin().tipo == "deliveryman"){
-        this.navCtrl.setRoot("HomeDeliverymanPage");
-      }else{
-        this.navCtrl.setRoot(HomePage);}
-      this.notificationConfig.start();
-    }).catch(() => {
-      let alert = this.alertCtrl.create({
-        title: "Error de inicio de sesión",
-        subTitle: "Compruebe su usuario y contraseña",
-        buttons: ['Ok']
+        if(this.usersToken.getLogin().tipo == "deliveryman") {
+          this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
+            loadingLogIn.dismiss();
+          });
+        } else {
+          this.navCtrl.setRoot(HomePage).then(() => {
+            loadingLogIn.dismiss();
+          });;
+        }
+        this.notificationConfig.start();
+      }).catch(() => {
+        loadingLogIn.dismiss().then(() => {
+          let alert = this.alertCtrl.create({
+            title: "Error de inicio de sesión",
+            subTitle: "Compruebe su usuario y contraseña",
+            buttons: ['Ok']
+          });
+          alert.present();
+        });
+
       });
-      alert.present();
-    })
+    });
+
   }
 
   register() {

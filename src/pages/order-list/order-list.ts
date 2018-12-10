@@ -44,11 +44,12 @@ export class OrderListPage implements OnInit {
       }
     });
   }
-ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subscripcion.unsubscribe();
   }
 
-  createOrder () {
+  createOrder() {
     this.navCtrl.push("CreateOrderPage");
   }
 

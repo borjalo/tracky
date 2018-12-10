@@ -5,8 +5,12 @@ import { map } from 'rxjs/operators';
 
 export interface Client {
   id?: string;
-  name: any;
-  address: any;
+  name: string;
+  phone: number;
+  email: string;
+  street: string;
+  city: string;
+  info: string;
 }
 
 // @ts-ignore

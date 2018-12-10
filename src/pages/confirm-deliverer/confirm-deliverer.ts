@@ -146,38 +146,22 @@ export class ConfirmDelivererPage implements OnInit {
   }
 
   delivered() {
-    const confirm = this.alertCtrl.create({
-      title: 'Attention',
-      message: 'Do you want to deliver this order?',
-      buttons: [
-        {
-          text: 'No',
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.order.state = "Entregado";
-            new Promise(resolve => {
-              this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion=" + this.orderId + " entregado por " + this.order.deliveryman).subscribe(data => {
-                resolve(data);
-              }, err => {
-                // Error
-              });
-            });
-            let aviso = {
-              order: this.orderId,
-              to: "Admin",
-              from: this.order.deliveryman
-            };
-            this.notificationToAdmin.update(aviso);
-            this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
-              this.navCtrl.pop();
-            });
-          }
-        }
-      ]
+    this.order.state = "Entregado";
+    new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
+      resolve(data);
+    }, err => {
+      // Error
     });
-    confirm.present();
+    });
+    let aviso = {
+      order: this.orderId,
+      to: "Admin",
+      from: this.order.deliveryman
+    };
+    this.notificationToAdmin.update(aviso);
+    this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
+      this.navCtrl.pop();
+    });
   }
 
 

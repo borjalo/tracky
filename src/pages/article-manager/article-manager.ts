@@ -68,12 +68,12 @@ export class ArticleManagerPage {
         ],
       enableBackdropDismiss: false,
       message: "Are you sure you want to delete this article?",
-    })
+    });
     deleteArticleAlert.present();
-
-
   }
 
-
+  createArticle () {
+    this.navCtrl.push("NewArticlePage");
+  }
 
 }

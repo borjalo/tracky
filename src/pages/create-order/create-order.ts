@@ -11,10 +11,10 @@ import {
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
-import {Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {NotificationToAdminCore} from "../../app/services/notificationsToAdmin";
-import { Storage} from "@ionic/storage";
+import { Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { NotificationToAdminCore } from "../../app/services/notificationsToAdmin";
+import { Storage } from "@ionic/storage";
 
 
 @IonicPage()
@@ -44,7 +44,7 @@ export class CreateOrderPage {
 
   private clients: any;
   private quantity: number = 0;
-  private sub:Subscription;
+  private sub: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -58,7 +58,7 @@ export class CreateOrderPage {
               private  storage:Storage,
               public toastCtrl: ToastController) {
 
-    this.sub=this.firebaseClient.getClients().subscribe(res => {
+    this.sub = this.firebaseClient.getClients().subscribe(res => {
       this.clients = res;
     });
 
