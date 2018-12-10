@@ -1,13 +1,13 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>user-list</ion-title>
+    <ion-title>Company Users</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-
+  {{ users }}
   <ion-grid>
     <ion-row *ngFor="let user of users">
       <ion-item>
@@ -23,5 +23,4 @@
   <ion-fab bottom right padding >
     <button ion-fab (click)="createUser()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
-
 </ion-content>

@@ -11,7 +11,7 @@
   <ion-list radio-group title="Add articles to order" [(ngModel)]="articleSettings">
     <ion-item>
       <ion-label> Text area & manual price </ion-label>
-      <ion-radio value="comments" (ionSelect)="true"></ion-radio>
+      <ion-radio value="comments" checked></ion-radio>
     </ion-item>
     <ion-item>
       <ion-label> List from database  </ion-label>
@@ -22,6 +22,14 @@
       <ion-radio value="both"></ion-radio>
     </ion-item>
   </ion-list>
+
+  <button ion-item (click)="navToUsers()">
+    Users
+  </button>
+  <button ion-item (click)="navToChangePsw()">
+    Change your password
+  </button>
+
 </ion-content>
 <ion-footer>
   <button ion-button align-items-end block (click)="onSaveSettings()">Save</button>

@@ -11,18 +11,20 @@ import {Subscription} from "rxjs";
 export class UserListPage {
 
   sub: Subscription;
-  users: any;
+  public users: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertController: AlertController,
-    private firebaseUsers: FirebaseServiceUsers,
+    public firebaseUsers: FirebaseServiceUsers,
     private toastController: ToastController,
   ) {
     this.sub = this.firebaseUsers.getUsers().subscribe(res => {
       this.users = res;
+      console.log(this.users);
     });
+
   }
 
   ngOnDestroy(){

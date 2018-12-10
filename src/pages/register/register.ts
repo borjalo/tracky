@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from "angularfire2/auth";
 import { userToken } from "../../app/services/userToken";
 import { FirebaseServiceUsers, User } from '../../app/services/firebase-users';
+import { UserListPage } from "../user-list/user-list";
 
 @IonicPage()
 @Component({
@@ -33,7 +34,9 @@ export class RegisterPage {
               private usersToken: userToken,
               private firebaseService: FirebaseServiceUsers,
               public toastCtrl: ToastController,
-  ) {}
+  ) {
+    this.navCtrl.setRoot("UserListPage");
+  }
 
   createAcount(){
     if(this.email == "" || this.email.indexOf("@") == -1){

@@ -27,22 +27,21 @@
           </ion-item>
 
           <ion-item>
-            <ion-input type="password" placeholder="ConfirmPassword" [(ngModel)]="confirmPassword"></ion-input>
+            <ion-input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword"></ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-list radio-group="type" [(ngModel)]="type">
+
+            <ion-list radio-group [(ngModel)]="type">
               <ion-item>
                 <ion-label>Deliveryman</ion-label>
-                <ion-radio value="deliveryman" checked/>
+                <ion-radio value="deliveryman" checked></ion-radio>
               </ion-item>
               <ion-item>
                 <ion-label>Admin</ion-label>
-                <ion-radio value="admin"/>
+                <ion-radio value="admin"></ion-radio>
               </ion-item>
             </ion-list>
 
-          </ion-item>
         </div>
 
         <div padding>
