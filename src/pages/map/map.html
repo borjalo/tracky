@@ -1,12 +1,19 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Mapa</ion-title>
+    <ion-title>Map</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+  <ion-item>
+    <ion-label>Orders</ion-label>
+    <ion-select [(ngModel)]="orderSelected" interface="popover">
+      <ion-option (ionSelect)="selectOrder(order)" value="{{ order.id }}" *ngFor="let order of orders">{{ order.deliveryman }}</ion-option>
+    </ion-select>
+  </ion-item>
+
   <div #map id="map"></div>
 </ion-content>

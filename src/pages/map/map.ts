@@ -25,6 +25,8 @@ export class MapPage implements OnInit {
   private deliverymans: any = [];
   private suscripcionDm: Subscription;
 
+  orderSelected: any;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private firebase: FirebaseService,
@@ -40,27 +42,40 @@ export class MapPage implements OnInit {
     this.loadMap();
 
     this.suscription = this.firebase.getOrders().subscribe(res => {
-      this.orders = res;
-
-      for (let order of this.orders) {
+      for (let order of res) {
         if(order.state == "En reparto") {
+          this.orders.push(order);
+        }
+      }
 
+      /*for (let order of this.orders) {
+        if(order.state == "En reparto") {
           if(this.userLogin.getLogin().nombre == order.deliveryman) {
             this.addMarkerOrder(order);
           } else if(this.userLogin.getLogin().tipo == "admin") {
             this.addMarkerOrder(order);
           }
         }
-      }
+      }*/
     });
 
     this.suscripcionDm = this.firebaseDm.getDeliverymans().subscribe((res) => {
       this.deliverymans = res;
 
-      for (let dm of this.deliverymans) {
+      /*for (let dm of this.deliverymans) {
         this.addMarkerDm(dm)
-      }
+      }*/
     });
+  }
+
+  selectOrder(order) {
+    this.deleteAllMarkers();
+    this.addMarkerOrder(order);
+    for(let dm of this.deliverymans) {
+      if(dm.order == order.id) {
+        this.addMarkerDm(dm);
+      }
+    }
   }
 
   ngOnDestroy() {
