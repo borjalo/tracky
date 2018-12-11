@@ -13,13 +13,11 @@ export class UserListPage {
   sub: Subscription;
   users: any;
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public alertController: AlertController,
-    private firebaseUsers: FirebaseServiceUsers,
-    private toastController: ToastController,
-  ) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public alertController: AlertController,
+              private firebaseUsers: FirebaseServiceUsers,
+              private toastController: ToastController) {
     this.sub = this.firebaseUsers.getUsers().subscribe(res => {
       this.users = res;
     });
@@ -80,7 +78,7 @@ export class UserListPage {
         },
       ],
       enableBackdropDismiss: false,
-      message: "Are you sure to change the type of user?",
+      message: "Are you sure to delete this user?",
     }).present();
   }
 
