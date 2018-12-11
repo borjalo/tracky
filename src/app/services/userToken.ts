@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Order} from "./firebase-service";
 import {FirebaseServiceUsers} from "./firebase-users";
@@ -22,7 +22,7 @@ export class userToken {
   private registeredUsers=[];
   private user:User;
 private subscription:Subscription;
-
+public configObservable:any;
 
   constructor(private dbusers:FirebaseServiceUsers) {
 
@@ -32,7 +32,17 @@ private subscription:Subscription;
 
   }
 
+getObservable(){
+this.configObservable = Observable.create(observer => {
+  this.configObservable = observer;
+  this.configObservable.next(this.user);
+});
 
+
+return this.configObservable;
+
+
+}
 
   getLogin() {
     return this.user;
@@ -43,6 +53,7 @@ private subscription:Subscription;
     for(let i=0;i<this.registeredUsers.length;i++){
       if(this.registeredUsers[i].email==email) {
         this.user = this.registeredUsers[i]
+        this.configObservable.next(this.user);
       }
     }
 

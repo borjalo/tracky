@@ -21,6 +21,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
 private subscription:Subscription;
+  private subscriptions:Subscription;
   constructor(private notificationConfig:NotificationByPlatfrom,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private afAuth:AngularFireAuth,private userLogin:userToken,private dbusers:FirebaseServiceUsers) {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -67,21 +68,27 @@ private subscription:Subscription;
 
   testLogin(){
     this.afAuth.auth.onAuthStateChanged((user)=>{
+    //  console.log("user")
       if(user){
+        this.userLogin.getObservable().subscribe(res =>{
+         if(res != undefined){
+           this.username= res.nombre;
+           this.usermail=res.email;}
+           })
         this.subscription= this.dbusers.getOrders().subscribe(res => {
+          //console.log("user-subscription")
           this.userLogin.login(user.email);
-          this.username= this.userLogin.getLogin().nombre;
-          console.log(this.userLogin.getLogin().nombre);
-          this.usermail= this.userLogin.getLogin().email;
           this.nav.push(HomePage);
           this.subscription.unsubscribe();
           this.notificationConfig.start();
         });
       }
       else{
-        this.subscription= this.dbusers.getOrders().subscribe(res => {
+       // console.log("no user")
+        this.subscriptions= this.dbusers.getOrders().subscribe(res => {
+          //console.log("no user-subscription")
           this.nav.push("LoginPage");
-          this.subscription.unsubscribe();
+          this.subscriptions.unsubscribe();
         });
       }
     });
