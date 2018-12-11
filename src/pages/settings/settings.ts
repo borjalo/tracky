@@ -27,4 +27,10 @@ export class SettingsPage {
     });
     toast.present().then(() => this.navCtrl.pop());
   }
+  navToUsers(){
+    this.navCtrl.push("UserListPage");
+  }
+  navToChangePsw(){
+    this.navCtrl.push("ChangePasswordPage");
+  }
 }

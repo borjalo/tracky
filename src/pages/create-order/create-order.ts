@@ -32,6 +32,8 @@ export class CreateOrderPage {
     articles: [],
     state: "Preparado",
     deliveryman: "",
+    comment:"",
+    signatureURL:""
   };
 
   commentsVisible: boolean = false;

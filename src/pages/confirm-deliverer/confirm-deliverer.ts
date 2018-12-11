@@ -1,5 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController, ModalController,
+  NavController,
+  NavParams,
+  Platform,
+  ToastController
+} from 'ionic-angular';
 import { FirebaseServiceClients } from "../../app/services/firebase-clients";
 import { FirebaseService, Order } from '../../app/services/firebase-service';
 import * as firebase from 'firebase';
@@ -10,6 +18,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
+import {ModalSignaturePage} from "../modal-signature/modal-signature";
 
 declare var google;
 
@@ -32,6 +41,8 @@ export class ConfirmDelivererPage implements OnInit {
     articles:[],
     state:"",
     deliveryman: "",
+    comment:"",
+    signatureURL:""
   };
 
   deliveryman: Deliveryman =  {
@@ -64,7 +75,9 @@ export class ConfirmDelivererPage implements OnInit {
               public loadingCtrl: LoadingController,
               private firebaseDm: FirebaseServiceDeliveryMans,
               private toastCtrl: ToastController,
-              public locationTracker: LocationTrackerProvider) {
+              public locationTracker: LocationTrackerProvider,
+              public platform: Platform,
+              public modalCtrl: ModalController) {
 
     this.orderId = this.navParams.get("id");
 
@@ -75,7 +88,12 @@ export class ConfirmDelivererPage implements OnInit {
     this.firebaseOrder.getOrder(this.orderId).subscribe(res => {
       this.order = res;
       this.firebaseClient.getClient(this.order.client).subscribe(r => {
-        this.clientName = r.name;
+        if (r == undefined) {
+          this.clientName = "Client not found";
+        }
+        else {
+          this.clientName = r.name;
+        }
       });
       this.latLng = new google.maps.LatLng(this.order.position.latitude, this.order.position.longitude);
       this.loadMap(this.latLng);
@@ -139,11 +157,12 @@ export class ConfirmDelivererPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.order.state = "Entregado";
-            new Promise(resolve => {this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion="+this.orderId+" entregado por "+this.order.deliveryman).subscribe(data => {
-              resolve(data);
-            }, err => {
-              // Error
-            });
+            new Promise(resolve => {
+              this.httpClient.get("http://www.lapinada.es/fcm/fcm_tracky_entregado.php?titulo=Pedido entregado!&descripcion=" + this.orderId + " entregado por " + this.order.deliveryman).subscribe(data => {
+                resolve(data);
+              }, err => {
+                // Error
+              });
             });
             let aviso = {
               order: this.orderId,
@@ -161,6 +180,18 @@ export class ConfirmDelivererPage implements OnInit {
     confirm.present();
   }
 
+
+  signature() {
+    let chooseModal = this.modalCtrl.create(ModalSignaturePage);
+    chooseModal.onDidDismiss(data => {
+      this.order.signatureURL = data;
+      if(data != undefined){
+        this.delivered();
+      }
+    });
+    chooseModal.present();
+  }
+
   confirmDelivery() {
     const confirm = this.alertCtrl.create({
       title: 'Attention',
@@ -173,12 +204,41 @@ export class ConfirmDelivererPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
+            if (!this.platform.is("core")&& !this.platform.is("mobileweb")) {
             this.getCurrentLocation();
+            } else {
+              let userName = this.user.getLogin().nombre;
+              this.order.deliveryman = userName;
+              this.deliveryman.name = userName;
+              this.order.state = "En reparto";
+              this.firebaseOrder.updateOrder(this.order, this.orderId);
+              this.deliveryman.order = this.orderId;
+                this.navCtrl.pop().then(() => {
+                  let toastOrderBeingDelivered = this.toastCtrl.create({
+                    message: 'Order in the way!',
+                    duration: 3000,
+                    position: 'bottom'
+                  });
+                  toastOrderBeingDelivered.present();
+                });
+            }
           }
         }
       ]
     });
     confirm.present();
+  }
+
+  saveComment(){
+    this.firebaseOrder.updateOrder(this.order, this.orderId).then(() => {
+      let toastOrderBeingDelivered = this.toastCtrl.create({
+        message: 'Comment saved!',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toastOrderBeingDelivered.present();
+    });
+
   }
 
   getCurrentLocation() {
