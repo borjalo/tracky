@@ -58,7 +58,7 @@ export class RegisterPage {
             message: 'User has been created',
             duration: 3000,
             position: 'bottom'
-          }).present().then( () => this.navCtrl.setRoot("UserListPage"));
+          }).present().then( () => this.navCtrl.pop());
 
         });
       });

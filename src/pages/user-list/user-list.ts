@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { User, FirebaseServiceUsers } from "../../app/services/firebase-users";
-import {Subscription} from "rxjs";
+import { Subscription } from "rxjs";
 
 @IonicPage()
 @Component({
@@ -10,16 +10,15 @@ import {Subscription} from "rxjs";
 })
 export class UserListPage {
 
-  sub: Subscription;
+  private sub: Subscription;
   public users: any;
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    public alertController: AlertController,
-    public firebaseUsers: FirebaseServiceUsers,
-    private toastController: ToastController,
-  ) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public alertController: AlertController,
+              public firebaseUsers: FirebaseServiceUsers,
+              private toastController: ToastController) {
+
     this.sub = this.firebaseUsers.getUsers().subscribe(res => {
       this.users = res;
       console.log(this.users);
@@ -82,7 +81,7 @@ export class UserListPage {
         },
       ],
       enableBackdropDismiss: false,
-      message: "Are you sure to change the type of user?",
+      message: "Are you sure you want to delete this user?",
     }).present();
   }
 
