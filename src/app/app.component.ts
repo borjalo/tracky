@@ -17,6 +17,8 @@ import {NotificationByPlatfrom} from "./services/notificationByPlatform";
 export class MyApp {
   username= "wait";
   usermail= "wait";
+
+  isAdmin = false;
  //rootPage:any = HomePage;
   @ViewChild(Nav) nav: Nav
   private subscription:Subscription;
@@ -40,6 +42,7 @@ export class MyApp {
 
   ngOnInit(){
     this.testLogin();
+    this.isAdmin = this.userLogin.getLogin().tipo == "admin" ? true : false;
 
   }
 
@@ -53,16 +56,6 @@ export class MyApp {
 
   showOrders () {
     this.nav.push("OrderListPage");
-  }
-
-  showLogin(){
-    this.afAuth.auth.signOut().then(() => {
-      this.nav.push("LoginPage");
-    });
-  }
-
-  createArticle () {
-    this.nav.push("NewArticlePage");
   }
 
   showArticles () {
@@ -81,7 +74,7 @@ export class MyApp {
             this.username= res.nombre;
             this.usermail=res.email;}
         });
-        this.subscription= this.dbusers.getUsers().subscribe(res => {
+        this.subscription = this.dbusers.getUsers().subscribe(res => {
           this.userLogin.login(user.email);
           this.nav.setRoot(HomePage);
           this.subscription.unsubscribe();

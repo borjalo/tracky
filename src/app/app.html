@@ -8,36 +8,41 @@
                             <ion-icon name="contact" style="font-size: 60px;"></ion-icon>
                         </ion-col>
                         <ion-col col-9 style="margin:auto; width:50%; text-align:left;">
-                            <p style="margin:0; font-size: 20px;"> {{username}}</p>
-                            <p style="margin:0; font-size: 13px;"> {{usermail}}</p>
+                            <p style="margin:0; font-size: 20px;"> {{ username }}</p>
+                            <p style="margin:0; font-size: 13px;"> {{ usermail }}</p>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
             </ion-title>
         </ion-toolbar>
     </ion-header>
+
     <ion-content>
         <ion-list no-lines>
             <button ion-item menuClose (click)="showMap()">
                 <ion-icon name="navigate" class="iconSlideMenu"></ion-icon>
                 <span class="spanSlideMenu">Show map</span>
             </button>
-            <button ion-item menuClose (click)="createOrder()">
-                    <ion-icon name="create" class="iconSlideMenu"></ion-icon>
-                    <span class="spanSlideMenu">Create order</span>
-                    </button>
+
+            <button ion-item menuClose *ngIf="isAdmin" (click)="createOrder()">
+                <ion-icon name="create" class="iconSlideMenu"></ion-icon>
+                <span class="spanSlideMenu">Create order</span>
+            </button>
+
             <button ion-item menuClose (click)="showOrders()">
-                    <ion-icon name="clipboard" class="iconSlideMenu"></ion-icon>
-                    <span class="spanSlideMenu">View orders</span>
-                    </button>
-            <button ion-item menuClose (click)="showArticles()">
-                    <ion-icon name="cart" class="iconSlideMenu"></ion-icon>
-                    <span class="spanSlideMenu">View articles</span>
-                </button>
+                <ion-icon name="list" class="iconSlideMenu"></ion-icon>
+                <span class="spanSlideMenu">Orders</span>
+            </button>
+
+            <button ion-item menuClose *ngIf="isAdmin" (click)="showArticles()">
+                <ion-icon name="cart" class="iconSlideMenu"></ion-icon>
+                <span class="spanSlideMenu">Articles</span>
+            </button>
+
             <button ion-item menuClose (click)="showSettings()">
-                    <ion-icon name="construct" class="iconSlideMenu"></ion-icon>
-                    <span class="spanSlideMenu">Settings</span>
-                    </button>
+                <ion-icon name="construct" class="iconSlideMenu"></ion-icon>
+                <span class="spanSlideMenu">Settings</span>
+            </button>
         </ion-list>
     </ion-content>
 </ion-menu>

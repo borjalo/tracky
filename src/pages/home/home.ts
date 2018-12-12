@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, LoadingController, NavController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { Deliveryman, FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
-import * as firebase from 'firebase';
+import { FirebaseServiceDeliveryMans } from '../../app/services/firebase-deliverymans';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { userToken } from "../../app/services/userToken";
 import { AngularFireAuth } from "angularfire2/auth";
@@ -23,8 +22,8 @@ export class HomePage{
               public locationAccuracy: LocationAccuracy,
               public loadingCtrl: LoadingController,
               public androidPermissions: AndroidPermissions,
-              private afAuth:AngularFireAuth,
-              public userLogin:userToken,
+              private afAuth: AngularFireAuth,
+              public userLogin: userToken,
               public navParams: NavParams,
               public platform: Platform) {
 
@@ -64,23 +63,20 @@ export class HomePage{
   ngOnInit() {
     this.checkLogin();
   }
-  checkLogin(){
 
-    let usuarioLogeado = this.userLogin.getLogin();
-    console.log(usuarioLogeado);
-    this.isAdmin = this.userLogin.getLogin().tipo=="admin" ? true : false;
-    console.log(this.isAdmin);
+  checkLogin() {
+    this.isAdmin = this.userLogin.getLogin().tipo == "admin" ? true : false;
   }
 
-  showMap () {
+  showMap() {
     this.navCtrl.push("MapPage");
   }
 
-  createOrder () {
+  createOrder() {
     this.navCtrl.push("CreateOrderPage");
   }
 
-  showOrders () {
+  showOrders() {
     this.navCtrl.push("OrderListPage");
   }
 
@@ -106,7 +102,7 @@ export class HomePage{
 
   }
 
-  showArticles () {
+  showArticles() {
     this.navCtrl.push("ArticleManagerPage");
   }
 
@@ -114,7 +110,7 @@ export class HomePage{
     this.navCtrl.push("ClientListPage")
   }
 
-  showSettings () {
+  showSettings() {
     this.navCtrl.push("SettingsPage");
     /* Here we have to open a page to give the possibility
     to the company to introduces their personal data and

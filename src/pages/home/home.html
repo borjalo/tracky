@@ -34,8 +34,9 @@
       </ion-col>
       <ion-col>
         <button class="btnMiddle" ion-button outline large (click)="showOrders()">
-          <div><ion-icon name="clipboard" class="iconMiddle"></ion-icon>
-            <br/>View orders</div>
+          <div><ion-icon name="list" class="iconMiddle"></ion-icon>
+            <br/>Orders
+          </div>
 
         </button>
       </ion-col>
@@ -48,9 +49,9 @@
             <ion-icon name="create" class="iconMiddle"></ion-icon> <br/> Create Order</div></button>
       </ion-col>
       <ion-col>
-        <button class="btnMiddle" ion-button outline large (click)="createArticle()">
+        <button class="btnMiddle" ion-button outline large (click)="showClients()">
           <div>
-            <ion-icon name="add" class="iconMiddle"></ion-icon> <br/>Create article
+            <ion-icon name="people" class="iconMiddle"></ion-icon> <br/>Clients
           </div>
         </button>
       </ion-col>
@@ -60,42 +61,28 @@
       <ion-col>
         <button class="btnMiddle" ion-button outline large (click)="showArticles()">
           <div>
-            <ion-icon name="cart" class="iconMiddle"></ion-icon> <br/>View articles
+            <ion-icon name="cart" class="iconMiddle"></ion-icon> <br/>Articles
           </div>
         </button>
       </ion-col>
       <ion-col >
-        <button class="btnMiddle" ion-button outline large (click)="showSettings()">
+        <button class="btnMiddle" ion-button outline large (click)="showHistory()">
           <div>
-            <ion-icon name="construct" class="iconMiddle"></ion-icon> <br/>Settings
+            <ion-icon name="calendar" class="iconMiddle"></ion-icon> <br/>History
           </div>
         </button>
       </ion-col>
     </ion-row>
-    <ion-row text-center *ngIf="isAdmin">
-      <ion-col>
-        <button class="btnMiddle" ion-button outline large (click)="showLogin()">
-          <div>
-            <ion-icon name="log-out" class="iconMiddle"></ion-icon>
-            <br/>Log Out
-          </div></button>
-      </ion-col>
-    </ion-row>
+
     <ion-row text-center *ngIf="!isAdmin">
       <ion-col >
-        <button class="btnMiddle" ion-button outline large (click)="showSettings()">
+        <button class="btnMiddle" ion-button outline large (click)="showHistory()">
           <div>
-            <ion-icon name="construct" class="iconMiddle"></ion-icon> <br/>Settings
+            <ion-icon name="calendar" class="iconMiddle"></ion-icon> <br/>History
           </div>
         </button>
       </ion-col>
-      <ion-col>
-        <button class="btnMiddle" ion-button outline large (click)="showLogin()">
-          <div>
-            <ion-icon name="log-out" class="iconMiddle"></ion-icon>
-            <br/>Log Out
-          </div></button>
-      </ion-col>
+
     </ion-row>
   </ion-grid>
 

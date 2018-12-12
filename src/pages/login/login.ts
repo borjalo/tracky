@@ -35,7 +35,7 @@ export class LoginPage {
       this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
         this.usersToken.login(this.getUser().email);
 
-        this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
+        this.navCtrl.setRoot(HomePage).then(() => {
           loadingLogIn.dismiss();
         });
 

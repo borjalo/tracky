@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
-import * as firebase from 'firebase';
+import { userToken } from '../../app/services/userToken';
 
 export interface CD {
   id?: string;
@@ -21,7 +21,7 @@ export interface CD {
   selector: 'page-settings',
   templateUrl: 'settings.html',
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit {
   companydata: CD = {
     companyname: "",
     phonenumber: "",
@@ -33,14 +33,18 @@ export class SettingsPage {
 
   length: any;
   articleSettings: any;
+  isAdmin = false;
 
   private companyData: AngularFirestoreCollection<CD>;
 
   private data: Observable<CD[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public storage: Storage, public toastCtrl: ToastController,
-              db: AngularFirestore) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public storage: Storage,
+              public toastCtrl: ToastController,
+              db: AngularFirestore,
+              public userLogin: userToken) {
     this.storage.get("TypeView").then((data) =>{
       this.articleSettings = data;
     });
@@ -62,6 +66,10 @@ export class SettingsPage {
          this.companydata = res[0];
        }
      })
+  }
+
+  ngOnInit(): void {
+    this.isAdmin = this.userLogin.getLogin().tipo == "admin" ? true : false;
   }
 
   onSaveSettings(){
