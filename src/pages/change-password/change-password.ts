@@ -16,14 +16,12 @@ export class ChangePasswordPage {
   oldPsw: string = "";
   confPsw: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private firebaseUsers: FirebaseServiceUsers, private auth: AngularFireAuth,
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private firebaseUsers: FirebaseServiceUsers,
+              private auth: AngularFireAuth,
               private alertController: AlertController) {
 
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChangePasswordPage');
   }
 
   changePassword(){

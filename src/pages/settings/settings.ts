@@ -96,10 +96,11 @@ export class SettingsPage {
     return this.companyData.add(cd);
   }
 
-  navToUsers(){
+  navToUsers() {
     this.navCtrl.push("UserListPage");
   }
-  navToChangePsw(){
+
+  navToChangePsw() {
     this.navCtrl.push("ChangePasswordPage");
   }
 }

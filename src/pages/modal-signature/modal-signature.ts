@@ -146,17 +146,17 @@ export class ModalSignaturePage {
       content: 'Saving signature...'
     });
     loading.present().then(() => {
-    let newName = `${new Date().getTime()}.png`;
-      const ref = this.storage.ref(`/signatures/` + newName);
-      this.task = this.storage.ref(`/signatures/` + newName).put(data);
-      this.task.snapshotChanges().pipe(
-          finalize(() => this.downloadURL = this.storage.ref(`/signatures/` + newName).getDownloadURL().subscribe(res => {
-            this.url = res;
-            loading.dismiss().then(() => {
-              this.dismiss()
-            });
-          }))
-      ).subscribe();
+      let newName = `${new Date().getTime()}.png`;
+        const ref = this.storage.ref(`/signatures/` + newName);
+        this.task = this.storage.ref(`/signatures/` + newName).put(data);
+        this.task.snapshotChanges().pipe(
+            finalize(() => this.downloadURL = this.storage.ref(`/signatures/` + newName).getDownloadURL().subscribe(res => {
+              this.url = res;
+              loading.dismiss().then(() => {
+                this.dismiss()
+              });
+            }))
+        ).subscribe();
     });
 
   }

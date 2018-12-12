@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseService } from "../../app/services/firebase-service";
-import {Subscription} from "rxjs";
-import {userToken} from "../../app/services/userToken";
+import { Subscription } from "rxjs";
+import { userToken } from "../../app/services/userToken";
 
 
 @IonicPage()

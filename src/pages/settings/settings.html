@@ -26,12 +26,18 @@
     </ion-item>
   </ion-list>
 
-  <button ion-item (click)="navToUsers()">
-    Users
-  </button>
-  <button ion-item (click)="navToChangePsw()">
-    Change your password
-  </button>
+  <ion-list>
+    <ion-list-header style="margin-bottom: 0%">
+      Manage users
+    </ion-list-header>
+    <button ion-item (click)="navToUsers()">
+      Users
+    </button>
+    <button ion-item (click)="navToChangePsw()" style="margin-bottom: 10%">
+      Change your password
+    </button>
+  </ion-list>
+
 
   <ion-list>
     <ion-list-header style="margin-bottom: 0%">

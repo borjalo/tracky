@@ -54,8 +54,8 @@ export class CreateOrderPage {
               private loadingCtrl: LoadingController,
               private modalCtrl: ModalController,
               private httpClient: HttpClient,
-              private notificationToDeliveres:NotificationToAdminCore,
-              private  storage:Storage,
+              private notificationToDeliveres: NotificationToAdminCore,
+              private storage:Storage,
               public toastCtrl: ToastController) {
 
     this.sub = this.firebaseClient.getClients().subscribe(res => {

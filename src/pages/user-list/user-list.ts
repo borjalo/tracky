@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { User, FirebaseServiceUsers } from "../../app/services/firebase-users";
 import { Subscription } from "rxjs";
+import {FirebaseService} from '../../app/services/firebase-service';
 
 @IonicPage()
 @Component({
@@ -10,18 +11,17 @@ import { Subscription } from "rxjs";
 })
 export class UserListPage {
 
-  private sub: Subscription;
-  public users: any;
+  sub: Subscription;
+  users: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public alertController: AlertController,
-              public firebaseUsers: FirebaseServiceUsers,
+              public firebase: FirebaseServiceUsers,
               private toastController: ToastController) {
 
-    this.sub = this.firebaseUsers.getUsers().subscribe(res => {
+    this.sub = this.firebase.getUsers().subscribe(res => {
       this.users = res;
-      console.log(this.users);
     });
 
   }
@@ -45,9 +45,9 @@ export class UserListPage {
             } else {
               user.tipo = 'admin';
             }
-            this.firebaseUsers.updateUser(user, user.id).then(() => {
+            this.firebase.updateUser(user, user.id).then(() => {
               this.toastController.create({
-                message: 'The type has been created',
+                message: 'The type has been changed',
                 duration: 3000,
                 position: 'bottom'
               }).present();
@@ -70,7 +70,7 @@ export class UserListPage {
         {
           text: 'Yes',
           handler: () => {
-            this.firebaseUsers.removeUser(id).then(() => {
+            this.firebase.removeUser(id).then(() => {
               this.toastController.create({
                 message: 'The user has been removed',
                 duration: 3000,

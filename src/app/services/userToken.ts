@@ -18,9 +18,9 @@ export interface User {
 })
 export class userToken {
 
-  private registeredUsers=[];
-  private user:User;
-  private subscription:Subscription;
+  private registeredUsers = [];
+  private user: User;
+  private subscription: Subscription;
 
   constructor(private dbusers: FirebaseServiceUsers) {
 
@@ -38,6 +38,7 @@ export class userToken {
     for(let i=0; i<this.registeredUsers.length; i++) {
       if(this.registeredUsers[i].email == email) {
         this.user = this.registeredUsers[i];
+        this.subscription.unsubscribe();
       }
     }
 
