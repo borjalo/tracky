@@ -35,15 +35,10 @@ export class LoginPage {
       this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
         this.usersToken.login(this.getUser().email);
 
-        if(this.usersToken.getLogin().tipo == "deliveryman") {
-          this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
-            loadingLogIn.dismiss();
-          });
-        } else {
-          this.navCtrl.setRoot(HomePage).then(() => {
-            loadingLogIn.dismiss();
-          });;
-        }
+        this.navCtrl.setRoot("HomeDeliverymanPage").then(() => {
+          loadingLogIn.dismiss();
+        });
+
         this.notificationConfig.start();
       }).catch(() => {
         loadingLogIn.dismiss().then(() => {

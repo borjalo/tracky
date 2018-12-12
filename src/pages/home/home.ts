@@ -14,6 +14,7 @@ import { AngularFireAuth } from "angularfire2/auth";
   templateUrl: 'home.html'
 })
 export class HomePage{
+  isAdmin = false;
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
@@ -63,9 +64,12 @@ export class HomePage{
   ngOnInit() {
     this.checkLogin();
   }
+  checkLogin(){
 
-  checkLogin() {
     let usuarioLogeado = this.userLogin.getLogin();
+    console.log(usuarioLogeado);
+    this.isAdmin = this.userLogin.getLogin().tipo=="admin" ? true : false;
+    console.log(this.isAdmin);
   }
 
   showMap () {
