@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Company Users</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  {{ users }}
+  <ion-grid>
+    <ion-row *ngFor="let user of users">
+      <ion-item>
+        <h2>{{ user.nombre }}</h2>
+        <p>{{ user.email }}</p>
+        <p>{{ user.tipo }}</p>
+        <button ion-button clear item-end (click)="editUser(user)">Change type</button>
+        <button ion-button clear item-end style="color:red" (click)="deleteUser(user.id)">Delete</button>
+      </ion-item>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab bottom right padding >
+    <button ion-fab (click)="createUser()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

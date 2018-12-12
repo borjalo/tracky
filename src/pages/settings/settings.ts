@@ -95,4 +95,11 @@ export class SettingsPage {
   addCompanyData(cd: CD) {
     return this.companyData.add(cd);
   }
+
+  navToUsers(){
+    this.navCtrl.push("UserListPage");
+  }
+  navToChangePsw(){
+    this.navCtrl.push("ChangePasswordPage");
+  }
 }
