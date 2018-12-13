@@ -65,14 +65,15 @@
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Description</ion-label>
-      <ion-input type="text" [(ngModel)]="companydata.description"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label floating>Website</ion-label>
       <ion-input type="url" [(ngModel)]="companydata.website"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea type="text" rows="3" [(ngModel)]="companydata.description"></ion-textarea>
+    </ion-item>
+
   </ion-list>
 </ion-content>
 <ion-footer>

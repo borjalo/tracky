@@ -24,7 +24,7 @@
                 <span class="spanSlideMenu">Show map</span>
             </button>
 
-            <button ion-item menuClose *ngIf="isAdmin" (click)="createOrder()">
+            <button ion-item menuClose (click)="createOrder()">
                 <ion-icon name="create" class="iconSlideMenu"></ion-icon>
                 <span class="spanSlideMenu">Create order</span>
             </button>
@@ -34,7 +34,7 @@
                 <span class="spanSlideMenu">Orders</span>
             </button>
 
-            <button ion-item menuClose *ngIf="isAdmin" (click)="showArticles()">
+            <button ion-item menuClose (click)="showArticles()">
                 <ion-icon name="cart" class="iconSlideMenu"></ion-icon>
                 <span class="spanSlideMenu">Articles</span>
             </button>

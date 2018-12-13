@@ -18,8 +18,6 @@ export class MyApp {
   username= "wait";
   usermail= "wait";
 
-  isAdmin = false;
- //rootPage:any = HomePage;
   @ViewChild(Nav) nav: Nav
   private subscription:Subscription;
   private subscriptions:Subscription;
@@ -38,12 +36,11 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
+
   }
 
   ngOnInit(){
     this.testLogin();
-    this.isAdmin = this.userLogin.getLogin().tipo == "admin" ? true : false;
-
   }
 
   showMap () {
@@ -68,13 +65,13 @@ export class MyApp {
 
   testLogin(){
     this.afAuth.auth.onAuthStateChanged((user)=>{
-      if(user){
-        this.userLogin.getObservable().subscribe(res =>{
+      if(user) {
+        this.userLogin.getObservable().subscribe(res => {
           if(res != undefined){
             this.username= res.nombre;
-            this.usermail=res.email;}
+            this.usermail = res.email;}
         });
-        this.subscription = this.dbusers.getUsers().subscribe(res => {
+        this.subscription = this.dbusers.getUsers().subscribe(() => {
           this.userLogin.login(user.email);
           this.nav.setRoot(HomePage);
           this.subscription.unsubscribe();

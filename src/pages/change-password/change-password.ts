@@ -30,7 +30,12 @@ export class ChangePasswordPage {
           this.alertController.create({
             title: "Password reset",
             subTitle: "Passwords changed",
-            buttons:['OK'],
+            buttons:[{
+              text: 'OK',
+              handler: () => {
+                this.navCtrl.pop();
+              }
+            }],
           }).present();
         });
       } else {
