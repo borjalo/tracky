@@ -28,7 +28,7 @@ export class OrderListPage implements OnInit {
       if(this.userLogin.getLogin().tipo == "deliveryman"){
 
         for(let order of res) {
-         if((this.userLogin.getLogin().nombre == order.deliveryman && order.state != "Entregado")){
+         if((this.userLogin.getLogin().nombre == order.deliveryman && order.state != "Entregado") || order.state == "Preparado"){
            list.push(order);
          }
         }
